@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using TileGame.Controllers;
 using TileGame.Input;
 
@@ -21,7 +22,14 @@ namespace TileGame
         #region Global variables
         internal static Point screenSize = new Point(1000, 800);
         internal Controller gameState;
+        /// <summary>
+        /// The id that is given to the next generated GameObject.
+        /// </summary>
         private int id;
+        /// <summary>
+        /// The dictionary that stores all the texture files.
+        /// </summary>
+        private static Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
         #endregion
 
         public Game()
@@ -34,6 +42,7 @@ namespace TileGame
             IsMouseVisible = true;
         }
 
+        #region MonoGame Functions
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -70,6 +79,7 @@ namespace TileGame
         /// </summary>
         protected override void UnloadContent()
         {
+            Content.Unload();
         }
 
         /// <summary>
@@ -100,6 +110,9 @@ namespace TileGame
             base.Draw(gameTime);
         }
 
+        #endregion
+
+        #region Global Functions
         internal int getUniqueGameObjectID()
         {
             id++;
@@ -107,7 +120,6 @@ namespace TileGame
         }
 
         //get a sprite from the assetname texture
-        //TODO: use spritesheets etc
         internal Texture2D getSprite(string assetName)
         {
             // return empty texture if an empty string
@@ -117,21 +129,32 @@ namespace TileGame
             }
 
             Texture2D sprite;
-            try
-            {
-                sprite = this.Content.Load<Texture2D>(assetName);
-            }
-            catch (ContentLoadException)
-            {
-                sprite = this.Content.Load<Texture2D>("missing_texture");
-            }
 
+            //get texture from dict, and if it is not in it, add it to the dict.
+            if(textures.TryGetValue(assetName, out sprite) == true)
+            {
+                return sprite;
+            } 
+            else
+            {
+                try
+                {
+                    sprite = this.Content.Load<Texture2D>(assetName);
+                    textures.Add(assetName, sprite);
+                }
+                catch (ContentLoadException)
+                {
+                    sprite = this.Content.Load<Texture2D>("missing_texture");
+                }
+            }
+            
             return sprite;
         }
 
         internal void changeGameState(string stateName = "")
         {
-            switch(stateName)
+            Content.Unload();
+            switch (stateName)
             {
                 case "menu":
                     this.gameState = new MenuController();
@@ -144,5 +167,6 @@ namespace TileGame
                     break;
             }
         }
+        #endregion
     }
 }
