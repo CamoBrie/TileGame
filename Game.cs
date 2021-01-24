@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using TileGame.Controllers;
 using TileGame.Input;
@@ -68,7 +69,6 @@ namespace TileGame
             empty_texture = new Texture2D(GraphicsDevice, 1, 1);
             empty_texture.SetData(new Color[] { new Color(0, 0, 0, 0) });
 
-
             //start the game after the content is loaded.
             changeGameState("menu");
         }
@@ -128,15 +128,15 @@ namespace TileGame
                 return empty_texture;
             }
 
-            Texture2D sprite;
-
             //get texture from dict, and if it is not in it, add it to the dict.
-            if(textures.TryGetValue(assetName, out sprite) == true)
+            if(textures.TryGetValue(assetName, out var tex))
             {
-                return sprite;
+                Console.WriteLine($"{tex.Name} retrieved.");
+                return tex;
             } 
             else
             {
+                Texture2D sprite;
                 try
                 {
                     sprite = this.Content.Load<Texture2D>(assetName);
@@ -146,21 +146,21 @@ namespace TileGame
                 {
                     sprite = this.Content.Load<Texture2D>("missing_texture");
                 }
-            }
-            
-            return sprite;
+                return sprite;
+            } 
         }
 
         internal void changeGameState(string stateName = "")
         {
             Content.Unload();
+            textures.Clear();
             switch (stateName)
             {
                 case "menu":
                     this.gameState = new MenuController();
                     break;
                 case "game":
-                    //this.gameState = new GameController();
+                    this.gameState = new GameController();
                     break;
                 default:
                     //this.gameState = new ErrorController();
@@ -170,3 +170,5 @@ namespace TileGame
         #endregion
     }
 }
+
+

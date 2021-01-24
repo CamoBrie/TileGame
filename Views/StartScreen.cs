@@ -22,11 +22,6 @@ namespace TileGame.Views
 
             exitButton = new GameObject(new Vector2(Game.screenSize.X / 2, Game.screenSize.Y / 4 * 3), 200, 200, "views/menu/exit_button");
             this.children.Add(exitButton);
-
-        }
-        internal override void update(GameTime time)
-        {
-            base.update(time);
         }
     }
 }

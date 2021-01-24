@@ -25,6 +25,7 @@ namespace TileGame.Controllers
 
         private void startHandler(GameObject sender, MouseState mouse)
         {
+            Game.game.changeGameState("game");
         }
         private void exitHandler(GameObject sender, MouseState mouse)
         {
