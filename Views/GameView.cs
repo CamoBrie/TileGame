@@ -20,8 +20,7 @@ namespace TileGame.Views
             player = new Player(new Vector2(10, 10), 100, 100, "player");
 
             //testing code
-            level = new Level("path/to/level");
-            level.addEntity(player);
+            level = new Level("path/to/level", ref player);
   
         }
 

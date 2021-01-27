@@ -13,6 +13,8 @@ namespace TileGame.Levels
 {
     class Level
     {
+        private Player player;
+
         private List<GameObject> entities = new List<GameObject>();
         private List<SpriteTile> spriteTiles = new List<SpriteTile>();
         private List<CollisionTile> collisionTiles = new List<CollisionTile>();
@@ -22,8 +24,11 @@ namespace TileGame.Levels
         /// </summary>
         private Quadtree quadTree = new Quadtree(0, new Rectangle(0,0, Game.screenSize.X, Game.screenSize.Y));
 
-        internal Level(string path)
+        internal Level(string path, ref Player player)
         {
+            this.player = player;
+            this.addEntity(this.player);
+
             //TODO: load corresponding files for the sprites, collision etc
         }
 
@@ -129,7 +134,7 @@ namespace TileGame.Levels
             {
                 foreach (SpriteTile st in spriteTiles)
                 {
-                    if (st.centerPosition.Y < playerPosition.Y)
+                    if (st.centerPosition.Y < player.centerPosition.Y)
                     {
                         tiles.Add(st);
                     }
@@ -138,7 +143,7 @@ namespace TileGame.Levels
             {
                 foreach (SpriteTile st in spriteTiles)
                 {
-                    if (st.centerPosition.Y > playerPosition.Y)
+                    if (st.centerPosition.Y > player.centerPosition.Y)
                     {
                         tiles.Add(st);
                     }
