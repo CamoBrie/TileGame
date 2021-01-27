@@ -23,7 +23,12 @@ namespace TileGame.Levels
         /// the quadtree for collision
         /// </summary>
         private Quadtree quadTree = new Quadtree(0, new Rectangle(0,0, Game.screenSize.X, Game.screenSize.Y));
-
+        
+        /// <summary>
+        /// creates the level object, it handles everything, from updating the collision, to drawing to the screen.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="player"></param>
         internal Level(string path, ref Player player)
         {
             this.player = player;
