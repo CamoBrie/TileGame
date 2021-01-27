@@ -21,12 +21,5 @@ namespace TileGame.Controllers
         protected override void initializeViewAndEvents()
         {
         }
-
-        internal override void handleInput()
-        {
-            //TODO: handle keypresses, such as opening the menu
-
-
-        }
     }
 }

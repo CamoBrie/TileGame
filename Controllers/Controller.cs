@@ -41,6 +41,7 @@ namespace TileGame.Controllers
         {
             this.handleInput();
             this.view.update(time);
+            
         }
 
         /// <summary>

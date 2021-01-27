@@ -22,7 +22,7 @@ namespace TileGame.Levels
         /// <summary>
         /// the quadtree for collision
         /// </summary>
-        private Quadtree quadTree = new Quadtree(0, new Rectangle(0,0, Game.screenSize.X, Game.screenSize.Y));
+        private Quadtree quadTree;
         
         /// <summary>
         /// creates the level object, it handles everything, from updating the collision, to drawing to the screen.
@@ -34,7 +34,17 @@ namespace TileGame.Levels
             this.player = player;
             this.addEntity(this.player);
 
+            this.quadTree = new Quadtree(0, new Rectangle(0, 0, Game.screenSize.X, Game.screenSize.Y));
+
             //TODO: load corresponding files for the sprites, collision etc
+
+            //testing code
+            spriteTiles.Add(new SpriteTile(new Vector2(400, 100), Vector2.Zero, "views/game/coll"));
+            spriteTiles.Add(new SpriteTile(new Vector2(300, 300), Vector2.Zero, "views/game/coll"));
+            spriteTiles.Add(new SpriteTile(new Vector2(500, 500), Vector2.Zero, "views/game/coll"));
+            collisionTiles.Add(new CollisionTile(new Vector2(400, 100), 20, 20));
+            collisionTiles.Add(new CollisionTile(new Vector2(300, 300), 20, 20));
+            collisionTiles.Add(new CollisionTile(new Vector2(500, 500), 20, 20));
         }
 
         /// <summary>
