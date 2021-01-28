@@ -9,6 +9,8 @@ namespace TileGame.Levels.Tiles
         internal Vector2 centerPosition;
         internal Vector2 spriteOffset;
         internal Texture2D texture;
+        internal int width;
+        internal int height;
 
         private Vector2 tlPosition;
 
@@ -17,6 +19,9 @@ namespace TileGame.Levels.Tiles
             this.centerPosition = position;
             this.spriteOffset = spriteOffset;
             this.texture = Game.game.getSprite(assetName);
+
+            this.width = texture.Width;
+            this.height = texture.Height;
 
             this.tlPosition = new Vector2((int)centerPosition.X - texture.Width / 2, (int)centerPosition.Y - texture.Height / 2);
         }
@@ -30,6 +35,11 @@ namespace TileGame.Levels.Tiles
             batch.Draw(texture, tlPosition + spriteOffset, Color.White);
         }
 
+        /// <summary>
+        /// draw the sprite to the screen with the provided color
+        /// </summary>
+        /// <param name="batch"></param>
+        /// <param name="color">the color in which to draw the sprite in.</param>
         internal void draw(SpriteBatch batch, Color color)
         {
             batch.Draw(texture, tlPosition + spriteOffset, color);

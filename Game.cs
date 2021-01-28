@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using TileGame.Controllers;
 using TileGame.Input;
+using TileGame.Levels;
 
 namespace TileGame
 {
@@ -55,6 +56,9 @@ namespace TileGame
             _graphics.PreferredBackBufferWidth = screenSize.X;  // set this value to the desired width of your window
             _graphics.PreferredBackBufferHeight = screenSize.Y;   // set this value to the desired height of your window
             _graphics.ApplyChanges();
+
+            Camera.Reset();
+
             base.Initialize();
         }
 
@@ -103,7 +107,7 @@ namespace TileGame
             GraphicsDevice.Clear(Color.Black);
 
             SpriteBatch sb = new SpriteBatch(this.GraphicsDevice);
-            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, transformMatrix: Camera.TransformMatrix);
             gameState.draw(sb);
             sb.End();
 

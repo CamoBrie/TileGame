@@ -19,7 +19,8 @@ namespace TileGame.GameObjects
         internal int ID = 0;
         internal GameObject parent;
         protected List<int> associatedClicks = new List<int>();
-        internal bool collidable = true;
+
+        
 
         #region Events
         internal delegate void collisionEvent(GameObject sender, GameObject collider);

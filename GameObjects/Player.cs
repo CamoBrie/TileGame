@@ -15,6 +15,10 @@ namespace TileGame.GameObjects
 
         }
 
+        /// <summary>
+        /// handle the input provided by the controller
+        /// </summary>
+        /// <param name="intentDir"></param>
         internal void handleInput(Vector2 intentDir)
         {
             this.acceleration = intentDir;

@@ -23,12 +23,12 @@ namespace TileGame.Views
             this.children.Add(player);
             //testing code
             level = new Level("path/to/level", ref player);
+
   
         }
 
         internal override void update(GameTime time)
         {
-            
             base.update(time);
             level.update();
         }
