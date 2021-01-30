@@ -27,23 +27,23 @@ namespace TileGame.Views
   
         }
 
-        internal override void update(GameTime time)
+        internal override void Update(GameTime time)
         {
-            base.update(time);
-            level.update();
+            base.Update(time);
+            level.Update();
         }
 
-        internal override void draw(SpriteBatch batch)
+        internal override void Draw(SpriteBatch batch)
         {
             //first draw the tiles under the player,
-            level.pre_draw(batch);
+            level.Pre_draw(batch);
             //then draw the player,
-            player.draw(batch);
+            player.Draw(batch);
             //and only then draw the tiles on top of the player.
-            level.post_draw(batch);
+            level.Post_draw(batch);
         }
 
-        internal override void handleInput()
+        internal override void HandleInput()
         {
             /// Player keys
             Vector2 intentDir = Vector2.Zero;
@@ -63,9 +63,9 @@ namespace TileGame.Views
             {
                 intentDir.X++;
             }
-            player.handleInput(intentDir);
+            player.HandleInput(intentDir);
 
-            base.handleInput();
+            base.HandleInput();
         }
     }
 }

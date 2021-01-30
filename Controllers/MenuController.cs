@@ -17,17 +17,17 @@ namespace TileGame.Controllers
         public MenuController() : base(new StartScreen(new Vector2(Game.screenSize.X / 2, Game.screenSize.Y / 2), Game.screenSize.X, Game.screenSize.Y))
         {
         }
-        protected override void initializeViewAndEvents()
+        protected override void InitializeViewAndEvents()
         {
-            this.startScreen.startButton.onMouseUp += startHandler;
-            this.startScreen.exitButton.onMouseUp += exitHandler;
+            this.startScreen.startButton.OnMouseUp += StartHandler;
+            this.startScreen.exitButton.OnMouseUp += ExitHandler;
         }
 
-        private void startHandler(GameObject sender, MouseState mouse)
+        private void StartHandler(GameObject sender, MouseState mouse)
         {
-            Game.game.changeGameState("game");
+            Game.game.ChangeGameState("game");
         }
-        private void exitHandler(GameObject sender, MouseState mouse)
+        private void ExitHandler(GameObject sender, MouseState mouse)
         {
             Game.game.Exit();
         }

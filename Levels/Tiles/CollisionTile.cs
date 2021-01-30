@@ -14,7 +14,7 @@ namespace TileGame.Levels.Tiles
         /// <param name="height"></param>
         internal CollisionTile(Vector2 center, int width, int height) : base(center, width, height, "")
         {
-            this.onCollisionDetected += doCollision;
+            this.OnCollisionDetected += DoCollision;
         }
         /// <summary>
         /// collision object with a collision method
@@ -25,7 +25,7 @@ namespace TileGame.Levels.Tiles
         /// <param name="collisionEvent">the collision method to provide</param>
         internal CollisionTile(Vector2 center, int width, int height, collisionEvent collisionEvent) : base(center, width, height, "")
         {
-            this.onCollisionDetected += collisionEvent;
+            this.OnCollisionDetected += collisionEvent;
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace TileGame.Levels.Tiles
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="collider"></param>
-        internal void doCollision(GameObject tile, GameObject entity)
+        internal void DoCollision(GameObject tile, GameObject entity)
         {
             if (entity is GameEntity collEntity)
             {
@@ -48,20 +48,20 @@ namespace TileGame.Levels.Tiles
                 float depthY = distanceY > 0 ? minDistanceY - distanceY : -minDistanceY - distanceY;
 
 
-                    Rectangle tileBox = tile.getBoundingBox();
+                    Rectangle tileBox = tile.GetBoundingBox();
                     if (Math.Abs(depthX) < Math.Abs(depthY))
                     {
                         // Collision on the X axis
                         if (depthX > 0)
                         {
-                            // Collision on entity right
-                            entity.centerPosition.X = tileBox.Left - entity.width/2;
+                        // Collision on entity right
+                        entity.centerPosition = new Vector2(tileBox.Left - (entity.width / 2), entity.centerPosition.Y);
                         }
                         else
                         {
-                            // Collision on entity left
-                            entity.centerPosition.X = tileBox.Right + entity.width / 2;
-                        }
+                        // Collision on entity left
+                        entity.centerPosition = new Vector2(tileBox.Right + (entity.width / 2), entity.centerPosition.Y);
+                    }
 
                         collEntity.velocity.X = 0;
                     }
@@ -70,14 +70,14 @@ namespace TileGame.Levels.Tiles
                         // Collision on the Y axis
                         if (depthY > 0)
                         {
-                            // Collision on entity bottom
-                            entity.centerPosition.Y = tileBox.Top - entity.height / 2;
+                        // Collision on entity bottom
+                        entity.centerPosition = new Vector2(entity.centerPosition.X, tileBox.Top - entity.height / 2);
                         }
                         else
                         {
-                            // Collision on entity top
-                            entity.centerPosition.Y = tileBox.Bottom + entity.height / 2;
-                        }
+                        // Collision on entity top
+                        entity.centerPosition = new Vector2(entity.centerPosition.X, tileBox.Bottom + entity.height / 2);
+                    }
 
                         collEntity.velocity.Y = 0;
                     }

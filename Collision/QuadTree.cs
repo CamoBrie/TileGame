@@ -58,12 +58,12 @@ namespace TileGame.Collision
             double horizontalMidpoint = bounds.Y + (bounds.Height / 2);
 
             // Object can completely fit within the top quadrants
-            bool topQuadrant = (go.getBoundingBox().Y < horizontalMidpoint && go.getBoundingBox().Y + go.getBoundingBox().Height < horizontalMidpoint);
+            bool topQuadrant = (go.GetBoundingBox().Y < horizontalMidpoint && go.GetBoundingBox().Y + go.GetBoundingBox().Height < horizontalMidpoint);
             // Object can completely fit within the bottom quadrants
-            bool bottomQuadrant = (go.getBoundingBox().Y > horizontalMidpoint);
+            bool bottomQuadrant = (go.GetBoundingBox().Y > horizontalMidpoint);
 
             // Object can completely fit within the left quadrants
-            if (go.getBoundingBox().X < verticalMidpoint && go.getBoundingBox().X + go.getBoundingBox().Width < verticalMidpoint)
+            if (go.GetBoundingBox().X < verticalMidpoint && go.GetBoundingBox().X + go.GetBoundingBox().Width < verticalMidpoint)
             {
                 if (topQuadrant)
                 {
@@ -75,7 +75,7 @@ namespace TileGame.Collision
                 }
             }
             // Object can completely fit within the right quadrants
-            else if (go.getBoundingBox().X > verticalMidpoint)
+            else if (go.GetBoundingBox().X > verticalMidpoint)
             {
                 if (topQuadrant)
                 {
@@ -93,7 +93,7 @@ namespace TileGame.Collision
         //code that returns the index of the quadrants where the gameobject is located
         private List<int> getDoubleIndex(GameObject go)
         {
-            Rectangle bb = go.getBoundingBox();
+            Rectangle bb = go.GetBoundingBox();
             //set midpoints of quad
             double verticalMidpoint = bounds.X + (bounds.Width / 2);
             double horizontalMidpoint = bounds.Y + (bounds.Height / 2);

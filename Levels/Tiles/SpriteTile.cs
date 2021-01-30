@@ -18,7 +18,7 @@ namespace TileGame.Levels.Tiles
         {
             this.centerPosition = position;
             this.spriteOffset = spriteOffset;
-            this.texture = Game.game.getSprite(assetName);
+            this.texture = Game.game.GetSprite(assetName);
 
             this.width = texture.Width;
             this.height = texture.Height;
@@ -30,7 +30,7 @@ namespace TileGame.Levels.Tiles
         /// draw the sprite to the screen.
         /// </summary>
         /// <param name="batch"></param>
-        internal void draw(SpriteBatch batch)
+        internal void Draw(SpriteBatch batch)
         {
             batch.Draw(texture, tlPosition + spriteOffset, Color.White);
         }
@@ -40,7 +40,7 @@ namespace TileGame.Levels.Tiles
         /// </summary>
         /// <param name="batch"></param>
         /// <param name="color">the color in which to draw the sprite in.</param>
-        internal void draw(SpriteBatch batch, Color color)
+        internal void Draw(SpriteBatch batch, Color color)
         {
             batch.Draw(texture, tlPosition + spriteOffset, color);
         }
