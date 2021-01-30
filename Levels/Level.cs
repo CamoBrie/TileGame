@@ -105,7 +105,7 @@ namespace TileGame.Levels
             {
 
 
-                if (tileOnScreen(go))
+                if (TileOnScreen(go))
                 {
                     quadTree.insert(go);
                 }
@@ -115,7 +115,7 @@ namespace TileGame.Levels
             //add the collisiontiles to the tree
             foreach(CollisionTile ct in this.collisionTiles)
             {
-                if (tileOnScreen(ct))
+                if (TileOnScreen(ct))
                 {
                     quadTree.insert(ct);
                 }
@@ -224,9 +224,9 @@ namespace TileGame.Levels
 
             return tl.X + st.width > VisibleScreen.Location.X && tl.Y + st.height > VisibleScreen.Location.Y &&
                 tl.X < VisibleScreen.Location.X + VisibleScreen.Width && tl.Y < VisibleScreen.Location.Y + VisibleScreen.Height;*/
-            return VisibleScreen.Intersects(st.getBoundingBox());
+            return VisibleScreen.Intersects(st.GetBoundingBox());
         }
-        private bool tileOnScreen(GameObject st)
+        private bool TileOnScreen(GameObject st)
         {
             Vector2 tl = new Vector2(st.centerPosition.X - st.width / 2, st.centerPosition.Y - st.height / 2);
 
