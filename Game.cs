@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using TileGame.Controllers;
 using TileGame.Input;
 using TileGame.Levels;
+using MonoGame.Aseprite.Documents;
+using MonoGame.Aseprite.Graphics;
 
 namespace TileGame
 {
@@ -19,6 +21,7 @@ namespace TileGame
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D empty_texture;
+        private AsepriteDocument empty_aseDoc;
         #endregion
 
         #region Global variables
@@ -32,6 +35,10 @@ namespace TileGame
         /// The dictionary that stores all the texture files.
         /// </summary>
         private static Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
+        /// <summary>
+        /// The dictionary that stores all the texture files.
+        /// </summary>
+        private static Dictionary<string, AsepriteDocument> aseDocs = new Dictionary<string, AsepriteDocument>();  
         #endregion
 
         public Game()
@@ -74,7 +81,7 @@ namespace TileGame
             empty_texture.SetData(new Color[] { new Color(0, 0, 0, 0) });
 
             //start the game after the content is loaded.
-            changeGameState("menu");
+            ChangeGameState("menu");
         }
 
         /// <summary>
@@ -94,7 +101,7 @@ namespace TileGame
         protected override void Update(GameTime gameTime)
         {
             InputManager.update();
-            gameState.update(gameTime);
+            gameState.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -108,7 +115,7 @@ namespace TileGame
 
             SpriteBatch sb = new SpriteBatch(this.GraphicsDevice);
             sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, transformMatrix: Camera.TransformMatrix);
-            gameState.draw(sb);
+            gameState.Draw(sb);
             sb.End();
 
             base.Draw(gameTime);
@@ -117,14 +124,14 @@ namespace TileGame
         #endregion
 
         #region Global Functions
-        internal int getUniqueGameObjectID()
+        internal int GetUniqueGameObjectID()
         {
             id++;
             return id;
         }
 
         //get a sprite from the assetname texture
-        internal Texture2D getSprite(string assetName)
+        internal Texture2D GetSprite(string assetName)
         {
             // return empty texture if an empty string
             if (assetName.Length == 0)
@@ -135,9 +142,9 @@ namespace TileGame
             //get texture from dict, and if it is not in it, add it to the dict.
             if(textures.TryGetValue(assetName, out var tex))
             {
-                Console.WriteLine($"{tex.Name} retrieved.");
+                Console.WriteLine($"{assetName} retrieved.");
                 return tex;
-            } 
+            }
             else
             {
                 Texture2D sprite;
@@ -154,7 +161,39 @@ namespace TileGame
             } 
         }
 
-        internal void changeGameState(string stateName = "")
+        //get a sprite from the assetname texture
+        internal AsepriteDocument GetAseDoc(string assetName)
+        {
+            // return empty texture if an empty string
+            if (assetName.Length == 0)
+            {
+                return empty_aseDoc;
+            }
+
+            //get texture from dict, and if it is not in it, add it to the dict.
+            
+            if (aseDocs.TryGetValue(assetName, out var tex))
+            {
+                Console.WriteLine($"{tex.Texture.Name} retrieved.");
+                return tex;
+            }
+            else
+            {
+                AsepriteDocument doc;
+                try
+                {
+                    doc = this.Content.Load<AsepriteDocument>(assetName);
+                    aseDocs.Add(assetName, doc);
+                }
+                catch (ContentLoadException)
+                {
+                    doc = this.Content.Load<AsepriteDocument>("missing_aseDoc");
+                }
+                return doc;
+            }
+        }
+
+        internal void ChangeGameState(string stateName = "")
         {
             Content.Unload();
             textures.Clear();

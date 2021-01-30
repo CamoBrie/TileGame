@@ -41,10 +41,10 @@ namespace TileGame.Levels
         {
             #region Initial Setup
             this.player = player;
-            this.addEntity(this.player);
+            this.AddEntity(this.player);
             this.quadTree = new Quadtree(0, new Rectangle(0, 0, Game.screenSize.X, Game.screenSize.Y));
             this.bounds = new Rectangle(-100,-100, Game.screenSize.X+100,Game.screenSize.Y+100);
-            generateWallBounds();
+            GenerateWallBounds();
             #endregion
 
             //TODO: load corresponding files for the sprites, collision etc
@@ -61,7 +61,7 @@ namespace TileGame.Levels
         /// <summary>
         /// generates and adds walls to the collisiontiles where the level boundary is.
         /// </summary>
-        internal void generateWallBounds()
+        internal void GenerateWallBounds()
         {
             collisionTiles.Add(new CollisionTile(new Vector2(bounds.X + bounds.Width/2, bounds.Y - 10), bounds.Width, 20));
             collisionTiles.Add(new CollisionTile(new Vector2(bounds.X + bounds.Width/2, bounds.Bottom + 10), bounds.Width, 20));
@@ -74,7 +74,7 @@ namespace TileGame.Levels
         /// adds the entity provided to the list
         /// </summary>
         /// <param name="entity"></param>
-        internal void addEntity(GameObject entity)
+        internal void AddEntity(GameObject entity)
         {
             this.entities.Add(entity);
         }
@@ -83,7 +83,7 @@ namespace TileGame.Levels
         /// removes the entity provided from the list
         /// </summary>
         /// <param name="entity"></param>
-        internal void removeEntity(GameObject entity)
+        internal void RemoveEntity(GameObject entity)
 
         {
             this.entities.Remove(entity);
@@ -94,7 +94,7 @@ namespace TileGame.Levels
         /// <summary>
         /// the function that is called to update certain things, such as the current player position.
         /// </summary>
-        internal void update()
+        internal void Update()
         {
             #region Collision
 
@@ -129,13 +129,13 @@ namespace TileGame.Levels
                 quadTree.retrieve(returnObjects, entity);
                 foreach (GameObject go in returnObjects)
                 {
-                    go.fireCollisionEvent(entity);
+                    go.FireCollisionEvent(entity);
                 }
             }
             #endregion
 
             #region Camera
-            Camera.Location = getCameraLocation(player.centerPosition, this.bounds, Camera.Bounds);
+            Camera.Location = GetCameraLocation(player.centerPosition, this.bounds, Camera.Bounds);
             this.VisibleScreen = Camera.VisibleArea;
             #endregion
         }
@@ -144,22 +144,22 @@ namespace TileGame.Levels
         /// <summary>
         /// the function where everything is drawn before (under) the player
         /// </summary>
-        internal void pre_draw(SpriteBatch batch)
+        internal void Pre_draw(SpriteBatch batch)
         {
-            foreach (SpriteTile st in getDrawTiles(true))
+            foreach (SpriteTile st in GetDrawTiles(true))
             {
-                st.draw(batch);
+                st.Draw(batch);
             }
         }
 
         /// <summary>
         /// the function where everything is drawn after (above) the player
         /// </summary>
-        internal void post_draw(SpriteBatch batch)
+        internal void Post_draw(SpriteBatch batch)
         {
-            foreach (SpriteTile st in getDrawTiles(false))
+            foreach (SpriteTile st in GetDrawTiles(false))
             {
-                st.draw(batch);
+                st.Draw(batch);
             }
             
         }
@@ -169,7 +169,7 @@ namespace TileGame.Levels
         /// </summary>
         /// <param name="before"></param>
         /// <returns></returns>
-        private List<SpriteTile> getDrawTiles(bool before)
+        private List<SpriteTile> GetDrawTiles(bool before)
         {
             List<SpriteTile> tiles = new List<SpriteTile>();
 
@@ -177,7 +177,7 @@ namespace TileGame.Levels
             {
                 foreach (SpriteTile st in spriteTiles)
                 {
-                    if (st.centerPosition.Y < player.centerPosition.Y && tileOnScreen(st))
+                    if (st.centerPosition.Y < player.centerPosition.Y && TileOnScreen(st))
                     {
                         tiles.Add(st);
                     }
@@ -186,7 +186,7 @@ namespace TileGame.Levels
             {
                 foreach (SpriteTile st in spriteTiles)
                 {
-                    if (st.centerPosition.Y > player.centerPosition.Y && tileOnScreen(st))
+                    if (st.centerPosition.Y > player.centerPosition.Y && TileOnScreen(st))
                     {
                         tiles.Add(st);
                     }
@@ -206,7 +206,7 @@ namespace TileGame.Levels
         /// <param name="levelBounds">the bounds of the level</param>
         /// <param name="cameraBounds">the bounds of the camera view</param>
         /// <returns></returns>
-        private Vector2 getCameraLocation(Vector2 playerPosition, Rectangle levelBounds, Rectangle cameraBounds)
+        private Vector2 GetCameraLocation(Vector2 playerPosition, Rectangle levelBounds, Rectangle cameraBounds)
         {
             Vector2 min = new Vector2(levelBounds.X + cameraBounds.Width/2, levelBounds.Y + cameraBounds.Height/2);
             Vector2 max = new Vector2(levelBounds.Right - cameraBounds.Width/2, levelBounds.Bottom - cameraBounds.Height/2);
@@ -218,7 +218,7 @@ namespace TileGame.Levels
         /// </summary>
         /// <param name="st">the tile to check</param>
         /// <returns></returns>
-        private bool tileOnScreen(SpriteTile st)
+        private bool TileOnScreen(SpriteTile st)
         {
             /*Vector2 tl = new Vector2(st.centerPosition.X - st.width / 2, st.centerPosition.Y - st.height / 2);
 

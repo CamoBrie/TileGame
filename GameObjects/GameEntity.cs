@@ -56,17 +56,17 @@ namespace TileGame.GameObjects
         /// Then it specifically updates the entity, to include its speed.
         /// </summary>
         /// <param name="time"> The game time, handed down by the controller. </param>
-        internal override void update(GameTime time)
+        internal override void Update(GameTime time)
         {
-            base.update(time);
-            this.moveEntity(time);
+            base.Update(time);
+            this.MoveEntity(time);
         }
 
         /// <summary>
         /// This function is the base code for moving an entity.
         /// </summary>
         /// <param name="time">The game time, handed down by the controller. </param>
-        protected virtual void moveEntity(GameTime time)
+        protected virtual void MoveEntity(GameTime time)
         {
             this.acceleration *= this.baseSpeed;
             this.velocity += this.acceleration;

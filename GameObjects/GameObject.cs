@@ -10,13 +10,9 @@ using TileGame.Input;
 
 namespace TileGame.GameObjects
 {
-    class GameObject
+    class GameObject :AGameObject
     {
         internal List<GameObject> children = new List<GameObject>();
-        internal Vector2 centerPosition;
-        internal int width, height;
-        internal Texture2D sprite;
-        internal int ID = 0;
         internal GameObject parent;
         protected List<int> associatedClicks = new List<int>();
 
@@ -26,12 +22,12 @@ namespace TileGame.GameObjects
         internal delegate void collisionEvent(GameObject sender, GameObject collider);
         internal delegate void MouseEvent(GameObject sender, MouseState mouse);
         internal delegate void KeyEvent(GameObject sender);
-        internal event collisionEvent onCollisionDetected;
-        internal event MouseEvent onMouseDown;
-        internal event MouseEvent onMouseMoved;
-        internal event MouseEvent onMouseUp;
-        internal event MouseEvent onMouseDrag;
-        internal event KeyEvent onKeyChange;
+        internal event collisionEvent OnCollisionDetected;
+        internal event MouseEvent OnMouseDown;
+        internal event MouseEvent OnMouseMoved;
+        internal event MouseEvent OnMouseUp;
+        internal event MouseEvent OnMouseDrag;
+        internal event KeyEvent OnKeyChange;
         #endregion
 
         /// <summary>
@@ -48,100 +44,100 @@ namespace TileGame.GameObjects
         {
             // GameObjects are responsible for their own data, not the data stored in the entire game.
             // This is why the GameObject asks the current Game Instance if it could please get a sprite.
-            this.sprite = Game.game.getSprite(assetName);
+            this.sprite = Game.game.GetSprite(assetName);
             this.centerPosition = center;
             this.width = width;
             this.height = height;
-            this.ID = Game.game.getUniqueGameObjectID();
+            this.ID = Game.game.GetUniqueGameObjectID();
         }
 
         #region General Functions
-        internal virtual void handleInput()
+        internal override void HandleInput()
         {
             // Handle input in all the children from the template method.
             foreach (GameObject child in this.children.ToArray())
             {
-                child.handleInput();
+                child.HandleInput();
             }
 
             if (InputManager.didAKeyChange)
-                this.onKeyChange?.Invoke(this);
+                this.OnKeyChange?.Invoke(this);
 
             if (InputManager.didTheMouseClick)
-                this.mouseDown(InputManager.MouseState, InputManager.getClickID());
+                this.MouseDown(InputManager.MouseState, InputManager.getClickID());
 
             if (InputManager.didTheMouseMove)
-                this.mouseMoved(InputManager.MouseState);
+                this.MouseMoved(InputManager.MouseState);
 
             if (InputManager.doesTheMouseDrag)
-                this.mouseDrag(InputManager.MouseState);
+                this.MouseDrag(InputManager.MouseState);
 
             if (InputManager.didTheMouseRelease)
-                this.mouseUp(InputManager.MouseState, InputManager.getClickID());
+                this.MouseUp(InputManager.MouseState, InputManager.getClickID());
         }
-        internal virtual void update(GameTime time)
+        internal override void Update(GameTime time)
         {
             foreach (GameObject child in this.children.ToArray())
             {
-                child.update(time);
+                child.Update(time);
             }
         }
-        internal virtual void draw(SpriteBatch batch)
+        internal override void Draw(SpriteBatch batch)
         {
             //First draw your own sprite
-            this.drawOwnSprite(batch);
+            this.DrawOwnSprite(batch);
 
             // Then draw your children
             foreach (GameObject child in this.children)
             {
-                child.draw(batch);
+                child.Draw(batch);
             }
         }
-        internal virtual Rectangle getBoundingBox()
+        internal override Rectangle GetBoundingBox()
         {
             return new Rectangle((int)this.centerPosition.X - width / 2, (int)this.centerPosition.Y - height / 2, width, height);
         }
-        internal virtual void drawOwnSprite(SpriteBatch batch)
+        internal override void DrawOwnSprite(SpriteBatch batch)
         {
-            batch.Draw(this.sprite, this.getBoundingBox(), Color.White);
+            batch.Draw(this.sprite, this.GetBoundingBox(), Color.White);
         }
-        internal virtual void drawOwnSprite(SpriteBatch batch, Color color)
+        internal override void DrawOwnSprite(SpriteBatch batch, Color color)
         {
-            batch.Draw(this.sprite, this.getBoundingBox(), color);
+            batch.Draw(this.sprite, this.GetBoundingBox(), color);
         }
         #endregion
 
         #region Event Functions
-        internal void fireCollisionEvent(GameObject other)
+        internal void FireCollisionEvent(GameObject other)
         {
-            if (other.ID != this.ID && this.getBoundingBox().Intersects(other.getBoundingBox()))
-                this.onCollisionDetected?.Invoke(this, other);
+            if (other.ID != this.ID && this.GetBoundingBox().Intersects(other.GetBoundingBox()))
+                this.OnCollisionDetected?.Invoke(this, other);
         }
-        protected void mouseUp(MouseState mouse, int clickID)
+        protected void MouseUp(MouseState mouse, int clickID)
         {
             if (this.associatedClicks.Contains(clickID))
             {
                 this.associatedClicks.Remove(clickID);
-                this.onMouseUp?.Invoke(this, mouse);
+                this.OnMouseUp?.Invoke(this, mouse);
             }
         }
-        protected void mouseDrag(MouseState mouse)
+        protected void MouseDrag(MouseState mouse)
         {
             if (InputManager.dragObjects.Contains(this.ID))
-                this.onMouseDrag?.Invoke(this, mouse);
+                this.OnMouseDrag?.Invoke(this, mouse);
         }
-        protected void mouseMoved(MouseState mouse)
+        protected void MouseMoved(MouseState mouse)
         {
-            this.onMouseMoved?.Invoke(this, mouse);
+            this.OnMouseMoved?.Invoke(this, mouse);
         }
-        protected void mouseDown(MouseState mouse, int clickID)
+        protected void MouseDown(MouseState mouse, int clickID)
         {
             // Check if the touch is inside the bounding box.
-            if (this.getBoundingBox().Contains(mouse.Position))
+            if (this.GetBoundingBox().Contains(mouse.Position))
             {
                 // Invoke the event
                 this.associatedClicks.Add(clickID);
-                this.onMouseDown?.Invoke(this, mouse);
+                this.OnMouseDown?.Invoke(this, mouse);
             }
         }
         #endregion

@@ -18,7 +18,7 @@ namespace TileGame.Controllers
         {
         }
 
-        protected override void initializeViewAndEvents()
+        protected override void InitializeViewAndEvents()
         {
         }
     }
