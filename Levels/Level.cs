@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using TileGame.Collision;
 using TileGame.GameObjects;
-using TileGame.Levels.Tiles;
 
 namespace TileGame.Levels
 {
@@ -17,8 +16,8 @@ namespace TileGame.Levels
 
         #region Object Lists
         private List<GameObject> entities = new List<GameObject>();
-        private List<SpriteTile> spriteTiles = new List<SpriteTile>();
-        private List<CollisionTile> collisionTiles = new List<CollisionTile>();
+        private List<SpriteObject> spriteTiles = new List<SpriteObject>();
+        private List<CollisionObject> collisionTiles = new List<CollisionObject>();
 
         #endregion
 
@@ -49,12 +48,12 @@ namespace TileGame.Levels
 
             //TODO: load corresponding files for the sprites, collision etc
             //testing code
-            spriteTiles.Add(new SpriteTile(new Vector2(400, 100), Vector2.Zero, "views/game/coll"));
-            spriteTiles.Add(new SpriteTile(new Vector2(300, 300), Vector2.Zero, "views/game/coll"));
-            spriteTiles.Add(new SpriteTile(new Vector2(500, 500), Vector2.Zero, "views/game/coll"));
-            collisionTiles.Add(new CollisionTile(new Vector2(400, 100), 20, 20));
-            collisionTiles.Add(new CollisionTile(new Vector2(300, 300), 20, 20));
-            collisionTiles.Add(new CollisionTile(new Vector2(500, 500), 20, 20));
+            spriteTiles.Add(new SpriteObject(new Vector2(400, 100), 20, 20, "views/game/coll"));
+            spriteTiles.Add(new SpriteObject(new Vector2(300, 300), 20, 20, "views/game/coll"));
+            spriteTiles.Add(new SpriteObject(new Vector2(500, 500), 20, 20, "views/game/coll"));
+            collisionTiles.Add(new CollisionObject(new Vector2(400, 100), 20, 20));
+            collisionTiles.Add(new CollisionObject(new Vector2(300, 300), 20, 20));
+            collisionTiles.Add(new CollisionObject(new Vector2(500, 500), 20, 20));
 
         }
 
@@ -63,10 +62,10 @@ namespace TileGame.Levels
         /// </summary>
         internal void GenerateWallBounds()
         {
-            collisionTiles.Add(new CollisionTile(new Vector2(bounds.X + bounds.Width/2, bounds.Y - 10), bounds.Width, 20));
-            collisionTiles.Add(new CollisionTile(new Vector2(bounds.X + bounds.Width/2, bounds.Bottom + 10), bounds.Width, 20));
-            collisionTiles.Add(new CollisionTile(new Vector2(bounds.X - 10, bounds.Y + bounds.Height/2), 20, bounds.Height));
-            collisionTiles.Add(new CollisionTile(new Vector2(bounds.Right + 10, bounds.Y + bounds.Height / 2), 20, bounds.Height));
+            collisionTiles.Add(new CollisionObject(new Vector2(bounds.X + bounds.Width/2, bounds.Y - 10), bounds.Width, 20));
+            collisionTiles.Add(new CollisionObject(new Vector2(bounds.X + bounds.Width/2, bounds.Bottom + 10), bounds.Width, 20));
+            collisionTiles.Add(new CollisionObject(new Vector2(bounds.X - 10, bounds.Y + bounds.Height/2), 20, bounds.Height));
+            collisionTiles.Add(new CollisionObject(new Vector2(bounds.Right + 10, bounds.Y + bounds.Height / 2), 20, bounds.Height));
         }
 
         #region EntityList
@@ -113,7 +112,7 @@ namespace TileGame.Levels
             }
 
             //add the collisiontiles to the tree
-            foreach(CollisionTile ct in this.collisionTiles)
+            foreach(CollisionObject ct in this.collisionTiles)
             {
                 if (TileOnScreen(ct))
                 {
@@ -146,7 +145,7 @@ namespace TileGame.Levels
         /// </summary>
         internal void Pre_draw(SpriteBatch batch)
         {
-            foreach (SpriteTile st in GetDrawTiles(true))
+            foreach (SpriteObject st in GetDrawTiles(true))
             {
                 st.Draw(batch);
             }
@@ -157,7 +156,7 @@ namespace TileGame.Levels
         /// </summary>
         internal void Post_draw(SpriteBatch batch)
         {
-            foreach (SpriteTile st in GetDrawTiles(false))
+            foreach (SpriteObject st in GetDrawTiles(false))
             {
                 st.Draw(batch);
             }
@@ -169,13 +168,13 @@ namespace TileGame.Levels
         /// </summary>
         /// <param name="before"></param>
         /// <returns></returns>
-        private List<SpriteTile> GetDrawTiles(bool before)
+        private List<SpriteObject> GetDrawTiles(bool before)
         {
-            List<SpriteTile> tiles = new List<SpriteTile>();
+            List<SpriteObject> tiles = new List<SpriteObject>();
 
             if (before)
             {
-                foreach (SpriteTile st in spriteTiles)
+                foreach (SpriteObject st in spriteTiles)
                 {
                     if (st.centerPosition.Y < player.centerPosition.Y && TileOnScreen(st))
                     {
@@ -184,7 +183,7 @@ namespace TileGame.Levels
                 }
             } else
             {
-                foreach (SpriteTile st in spriteTiles)
+                foreach (SpriteObject st in spriteTiles)
                 {
                     if (st.centerPosition.Y > player.centerPosition.Y && TileOnScreen(st))
                     {
@@ -218,7 +217,7 @@ namespace TileGame.Levels
         /// </summary>
         /// <param name="st">the tile to check</param>
         /// <returns></returns>
-        private bool TileOnScreen(SpriteTile st)
+        private bool TileOnScreen(SpriteObject st)
         {
             /*Vector2 tl = new Vector2(st.centerPosition.X - st.width / 2, st.centerPosition.Y - st.height / 2);
 

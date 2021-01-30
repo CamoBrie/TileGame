@@ -16,7 +16,7 @@ namespace TileGame.Views
     {
         private Level level;
         private Player player;
-        internal GameView(Vector2 center, int width, int height, string assetName = "") : base(center, width, height, assetName)
+        internal GameView(Vector2 center, int width, int height) : base(center, width, height)
         {
             //testing code
             player = new Player(new Vector2(110, 110), 100, 100, "views/game/player");
@@ -47,25 +47,23 @@ namespace TileGame.Views
         {
             /// Player keys
             Vector2 intentDir = Vector2.Zero;
-            if(InputManager.keyDown(Keys.W))
+            if(InputManager.KeyDown(Keys.W))
             {
                 intentDir.Y--;
             }
-            if (InputManager.keyDown(Keys.A))
+            if (InputManager.KeyDown(Keys.A))
             {
                 intentDir.X--;
             }
-            if (InputManager.keyDown(Keys.S))
+            if (InputManager.KeyDown(Keys.S))
             {
                 intentDir.Y++;
             }
-            if (InputManager.keyDown(Keys.D))
+            if (InputManager.KeyDown(Keys.D))
             {
                 intentDir.X++;
             }
             player.HandleInput(intentDir);
-
-            base.HandleInput();
         }
     }
 }

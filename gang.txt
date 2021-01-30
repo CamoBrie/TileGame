@@ -1,0 +1,24 @@
+﻿#base:__					GameObject
+
+centerpos
+width
+height
+children
+ID
+
+update()
+draw()
+getboundingbox()
+getdrawpos()
+
+#sprite:__base			SpriteObject
+texture
+
+coll:__base				CollisionObject
+EVENT: oncollisiondetected
+docollision
+
+animated:__base			AnimatedObject
+aseprite doc
+
+entity:__animated		GameEntity	

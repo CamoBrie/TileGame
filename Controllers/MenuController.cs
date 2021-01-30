@@ -12,15 +12,15 @@ namespace TileGame.Controllers
 {
     class MenuController : Controller
     {
-        internal StartScreen startScreen => (StartScreen)this.view;
+        internal StartScreen StartScreen => (StartScreen)this.view;
 
         public MenuController() : base(new StartScreen(new Vector2(Game.screenSize.X / 2, Game.screenSize.Y / 2), Game.screenSize.X, Game.screenSize.Y))
         {
         }
         protected override void InitializeViewAndEvents()
         {
-            this.startScreen.startButton.OnMouseUp += StartHandler;
-            this.startScreen.exitButton.OnMouseUp += ExitHandler;
+            this.StartScreen.startButton.OnMouseUp += StartHandler;
+            this.StartScreen.exitButton.OnMouseUp += ExitHandler;
         }
 
         private void StartHandler(GameObject sender, MouseState mouse)

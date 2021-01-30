@@ -15,12 +15,12 @@ namespace TileGame.Views
         internal GameObject exitButton;
         #endregion
 
-        internal StartScreen(Vector2 center, int width, int height, string assetName = "") : base(center, width, height, assetName)
+        internal StartScreen(Vector2 center, int width, int height) : base(center, width, height)
         {
-            startButton = new GameObject(new Vector2(Game.screenSize.X / 2, Game.screenSize.Y / 4), 200, 200, "views/menu/start_button");
+            startButton = new SpriteObject(new Vector2(Game.screenSize.X / 2, Game.screenSize.Y / 4), 200, 200, "views/menu/start_button");
             this.children.Add(startButton);
 
-            exitButton = new GameObject(new Vector2(Game.screenSize.X / 2, Game.screenSize.Y / 4 * 3), 200, 200, "views/menu/exit_button");
+            exitButton = new SpriteObject(new Vector2(Game.screenSize.X / 2, Game.screenSize.Y / 4 * 3), 200, 200, "views/menu/exit_button");
             this.children.Add(exitButton);
         }
     }

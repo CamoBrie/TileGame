@@ -100,7 +100,7 @@ namespace TileGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            InputManager.update();
+            InputManager.Update();
             gameState.Update(gameTime);
             base.Update(gameTime);
         }

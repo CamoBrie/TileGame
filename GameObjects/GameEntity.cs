@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TileGame.GameObjects
 {
-    class GameEntity : GameObject
+    class GameEntity : AnimatedObject
     {
         /// <summary>
         /// this float represents the base speed of the entity.

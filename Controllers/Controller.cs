@@ -39,9 +39,8 @@ namespace TileGame.Controllers
         /// <param name="time">The current time in the game. </param>
         internal virtual void Update(GameTime time)
         {
-            this.HandleInput();
+            this.view.HandleInput();
             this.view.Update(time);
-            
         }
 
         /// <summary>
@@ -51,14 +50,6 @@ namespace TileGame.Controllers
         internal virtual void Draw(SpriteBatch batch)
         {
             this.view.Draw(batch);
-        }
-
-        /// <summary>
-        /// Responds to all touches and keyinputs pertaining to this game state.
-        /// </summary>
-        internal virtual void HandleInput()
-        {
-            this.view.HandleInput();
         }
     }
 }

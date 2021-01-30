@@ -2,37 +2,18 @@
 using System;
 using TileGame.GameObjects;
 
-namespace TileGame.Levels.Tiles
+namespace TileGame.GameObjects
 {
-    internal class CollisionTile : GameObject
+    internal class CollisionObject : GameObject
     {
-        /// <summary>
-        /// default collision object, just acts a wall
-        /// </summary>
-        /// <param name="center"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        internal CollisionTile(Vector2 center, int width, int height) : base(center, width, height, "")
+        internal CollisionObject(Vector2 center, int width, int height) : base(center, width, height)
         {
             this.OnCollisionDetected += DoCollision;
         }
-        /// <summary>
-        /// collision object with a collision method
-        /// </summary>
-        /// <param name="center"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="collisionEvent">the collision method to provide</param>
-        internal CollisionTile(Vector2 center, int width, int height, collisionEvent collisionEvent) : base(center, width, height, "")
+        internal CollisionObject(Vector2 center, int width, int height, collisionEvent collisionEvent) : base(center, width, height)
         {
             this.OnCollisionDetected += collisionEvent;
         }
-
-        /// <summary>
-        /// default collision method
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="collider"></param>
         internal void DoCollision(GameObject tile, GameObject entity)
         {
             if (entity is GameEntity collEntity)
@@ -83,7 +64,6 @@ namespace TileGame.Levels.Tiles
                     }
                 }
             
-
         }
     }
 }

@@ -39,7 +39,7 @@ namespace TileGame.Input
         /// This update function is called once per frame.
         /// It gets the new state from the input methods and stores it in static properties.
         /// </summary>
-        internal static void update()
+        internal static void Update()
         {
             // Read which keys are currently being pressed, and compare them to the keys that previously were pressed.
             previousKeys = currentKeys;
@@ -71,7 +71,7 @@ namespace TileGame.Input
         /// <summary>
         /// Returns the ID of the current click.
         /// </summary>
-        internal static int getClickID()
+        internal static int GetClickID()
         {
             return clickID;
         }
@@ -80,7 +80,7 @@ namespace TileGame.Input
         /// Determines whether the given key was pressed this frame.
         /// </summary>
         /// <param name="key">The key to query.</param>
-        internal static bool keyPressed(Keys key)
+        internal static bool KeyPressed(Keys key)
         {
             return !previousKeys.Contains(key) && currentKeys.Contains(key);
         }
@@ -89,7 +89,7 @@ namespace TileGame.Input
         /// Determines whether the given key was released this frame.
         /// </summary>
         /// <param name="key">The key to query.</param>
-        internal static bool keyReleased(Keys key)
+        internal static bool KeyReleased(Keys key)
         {
             return previousKeys.Contains(key) && !currentKeys.Contains(key);
         }
@@ -99,7 +99,7 @@ namespace TileGame.Input
         /// </summary>
         /// <param name="key">The key to the query</param>
         /// <returns></returns>
-        internal static bool keyDown(Keys key)
+        internal static bool KeyDown(Keys key)
         {
             return currentKeys.Contains(key);
         }
