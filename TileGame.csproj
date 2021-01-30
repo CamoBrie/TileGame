@@ -49,9 +49,9 @@
     <Compile Include="Controllers\Controller.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="GameObjects\AGameObject.cs" />
     <Compile Include="GameObjects\GameEntity.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
-    <Compile Include="GameObjects\IGameObject.cs" />
     <Compile Include="GameObjects\Player.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Game.cs" />
