@@ -74,7 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="gang.txt" />
+    <Content Include="CodeStructure\gameobjects.txt" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
