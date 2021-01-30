@@ -103,25 +103,22 @@ namespace TileGame.Levels
             //add the entities to the tree
             foreach(GameObject go in this.entities)
             {
-                /* TODO: create the inbounds method for making sure the tile is on the screen
-                if(inBounds(ct))
+
+
+                if (tileOnScreen(go))
                 {
-                    quadTree.insert(ct);
+                    quadTree.insert(go);
                 }
-                */
-                quadTree.insert(go);
+
             }
 
             //add the collisiontiles to the tree
             foreach(CollisionTile ct in this.collisionTiles)
             {
-                /* TODO: create the inbounds method for making sure the tile is on the screen
-                if(inBounds(ct))
+                if (tileOnScreen(ct))
                 {
                     quadTree.insert(ct);
                 }
-                */
-                quadTree.insert(ct);
             }
 
             //fire collision events based on location
@@ -223,10 +220,20 @@ namespace TileGame.Levels
         /// <returns></returns>
         private bool tileOnScreen(SpriteTile st)
         {
-            Vector2 tl = new Vector2(st.centerPosition.X - st.width / 2, st.centerPosition.Y - st.height / 2);
+            /*Vector2 tl = new Vector2(st.centerPosition.X - st.width / 2, st.centerPosition.Y - st.height / 2);
 
             return tl.X + st.width > VisibleScreen.Location.X && tl.Y + st.height > VisibleScreen.Location.Y &&
-                tl.X < VisibleScreen.Location.X + VisibleScreen.Width && tl.Y < VisibleScreen.Location.Y + VisibleScreen.Height;
+                tl.X < VisibleScreen.Location.X + VisibleScreen.Width && tl.Y < VisibleScreen.Location.Y + VisibleScreen.Height;*/
+            return VisibleScreen.Intersects(st.getBoundingBox());
+        }
+        private bool tileOnScreen(GameObject st)
+        {
+            Vector2 tl = new Vector2(st.centerPosition.X - st.width / 2, st.centerPosition.Y - st.height / 2);
+
+            //we need this extra pixel for the borders of the level.
+            return tl.X + st.width + 1 > VisibleScreen.Location.X && tl.Y + st.height + 1 > VisibleScreen.Location.Y &&
+            tl.X - 1 < VisibleScreen.Location.X + VisibleScreen.Width && tl.Y - 1 < VisibleScreen.Location.Y + VisibleScreen.Height;
+            
         }
 
         #endregion

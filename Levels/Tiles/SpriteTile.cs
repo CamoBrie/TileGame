@@ -27,6 +27,15 @@ namespace TileGame.Levels.Tiles
         }
 
         /// <summary>
+        /// gets the sprite's bounding box.
+        /// </summary>
+        /// <returns></returns>
+        internal Rectangle getBoundingBox()
+        {
+            return new Rectangle((int)this.centerPosition.X + (int)this.spriteOffset.X - this.width / 2, (int)this.centerPosition.Y + (int)this.spriteOffset.Y - this.height / 2, this.width, this.height);
+        }
+
+        /// <summary>
         /// draw the sprite to the screen.
         /// </summary>
         /// <param name="batch"></param>
