@@ -44,6 +44,8 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Animations\Animation.cs" />
+    <Compile Include="Animations\AnimationController.cs" />
     <Compile Include="GameObjects\AnimatedObject.cs" />
     <Compile Include="Collision\QuadTree.cs" />
     <Compile Include="Controllers\Controller.cs" />
@@ -83,7 +85,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Animation\" />
     <Folder Include="Levels\Tiles\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

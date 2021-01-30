@@ -8,29 +8,40 @@ using System.Threading.Tasks;
 using TileGame.GameObjects;
 using MonoGame.Aseprite.Documents;
 using MonoGame.Aseprite.Graphics;
+using TileGame.Animations;
 
 namespace TileGame.GameObjects
 {
     class AnimatedObject : GameObject
     {
-        AsepriteDocument doc;
 
-        ///TESTING CODE
-        Texture2D texture;
-        ///TESTING CODE
+        ///<summary>
+        /// The animationcontroller that handles the animation of the gameEntity.
+        ///</summary>
+        AnimationController animationController;
+ 
+        
 
         internal AnimatedObject(Vector2 center, int width, int height, string assetName) : base(center, width, height)
         {
-            ///TESTING CODE
-            this.texture = Game.game.GetSprite(assetName);
-            ///TESTING CODE
+            this.animationController = new AnimationController(Game.game.GetAseDoc(assetName));
         }
 
-        ///TESTING CODE
+        internal void PlayAnimation(string animationName, bool playOnce) 
+        {
+            animationController.Play(animationName, playOnce);
+        }
+
+        internal override void Update(GameTime time)
+        {
+            animationController.Update(time);
+            base.Update(time);
+        }
+
         internal override void Draw(SpriteBatch batch)
         {
-            batch.Draw(texture, this.GetBoundingBox(), Color.White);
+            animationController.Draw(batch, GetDrawPos());
+            base.Draw(batch);
         }
-        ///TESTING CODE
     }
 }

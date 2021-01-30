@@ -111,7 +111,7 @@ namespace TileGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.Yellow);
 
             SpriteBatch sb = new SpriteBatch(this.GraphicsDevice);
             sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, transformMatrix: Camera.TransformMatrix);

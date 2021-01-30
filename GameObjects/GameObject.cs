@@ -60,7 +60,8 @@ namespace TileGame.GameObjects
 
         internal virtual Rectangle GetDrawPos()
         {
-            return new Rectangle();
+            //TODO: make this function.
+            return GetBoundingBox();
         }
 
         internal virtual void HandleInput() {
