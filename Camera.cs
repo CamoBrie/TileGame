@@ -11,14 +11,6 @@ namespace TileGame {
     internal static class Camera
     {
 
-        //#####
-        // screen-to-world space:
-        // Vector2.Transform(mouseLocation, Matrix.Invert(Camera.TransformMatrix));
-        //
-        // world-to-screen space:
-        // Vector2.Transform(mouseLocation, Camera.TransformMatrix);
-        //#####
-
         /// <summary>
         /// The current zoom of the camera.
         /// </summary>
@@ -59,6 +51,26 @@ namespace TileGame {
             Location = new Vector2(Game.screenSize.X/2,Game.screenSize.Y/2);
             Rotation = 0;
             Bounds = new Rectangle(0, 0, Game.screenSize.X, Game.screenSize.Y);
+        }
+
+        /// <summary>
+        /// Transforms the vector2 from screen space to world space.
+        /// </summary>
+        /// <param name="input">the vector to be transformed.</param>
+        /// <returns>the transformed vector</returns>
+        internal static Vector2 stw(Vector2 input)
+        {
+            return Vector2.Transform(input, Matrix.Invert(Camera.TransformMatrix));
+        }
+
+        /// <summary>
+        /// Transforms the vector2 from world space to screen space.
+        /// </summary>
+        /// <param name="input">the vector to be transformed.</param>
+        /// <returns>the transformed vector</returns>
+        internal static Vector2 wts(Vector2 input)
+        {
+            return Vector2.Transform(input, Camera.TransformMatrix);
         }
 
         /// <summary>

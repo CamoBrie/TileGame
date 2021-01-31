@@ -110,3 +110,10 @@
 /processorParam:InnerPadding=0
 /build:bat.ase
 
+#begin test.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:test.spritefont
+
