@@ -14,7 +14,13 @@ namespace TileGame.Views
 {
     class GameView : GameObject
     {
+        /// <summary>
+        /// The instance of the current level.
+        /// </summary>
         private Level level;
+        /// <summary>
+        /// The instance of the player.
+        /// </summary>
         private Player player;
         internal GameView(Vector2 center, int width, int height) : base(center, width, height)
         {
@@ -28,12 +34,20 @@ namespace TileGame.Views
   
         }
 
+        /// <summary>
+        /// Updates the level.
+        /// </summary>
+        /// <param name="time">the time object.</param>
         internal override void Update(GameTime time)
         {
             base.Update(time);
             level.Update();
         }
 
+        /// <summary>
+        /// Draws the first part of the level, then the player, and then the other part.
+        /// </summary>
+        /// <param name="batch"></param>
         internal override void Draw(SpriteBatch batch)
         {
             //first draw the tiles under the player,
@@ -44,6 +58,9 @@ namespace TileGame.Views
             level.Post_draw(batch);
         }
 
+        /// <summary>
+        /// Handles the input for this view, and send the output to the children.
+        /// </summary>
         internal override void HandleInput()
         {
             /// Player keys

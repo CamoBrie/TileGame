@@ -25,7 +25,13 @@ namespace TileGame
         #endregion
 
         #region Global variables
+        /// <summary>
+        /// The current size of the screen.
+        /// </summary>
         internal static Point screenSize = new Point(1000, 800);
+        /// <summary>
+        /// the current gameState.
+        /// </summary>
         internal Controller gameState;
         /// <summary>
         /// The id that is given to the next generated GameObject.
@@ -124,13 +130,21 @@ namespace TileGame
         #endregion
 
         #region Global Functions
+        /// <summary>
+        /// Gets a new unique game object ID.
+        /// </summary>
+        /// <returns>the new ID.</returns>
         internal int GetUniqueGameObjectID()
         {
             id++;
             return id;
         }
 
-        //get a sprite from the assetname texture
+        /// <summary>
+        /// Gets a sprite from the dictionary of sprites.
+        /// </summary>
+        /// <param name="assetName">the name of the sprite.</param>
+        /// <returns>the texture that is retrieved.</returns>
         internal Texture2D GetSprite(string assetName)
         {
             // return empty texture if an empty string
@@ -161,7 +175,11 @@ namespace TileGame
             } 
         }
 
-        //get a sprite from the assetname texture
+        /// <summary>
+        /// Gets an AsepriteDocument object from the dictionary of spritesheets.
+        /// </summary>
+        /// <param name="assetName">the name of the spritesheet.</param>
+        /// <returns>the object that is retrieved.</returns>
         internal AsepriteDocument GetAseDoc(string assetName)
         {
             // return empty texture if an empty string
@@ -193,6 +211,10 @@ namespace TileGame
             }
         }
 
+        /// <summary>
+        /// Changes the gamestate to the specified state.
+        /// </summary>
+        /// <param name="stateName">the state which to state to.</param>
         internal void ChangeGameState(string stateName = "")
         {
             Content.Unload();

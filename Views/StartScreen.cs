@@ -11,7 +11,13 @@ namespace TileGame.Views
     class StartScreen : GameObject
     {
         #region Buttons
+        /// <summary>
+        /// The button for starting the game.
+        /// </summary>
         internal GameObject startButton;
+        /// <summary>
+        /// The button for exiting the game.
+        /// </summary>
         internal GameObject exitButton;
         #endregion
 

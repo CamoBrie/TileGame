@@ -19,6 +19,11 @@ namespace TileGame.Collision
         private Rectangle bounds;
         private Quadtree[] nodes;
 
+        /// <summary>
+        /// creates a quadtree based on the depth of the current quad and with the current bounds.
+        /// </summary>
+        /// <param name="pLevel">the depth of the node.</param>
+        /// <param name="pBounds">the bounds of the node.</param>
         public Quadtree(int pLevel, Rectangle pBounds)
         {
             level = pLevel;
@@ -26,6 +31,9 @@ namespace TileGame.Collision
             bounds = pBounds;
             nodes = new Quadtree[4];
         }
+        /// <summary>
+        /// clears the quadtree, and recursively removes the children of this node.
+        /// </summary>
         internal void clear()
         {
             objects.Clear();
@@ -123,6 +131,10 @@ namespace TileGame.Collision
             return output;
         }
 
+        /// <summary>
+        /// inserts an object into the quadtree.
+        /// </summary>
+        /// <param name="go">the object to be inserted.</param>
         internal void insert(GameObject go)
         {
             if (nodes[0] != null)
@@ -175,6 +187,12 @@ namespace TileGame.Collision
             }
         }
 
+        /// <summary>
+        /// gets the possible collision objects with the current object.
+        /// </summary>
+        /// <param name="returnObjects">the list of objects that can have collision.</param>
+        /// <param name="go">the gameobject to compare to.</param>
+        /// <returns></returns>
         internal List<GameObject> retrieve(List<GameObject> returnObjects, GameObject go)
         {
             int index = getIndex(go);

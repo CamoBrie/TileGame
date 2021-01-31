@@ -13,18 +13,52 @@ namespace TileGame.GameObjects
     class GameObject
     {
         #region Base Properties
+        /// <summary>
+        /// The center position of this object.
+        /// </summary>
         internal Vector2 centerPosition;
+        /// <summary>
+        /// The integers storing the width and the height of the object.
+        /// </summary>
         internal int width, height;
+        /// <summary>
+        /// The list of all the children of this object.
+        /// </summary>
         internal List<GameObject> children = new List<GameObject>();
+        /// <summary>
+        /// The global ID of the object.
+        /// </summary>
         internal int ID;
+        /// <summary>
+        /// The clicks associated with this object.
+        /// </summary>
         protected List<int> associatedClicks = new List<int>();
         #endregion
 
         #region Events
+        /// <summary>
+        /// The event that is fired on a collision event.
+        /// </summary>
+        /// <param name="sender">sender of the collision.</param>
+        /// <param name="collider">collider of the collision.</param>
         internal delegate void collisionEvent(GameObject sender, GameObject collider);
+        /// <summary>
+        /// The event that is fire on a mouse event.
+        /// </summary>
+        /// <param name="sender">the sender of the event.</param>
+        /// <param name="state">the state of the mouse.</param>
         internal delegate void mouseEvent(GameObject sender, MouseState state);
+        /// <summary>
+        /// This event fires whenever a collision is detected.
+        /// </summary>
         internal event collisionEvent OnCollisionDetected;
+        /// <summary>
+        /// This event fires whenever the mouse goes up.
+        /// </summary>
         internal event mouseEvent OnMouseUp;
+        /// <summary>
+        /// This event fires whenever the mouse goes down.
+        /// </summary>
         internal event mouseEvent OnMouseDown;
         #endregion
 
@@ -37,6 +71,10 @@ namespace TileGame.GameObjects
         }
 
         #region General Functions
+        /// <summary>
+        /// Updates the children of this object.
+        /// </summary>
+        /// <param name="time">the time object.</param>
         internal virtual void Update(GameTime time)
         {
             foreach (GameObject child in this.children.ToArray())
@@ -46,6 +84,10 @@ namespace TileGame.GameObjects
             }
         }
 
+        /// <summary>
+        /// Draws the children of this object.
+        /// </summary>
+        /// <param name="batch">the batch object where to draw to.</param>
         internal virtual void Draw(SpriteBatch batch) {
             foreach(GameObject go in this.children.ToArray())
             {
@@ -53,17 +95,28 @@ namespace TileGame.GameObjects
             }
         }
 
+        /// <summary>
+        /// Gets the collision box of the object.
+        /// </summary>
+        /// <returns>the rectangle where the object should collide.</returns>
         internal virtual Rectangle GetBoundingBox()
         {
             return new Rectangle((int)this.centerPosition.X - width / 2, (int)this.centerPosition.Y - height / 2, width, height);
         }
 
+        /// <summary>
+        /// Gets the rectangle where to draw to.
+        /// </summary>
+        /// <returns>the rectangle where to draw to.</returns>
         internal virtual Rectangle GetDrawPos()
         {
             //TODO: make this function.
             return GetBoundingBox();
         }
 
+        /// <summary>
+        /// Handles the input for this object.
+        /// </summary>
         internal virtual void HandleInput() {
             if (InputManager.didTheMouseClick)
                 this.MouseDown(InputManager.MouseState, InputManager.GetClickID());
@@ -74,12 +127,21 @@ namespace TileGame.GameObjects
         #endregion
 
         #region Event Functions
+        /// <summary>
+        /// Fires a collision event at the other object.
+        /// </summary>
+        /// <param name="other">the object where we collide with.</param>
         internal void FireCollisionEvent(GameObject other)
         {
             if (other.ID != this.ID && this.GetBoundingBox().Intersects(other.GetBoundingBox()))
                 this.OnCollisionDetected?.Invoke(this, other);
         }
 
+        /// <summary>
+        /// Fires the mouse down event.
+        /// </summary>
+        /// <param name="mouse">the state of the mouse.</param>
+        /// <param name="clickID">the associated clickID.</param>
         protected void MouseDown(MouseState mouse, int clickID)
         {
             if (this.GetBoundingBox().Contains(mouse.Position))
@@ -88,6 +150,11 @@ namespace TileGame.GameObjects
                 this.OnMouseDown?.Invoke(this, mouse);
             }
         }
+        /// <summary>
+        /// Fires the mouse up event.
+        /// </summary>
+        /// <param name="mouse">the state of the mouse.</param>
+        /// <param name="clickID">the associated clickID.</param>
         protected void MouseUp(MouseState mouse, int clickID)
         {
             if (this.associatedClicks.Contains(clickID))

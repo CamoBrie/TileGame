@@ -6,14 +6,33 @@ namespace TileGame.GameObjects
 {
     internal class CollisionObject : GameObject
     {
+        /// <summary>
+        /// creates a collision object using the default collision handler.
+        /// </summary>
+        /// <param name="center">center position of the collision object.</param>
+        /// <param name="width">the width of the object.</param>
+        /// <param name="height">the height of the object.</param>
         internal CollisionObject(Vector2 center, int width, int height) : base(center, width, height)
         {
             this.OnCollisionDetected += DoCollision;
         }
+        /// <summary>
+        /// creates a collision object using a custom collision handler.
+        /// </summary>
+        /// <param name="center">center position of the collision object.</param>
+        /// <param name="width">the width of the object.</param>
+        /// <param name="height">the height of the object.</param>
+        /// <param name="collisionEvent">The custom collision handler.</param>
         internal CollisionObject(Vector2 center, int width, int height, collisionEvent collisionEvent) : base(center, width, height)
         {
             this.OnCollisionDetected += collisionEvent;
         }
+        
+        /// <summary>
+        /// The default collision handler
+        /// </summary>
+        /// <param name="tile">the current tile.</param>
+        /// <param name="entity">the entity that is colliding.</param>
         internal void DoCollision(GameObject tile, GameObject entity)
         {
             if (entity is GameEntity collEntity)

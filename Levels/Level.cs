@@ -213,26 +213,24 @@ namespace TileGame.Levels
         }
 
         /// <summary>
-        /// determines if the tile is on the screen at the moment, so it needs to be drawn
+        /// Determines if the tile is on the screen at the moment, so it needs to be drawn.
         /// </summary>
-        /// <param name="st">the tile to check</param>
+        /// <param name="st">the tile to check.</param>
         /// <returns></returns>
         private bool TileOnScreen(SpriteObject st)
         {
-            /*Vector2 tl = new Vector2(st.centerPosition.X - st.width / 2, st.centerPosition.Y - st.height / 2);
-
-            return tl.X + st.width > VisibleScreen.Location.X && tl.Y + st.height > VisibleScreen.Location.Y &&
-                tl.X < VisibleScreen.Location.X + VisibleScreen.Width && tl.Y < VisibleScreen.Location.Y + VisibleScreen.Height;*/
             return VisibleScreen.Intersects(st.GetBoundingBox());
         }
+        /// <summary>
+        /// Determines if the tile is on the screen at the moment, so it needs to be added to the collision list.
+        /// </summary>
+        /// <param name="st">the tile to check.</param>
+        /// <returns>if it needs to be added.</returns>
         private bool TileOnScreen(GameObject st)
         {
-            Vector2 tl = new Vector2(st.centerPosition.X - st.width / 2, st.centerPosition.Y - st.height / 2);
-
-            //we need this extra pixel for the borders of the level.
-            return tl.X + st.width + 1 > VisibleScreen.Location.X && tl.Y + st.height + 1 > VisibleScreen.Location.Y &&
-            tl.X - 1 < VisibleScreen.Location.X + VisibleScreen.Width && tl.Y - 1 < VisibleScreen.Location.Y + VisibleScreen.Height;
-            
+            Rectangle bb = st.GetBoundingBox();
+            bb.Inflate(1, 1);
+            return VisibleScreen.Intersects(bb);
         }
 
         #endregion

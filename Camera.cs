@@ -19,9 +19,21 @@ namespace TileGame {
         // Vector2.Transform(mouseLocation, Camera.TransformMatrix);
         //#####
 
+        /// <summary>
+        /// The current zoom of the camera.
+        /// </summary>
         internal static float Zoom { get; set; }
+        /// <summary>
+        /// The current location of the camera.
+        /// </summary>
         internal static Vector2 Location { get; set; }
+        /// <summary>
+        /// The current Rotation of the camera.
+        /// </summary>
         internal static float Rotation { get; set; }
+        /// <summary>
+        /// The current Bounds of the camera.
+        /// </summary>
         internal static Rectangle Bounds { get; set; }
 
         /// <summary>
