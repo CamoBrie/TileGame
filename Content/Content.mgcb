@@ -10,7 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:C:\Users\mdren\.nuget\packages\monogame.aseprite\2.0.4.1\contentFiles\netstandard2.0\MonoGame.Aseprite.ContentPipeline.dll
+/reference:..\packages\MonoGame.Aseprite.2.0.4.1\contentFiles\net45\MonoGame.Aseprite.ContentPipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -74,18 +74,6 @@
 /processorParam:TextureFormat=Color
 /build:views/game/coll.png
 
-#begin bat.ase
-/importer:AsepriteDocumentImporter
-/processor:AsepriteDocumentProcessor
-/processorParam:SheetType=Packed
-/processorParam:MergeDuplicateFrames=True
-/processorParam:IgnoreEmptyFrames=True
-/processorParam:OnlyVisibleLayers=True
-/processorParam:BorderPadding=0
-/processorParam:Spacing=0
-/processorParam:InnerPadding=0
-/build:bat.ase
-
 #begin empty_aseDoc.ase
 /importer:AsepriteDocumentImporter
 /processor:AsepriteDocumentProcessor
@@ -109,4 +97,16 @@
 /processorParam:Spacing=0
 /processorParam:InnerPadding=0
 /build:missing_aseDoc.ase
+
+#begin bat.ase
+/importer:AsepriteDocumentImporter
+/processor:AsepriteDocumentProcessor
+/processorParam:SheetType=Packed
+/processorParam:MergeDuplicateFrames=True
+/processorParam:IgnoreEmptyFrames=True
+/processorParam:OnlyVisibleLayers=True
+/processorParam:BorderPadding=0
+/processorParam:Spacing=0
+/processorParam:InnerPadding=0
+/build:bat.ase
 
