@@ -160,7 +160,10 @@ namespace TileGame.Levels
             {
                 st.Draw(batch);
             }
-            
+
+#if DEBUG
+            quadTree.Draw(batch);
+#endif
         }
 
         /// <summary>

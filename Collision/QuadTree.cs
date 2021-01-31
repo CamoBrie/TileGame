@@ -19,6 +19,10 @@ namespace TileGame.Collision
         private Rectangle bounds;
         private Quadtree[] nodes;
 
+#if DEBUG
+        Texture2D boundingbox;
+#endif
+
         /// <summary>
         /// creates a quadtree based on the depth of the current quad and with the current bounds.
         /// </summary>
@@ -30,6 +34,9 @@ namespace TileGame.Collision
             objects = new List<GameObject>();
             bounds = pBounds;
             nodes = new Quadtree[4];
+#if DEBUG
+            this.boundingbox = Game.game.GetSprite("debug/boundingbox");
+#endif
         }
         /// <summary>
         /// clears the quadtree, and recursively removes the children of this node.
@@ -216,5 +223,14 @@ namespace TileGame.Collision
             return returnObjects;
         }
 
+#if DEBUG
+        internal void Draw(SpriteBatch batch)
+        {
+            foreach(GameObject g in objects)
+            {
+                batch.Draw(boundingbox, g.GetBoundingBox(), Color.White);
+            }
+        }
+#endif
     }
 }

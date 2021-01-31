@@ -88,6 +88,12 @@ namespace TileGame
 
             //start the game after the content is loaded.
             ChangeGameState("menu");
+
+#if DEBUG
+            Console.WriteLine("Debug mode: on");
+#else
+            Console.WriteLine("Debug mode: off");
+#endif
         }
 
         /// <summary>
@@ -117,19 +123,19 @@ namespace TileGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Yellow);
+            GraphicsDevice.Clear(Color.Black);
 
             SpriteBatch sb = new SpriteBatch(this.GraphicsDevice);
-            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, transformMatrix: Camera.TransformMatrix);
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend,SamplerState.PointClamp, null, transformMatrix: Camera.TransformMatrix);
             gameState.Draw(sb);
             sb.End();
 
             base.Draw(gameTime);
         }
 
-        #endregion
+#endregion
 
-        #region Global Functions
+#region Global Functions
         /// <summary>
         /// Gets a new unique game object ID.
         /// </summary>
@@ -232,7 +238,7 @@ namespace TileGame
                     break;
             }
         }
-        #endregion
+#endregion
     }
 }
 
