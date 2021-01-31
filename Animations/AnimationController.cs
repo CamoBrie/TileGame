@@ -47,12 +47,19 @@ namespace TileGame.Animations
         /// Creates a controller that handles the animations in the AsepriteDocument.
         /// </summary>
         /// <param name="doc">the AsepriteDocument that is to be handled by the controller.</param>
-        internal AnimationController(AsepriteDocument doc)
+        internal AnimationController(string assetName)
         {
-            this.doc = doc;
-
-            string defaultTag = doc.Tags.Keys.Where(key => key.StartsWith("DE-")).ToList()[0];
-            defaultAnimation = new Animation(ref doc, defaultTag);
+            this.doc = Game.game.GetAseDoc(assetName);
+            if (doc.Tags.Count > 0)
+            {
+                string defaultTag = doc.Tags.Keys.Where(key => key.StartsWith("DE-")).ToList()[0];
+                defaultAnimation = new Animation(ref doc, defaultTag);
+            }
+            else
+            {
+                Console.WriteLine($"[ERROR] {doc.Texture.Name} has no tags.");
+                defaultAnimation = new Animation(ref doc);
+            }
 
         }
 

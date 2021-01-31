@@ -49,7 +49,7 @@ namespace TileGame.Animations
         {
             get
             {
-                return frameRange[1] - frameRange[0];
+                return (frameRange[1] - frameRange[0]) + 1;
             }
         }
 
@@ -79,7 +79,7 @@ namespace TileGame.Animations
                 //Get the framerange from the tag
                 this.frameRange = new int[] { aseTag.From, aseTag.To};
                 //Get the frames from the doc in the range
-                frames = new AsepriteFrame[frameRange[1] - frameRange[0]];
+                frames = new AsepriteFrame[frameRange[1] - frameRange[0] + 1];
                 for(int i = 0; i < frames.Length; i++)
                     frames[i] = doc.Frames[frameRange[0] + i];
 
@@ -89,6 +89,24 @@ namespace TileGame.Animations
             {
                 Console.WriteLine("Tag: " + tag + ", does not exist!");
             }
+        }
+
+        /// <summary>
+        /// Constructor for an animation with a doc with no tags (Only so the game doesn't crash, Use tags!)
+        /// </summary>
+        /// <param name="doc">The document to derive the frames from</param>
+        internal Animation(ref AsepriteDocument doc)
+        {
+            this.tag = doc.Texture.Name;
+
+            //Get the framerange from the doc
+            this.frameRange = new int[] { 0, doc.Frames.Count-1 };
+            //Get the frames from the doc in the range
+            frames = new AsepriteFrame[frameRange[1] - frameRange[0] + 1];
+            for (int i = 0; i < frames.Length; i++)
+                frames[i] = doc.Frames[frameRange[0] + i];
+
+            currentFrameIndex = 0;
         }
 
         /// <summary>

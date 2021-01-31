@@ -25,7 +25,7 @@ namespace TileGame.Views
         internal GameView(Vector2 center, int width, int height) : base(center, width, height)
         {
             //testing code
-            player = new Player(new Vector2(110, 110), 100, 100, "bat");
+            player = new Player(new Vector2(110, 110), 100, 100, "missing_aseDoc");
             player.PlayAnimation("DE-fly", true);
             this.children.Add(player);
             //testing code
