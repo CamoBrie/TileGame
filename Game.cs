@@ -20,7 +20,7 @@ namespace TileGame
         internal static Game game;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Texture2D empty_texture;
+        internal Texture2D empty_texture;
         private AsepriteDocument empty_aseDoc;
         #endregion
 
@@ -86,7 +86,7 @@ namespace TileGame
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             empty_texture = new Texture2D(GraphicsDevice, 1, 1);
-            empty_texture.SetData(new Color[] { new Color(0, 0, 0, 0) });
+            empty_texture.SetData(new Color[] { new Color(255, 255, 255, 255) });
             empty_aseDoc = Content.Load<AsepriteDocument>("empty_aseDoc");
 
 

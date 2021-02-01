@@ -228,7 +228,7 @@ namespace TileGame.Collision
         {
             foreach(GameObject g in objects)
             {
-                batch.Draw(boundingbox, g.GetBoundingBox(), Color.White);
+                batch.Draw(Game.game.empty_texture, g.GetBoundingBox(), Color.Yellow * 0.5f);
             }
         }
 #endif
