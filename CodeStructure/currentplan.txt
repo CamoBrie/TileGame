@@ -1,0 +1,29 @@
+﻿interaction between player and tile
+
+__________
+player does an action using the right tool for the tile.
+the animation plays for the player using the tool.
+when the tool is 90*, check what is under the tool and perform the right action.
+if the tool is a high enough level to hit the tile, proceed. otherwise, bounce the tool back.
+the animation stops, and the player gets the resource from the tile.
+if the tile does not have any resources left, it disappears with an animation.
+
+
+Player:
+- swing animation with hands
+- keeps track of tile in front of it.
+- has tools in the inventory.
+- keeps track of tool status, such as angle, and if the tool bounces back.
+- has an inventory of resources.
+
+
+ResourceTile:
+- has an attacked animation.
+- has a destroyed animation.
+- keeps track of the current resource and if it needs to be destroyed.
+- gives the player the resource if it is hit.
+
+Tool:
+- has a swing animation (rotation).
+- has a bounce back animation (rotation).
+- gives the current angle to the player.
