@@ -12,9 +12,13 @@ namespace TileGame.GameObjects
 {
     class Player : GameEntity
     {
-
         internal Player(Vector2 center, int width, int height, string assetName) : base(center, width, height, assetName)
         {
+        }
+
+        internal override void Update(GameTime time)
+        {
+            base.Update(time);
 
         }
 
@@ -25,6 +29,11 @@ namespace TileGame.GameObjects
         internal void HandleInput(Vector2 intentDir)
         {
             this.acceleration = intentDir;
+        }
+
+        internal override void Draw(SpriteBatch batch)
+        {
+            base.Draw(batch);
         }
     }
 }

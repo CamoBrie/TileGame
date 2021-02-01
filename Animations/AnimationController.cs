@@ -16,6 +16,12 @@ namespace TileGame.Animations
         ///</summary>
         AsepriteDocument doc;
 
+        /// <summary>
+        /// The document storing hitboxes for the animations. 
+        /// Null if the doc has no indication of having a hitbox-doc.
+        /// </summary>
+        AsepriteDocument hitBoxDoc;
+
         ///<summary>
         /// The dictionary that holds all the animations inside the doc.
         ///</summary>
@@ -32,6 +38,26 @@ namespace TileGame.Animations
         ///</summary>
         internal Animation currentAnimation;
 
+        /// <summary>
+        /// The name of the document asset.
+        /// </summary>
+        string assetName;
+
+        /// <summary>
+        /// If any tag in the doc is red, it is indicated that the animation also has another doc that shows the collision animation,
+        /// returning true.
+        /// </summary>
+        bool containsHitBoxAnimation
+        {
+            get
+            {
+                foreach (KeyValuePair<string, AsepriteTag> tag in doc.Tags)
+                    if (tag.Value.Color.R == 255)
+                        return true;
+                return false;
+            }
+        }
+
         ///<summary>
         /// The current frame that is to be displayed on the screen.
         ///</summary>
@@ -47,12 +73,22 @@ namespace TileGame.Animations
         /// Creates a controller that handles the animations in the AsepriteDocument.
         /// </summary>
         /// <param name="doc">the AsepriteDocument that is to be handled by the controller.</param>
-        internal AnimationController(AsepriteDocument doc)
+        internal AnimationController(string assetName)
         {
-            this.doc = doc;
-
-            string defaultTag = doc.Tags.Keys.Where(key => key.StartsWith("DE-")).ToList()[0];
-            defaultAnimation = new Animation(ref doc, defaultTag);
+            this.doc = Game.game.GetAseDoc(assetName);
+            this.assetName = assetName;
+            if (doc.Tags.Count > 0)
+            {
+                string defaultTag = doc.Tags.Keys.Where(key => key.StartsWith("DE-")).ToList()[0];
+                defaultAnimation = new Animation(ref doc, defaultTag);
+                if (containsHitBoxAnimation)
+                    hitBoxDoc = Game.game.GetAseDoc(assetName + "_BOX");
+            }
+            else
+            {
+                Console.WriteLine($"[ERROR] {assetName} has no tags.");
+                defaultAnimation = new Animation(ref doc);
+            }
 
         }
 
@@ -78,7 +114,7 @@ namespace TileGame.Animations
                 }
                 else
                 {
-                    Console.Error.WriteLine($"[ERROR] {animationName} animation was missing from {doc.Texture.Name}.");
+                    Console.Error.WriteLine($"[ERROR] {animationName} animation was missing from {assetName}.");
                     return defaultAnimation;
                 }
             }
@@ -101,8 +137,8 @@ namespace TileGame.Animations
         internal void Play(string animationName, bool playOnce = false)
         {
             this.currentAnimation = GetAnimation(animationName);
-
         }
+
 
         #region Update/Draw
 

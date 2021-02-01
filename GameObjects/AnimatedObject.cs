@@ -30,7 +30,7 @@ namespace TileGame.GameObjects
         /// <param name="assetName">the asset name to be used.</param>
         internal AnimatedObject(Vector2 center, int width, int height, string assetName) : base(center, width, height)
         {
-            this.animationController = new AnimationController(Game.game.GetAseDoc(assetName));
+            this.animationController = new AnimationController(assetName);
         }
 
         /// <summary>

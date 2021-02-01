@@ -1,0 +1,23 @@
+﻿#ASEFILE
+- Each tag is turned into an animation
+- Begin the tagname with: "DE-" to indicate it is the default animation
+- Set the R-value of the Tag-colour to 255 to indicate the animation also has a hitbox-animation
+
+naming conventions:
+- Save as .ase
+- No capital letters, seperate with underscore
+- Name hitbox animation: "(animation name)_BOX.ase"
+
+
+AnimationController:__
+hitboxDoc
+
+CheckForHitBox()
+
+
+
+
+
+
+
+
