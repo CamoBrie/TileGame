@@ -122,3 +122,10 @@
 /processorParam:TextureFormat=Color
 /build:debug/boundingbox.png
 
+#begin test.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:test.spritefont
+

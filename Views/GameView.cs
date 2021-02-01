@@ -22,6 +22,8 @@ namespace TileGame.Views
         /// The instance of the player.
         /// </summary>
         private Player player;
+
+        private TextObject to;
         internal GameView(Vector2 center, int width, int height) : base(center, width, height)
         {
             //testing code
@@ -31,7 +33,7 @@ namespace TileGame.Views
             //testing code
             level = new Level("path/to/level", ref player);
 
-  
+            to = new TextObject(Game.game.Content.Load<SpriteFont>("test"), "\\color(Red)Welcome to our \\color(LightGreen)Game! \\r.color\\r.scale\\img(missing_texture) <- this still needs an icon.");
         }
 
         /// <summary>
@@ -56,6 +58,9 @@ namespace TileGame.Views
             player.Draw(batch);
             //and only then draw the tiles on top of the player.
             level.Post_draw(batch);
+
+            to.Draw(batch, new Rectangle(100, 100, 1000, 300));
+
         }
 
         /// <summary>

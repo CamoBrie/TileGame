@@ -1,0 +1,16 @@
+﻿__TextObject__
+
+SpriteFont font
+String text
+
+Draw(SpriteBatch batch, Rectangle destRect, int lines)
+
+
+string:
+
+normal
+\color(COLOR)
+\img(path_to_file)
+\scale(0-1)
+\r.color
+\r.scale

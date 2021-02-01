@@ -44,8 +44,10 @@ namespace TileGame
         /// <summary>
         /// The dictionary that stores all the texture files.
         /// </summary>
-        private static Dictionary<string, AsepriteDocument> aseDocs = new Dictionary<string, AsepriteDocument>();  
+        private static Dictionary<string, AsepriteDocument> aseDocs = new Dictionary<string, AsepriteDocument>();
         #endregion
+
+        internal static SpriteFont font;
 
         public Game()
         {
@@ -85,6 +87,7 @@ namespace TileGame
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             empty_texture = new Texture2D(GraphicsDevice, 1, 1);
             empty_texture.SetData(new Color[] { new Color(0, 0, 0, 0) });
+
 
             //start the game after the content is loaded.
             ChangeGameState("menu");
@@ -128,9 +131,10 @@ namespace TileGame
             SpriteBatch sb = new SpriteBatch(this.GraphicsDevice);
             sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend,SamplerState.PointClamp, null, transformMatrix: Camera.TransformMatrix);
             gameState.Draw(sb);
+
             sb.End();
 
-            base.Draw(gameTime);
+            //base.Draw(gameTime);
         }
 
 #endregion
