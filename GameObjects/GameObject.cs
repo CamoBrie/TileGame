@@ -18,6 +18,19 @@ namespace TileGame.GameObjects
         /// </summary>
         internal Vector2 centerPosition;
         /// <summary>
+        /// The position on the screen.
+        /// </summary>
+        internal Vector2 globalPosition
+        {
+            get
+            {
+                if (parent != null)
+                    return centerPosition + parent.centerPosition;
+                else
+                    return centerPosition;
+            }
+        }
+        /// <summary>
         /// The integers storing the width and the height of the object.
         /// </summary>
         internal int width, height;
@@ -25,6 +38,19 @@ namespace TileGame.GameObjects
         /// The list of all the children of this object.
         /// </summary>
         internal List<GameObject> children = new List<GameObject>();
+        /// <summary>
+        /// The parent of the gameobject.
+        /// Centerposition is now relative to the parent.
+        /// </summary>
+        internal GameObject parent;
+        /// <summary>
+        /// A list of collisionobjects this gameobject has.
+        /// </summary>
+        internal List<CollisionObject> collisionObjects = new List<CollisionObject>();
+        /// <summary>
+        /// returns true, if a gameobject has or is a collisionobject.
+        /// </summary>
+        internal virtual bool doesCollision { get { return collisionObjects.Count > 0; } }
         /// <summary>
         /// The global ID of the object.
         /// </summary>
@@ -70,6 +96,19 @@ namespace TileGame.GameObjects
             this.ID = Game.game.GetUniqueGameObjectID();
         }
 
+        /// <summary>
+        /// Use this constructor to create a child with the same width and height and position as the parent
+        /// </summary>
+        /// <param name="parent">parent</param>
+        internal GameObject(GameObject parent)
+        {
+            parent.AddToChildren(this);
+            this.centerPosition = Vector2.Zero;
+            this.width = parent.width;
+            this.height = parent.height;
+            this.ID = Game.game.GetUniqueGameObjectID();
+        }
+
         #region General Functions
         /// <summary>
         /// Updates the children of this object.
@@ -101,7 +140,8 @@ namespace TileGame.GameObjects
         /// <returns>the rectangle where the object should collide.</returns>
         internal virtual Rectangle GetBoundingBox()
         {
-            return new Rectangle((int)this.centerPosition.X - width / 2, (int)this.centerPosition.Y - height / 2, width, height);
+            //TODO: make this function.
+            return GetDrawPos();
         }
 
         /// <summary>
@@ -110,8 +150,17 @@ namespace TileGame.GameObjects
         /// <returns>the rectangle where to draw to.</returns>
         internal virtual Rectangle GetDrawPos()
         {
-            //TODO: make this function.
-            return GetBoundingBox();
+            return new Rectangle((int)this.globalPosition.X - width / 2, (int)this.globalPosition.Y - height / 2, width, height);
+        }
+
+        /// <summary>
+        /// Add a gameobject to the list of children and set this as parent
+        /// </summary>
+        /// <param name="child">the gameobject to add</param>
+        internal void AddToChildren(GameObject child)
+        {
+            children.Add(child);
+            child.parent = this;
         }
 
         /// <summary>

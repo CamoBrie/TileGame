@@ -7,6 +7,11 @@ namespace TileGame.GameObjects
     internal class CollisionObject : GameObject
     {
         /// <summary>
+        /// A collisionobject does collision, but has no collisionobjects (most of the time).
+        /// </summary>
+        internal override bool doesCollision { get { return false; } }
+
+        /// <summary>
         /// creates a collision object using the default collision handler.
         /// </summary>
         /// <param name="center">center position of the collision object.</param>
@@ -14,8 +19,9 @@ namespace TileGame.GameObjects
         /// <param name="height">the height of the object.</param>
         internal CollisionObject(Vector2 center, int width, int height) : base(center, width, height)
         {
-            this.OnCollisionDetected += DoCollision;
+            this.OnCollisionDetected += NormalCollision;
         }
+
         /// <summary>
         /// creates a collision object using a custom collision handler.
         /// </summary>
@@ -33,7 +39,7 @@ namespace TileGame.GameObjects
         /// </summary>
         /// <param name="tile">the current tile.</param>
         /// <param name="entity">the entity that is colliding.</param>
-        internal void DoCollision(GameObject tile, GameObject entity)
+        internal void NormalCollision(GameObject tile, GameObject entity)
         {
             if (entity is GameEntity collEntity)
             {

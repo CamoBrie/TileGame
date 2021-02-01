@@ -85,6 +85,7 @@ namespace TileGame
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             empty_texture = new Texture2D(GraphicsDevice, 1, 1);
             empty_texture.SetData(new Color[] { new Color(0, 0, 0, 0) });
+            empty_aseDoc = Content.Load<AsepriteDocument>("empty_aseDoc");
 
             //start the game after the content is loaded.
             ChangeGameState("menu");
