@@ -5,6 +5,12 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGame", "TileGame.csproj", "{F0E810C7-4BA7-4F7F-9939-62127181F236}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PVA", "PVA", "{DC71019D-8FE1-440E-9E3F-BBF72FD17321}"
+	ProjectSection(SolutionItems) = preProject
+		BrainStorm Board.txt = BrainStorm Board.txt
+		Scope.txt = Scope.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86

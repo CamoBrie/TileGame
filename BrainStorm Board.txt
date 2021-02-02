@@ -1,0 +1,4 @@
+Ideas:
+ - Sound blending?
+ - god mode? (AI controlled player character clones)
+ - Generate music?
