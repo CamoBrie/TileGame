@@ -1,5 +1,6 @@
 ﻿    using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using TileGame.GameObjects;
 
 namespace TileGame.GameObjects
@@ -25,15 +26,6 @@ namespace TileGame.GameObjects
         internal override void Draw(SpriteBatch batch)
         {
             batch.Draw(texture, GetBoundingBox(), Color.White);
-        }
-        /// <summary>
-        /// Draws the texture to the batch using the specified color.
-        /// </summary>
-        /// <param name="batch">The batch to draw to.</param>
-        /// <param name="color">The color to use.</param>
-        internal void Draw(SpriteBatch batch, Color color)
-        {
-            batch.Draw(texture, GetBoundingBox(), color);
         }
         #endregion
     }

@@ -63,6 +63,8 @@
     <Compile Include="GameObjects\CollisionObject.cs" />
     <Compile Include="Levels\Level.cs" />
     <Compile Include="GameObjects\SpriteObject.cs" />
+    <Compile Include="Levels\LevelGrid.cs" />
+    <Compile Include="Levels\LevelTile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\GameView.cs" />
