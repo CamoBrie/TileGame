@@ -26,7 +26,7 @@ namespace TileGame.Levels
         /// Default colliding tile constructor
         /// </summary>
         /// <param name="positionInGrid"></param>
-        internal LevelTile(Point positionInGrid) : base()
+        internal LevelTile(Point positionInGrid) : base(Vector2.Zero, 0, 0)
         {
             this.Pos = positionInGrid;
             

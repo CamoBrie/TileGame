@@ -163,12 +163,39 @@ High level
 FOLDER STRUCTURE:
 
 sln
+|-|>Program
+|-|>Game
 |---|> GameObjects
 |		|> GameEntity
-|		|> TextObject
-|		|> UIObject
+|		|> .TextObject
+|		|> .UIObject
+|---|> DataObjects
+|		|> .FormattedText
 |---|> Utilities
-		|> QuadTree
-		|> Timer
-		|> InputManager
-	
+|		|> .QuadTree
+|		|> Timer
+|		|> .InputManager
+|		|> .Camera
+|
+|---|> Interfaces
+|		|> .IClickable					
+|		|> .ICollidable
+|		|> .IDrawable
+|		|> .IGameObject
+|		|> .IManageable
+|		|> .IObject
+|		|> .IUIObject
+|		|> .IUpdateable
+|		|> .IAnimatable
+|
+|		 
+|---|> Screens
+|		|> .MenuScreen
+|		|> .GameScreen					
+|---|> Events
+|		|> Events
+|		 \--|> .CollisionEvent
+|		  \-|> .MouseEvent
+|
+|
+|---|> Content

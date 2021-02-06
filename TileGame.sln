@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PVA", "PVA", "{DC71019D-8FE
 		Scope.txt = Scope.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Start", "..\Start\Start.csproj", "{CDDE745C-64C8-43D9-A3F9-6A06CEA2BFC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -19,8 +21,12 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F0E810C7-4BA7-4F7F-9939-62127181F236}.Debug|x86.ActiveCfg = Debug|x86
 		{F0E810C7-4BA7-4F7F-9939-62127181F236}.Debug|x86.Build.0 = Debug|x86
-		{F0E810C7-4BA7-4F7F-9939-62127181F236}.Release|x86.ActiveCfg = Debug|x86
-		{F0E810C7-4BA7-4F7F-9939-62127181F236}.Release|x86.Build.0 = Debug|x86
+		{F0E810C7-4BA7-4F7F-9939-62127181F236}.Release|x86.ActiveCfg = Release|x86
+		{F0E810C7-4BA7-4F7F-9939-62127181F236}.Release|x86.Build.0 = Release|x86
+		{CDDE745C-64C8-43D9-A3F9-6A06CEA2BFC9}.Debug|x86.ActiveCfg = Debug|x86
+		{CDDE745C-64C8-43D9-A3F9-6A06CEA2BFC9}.Debug|x86.Build.0 = Debug|x86
+		{CDDE745C-64C8-43D9-A3F9-6A06CEA2BFC9}.Release|x86.ActiveCfg = Release|x86
+		{CDDE745C-64C8-43D9-A3F9-6A06CEA2BFC9}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
