@@ -1,4 +1,4 @@
-﻿interaction between player and tile
+interaction between player and tile
 
 __________
 player does an action using the right tool for the tile.

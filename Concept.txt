@@ -1,0 +1,108 @@
+Pitch:
+	A relaxing resourcegathering game, about building up a village and improving your gathering abilities.
+
+Game loop:
+	\> Gather resources -> use resources to upgrade -> gather resources more effectively.
+	\> prestige for gems -> upgrades -> gather more resources faster -> get more gems.
+
+Features:
+	Sound:
+		\> good sound design for each action, such as swinging a tool and hitting a tree.
+		\> Simple play sound structure.
+
+	Music:
+		\> Stardew Valley type music. (TBD)
+
+	Art/Graphics:
+		\> Animated sprites for actions that require it.
+		\> still images for backgrounds things.
+		\> Top-down, 2,5D
+		\> own font
+		\> Shaders
+		\> Particles
+
+	Replayability:
+		\> multiple gameplay loops
+		|	\> resource gathering
+		|	\> gems
+		|	\> rubies?
+		|	\> god??
+		\> different saves
+
+	Player:
+		\> moves around
+		\> has different tools
+		\> inventory of resources
+		|	\> wood/stone
+		|	\> artifacts
+		|	\> upgrades
+
+	NPC:
+		\> speech bubble dialog
+		\> scripted movement
+		\> animation
+		\> animals
+		|	\> Random movement
+		|	\> Flight reaction
+
+	Upgrades:
+		improves the gameplay in some way.
+			\> ex: more wood, or keeping some buildings on reset.
+			\> or even upgrade buildings to have a higher level cap for tools etc.
+
+	Items:
+		\> Player store items in inventory:
+		|	\> List of tools:
+		|	|	\> shovel
+		|	|	\> pickaxe
+		|	|	\> axe
+		|	|	\> weapon
+		|	\> list of basic resources:
+		|	|	\> wood
+		|	|	\> stone
+		|	|	\> gold
+		|	|	\> gems
+		|	\> infinte list of special items and random drops.
+		\> Items can drop on the ground and be picked up from the ground by the player.
+		\> Pop-up showing received items and amount picked up.
+
+	Loading/Saving:
+		\> storing in %appdata%
+		\> save file loading via a list of saves.
+
+	ResourceNodes:
+		\> Drop item from loot-table on the ground when destroyed.
+		\> Randomly generated in Forest and Mines.
+
+	Zones:
+		\> Tutorial zone
+		|	\> some fallen trees block the way, so you need to get an axe.
+		|	\> finds axe and destroys the trees -> gets some wood.
+		|	\> see artifact spot, and gets some nails.
+		|	\> builds hut and starts the village.
+		\> Village
+		|	\> Buildings
+		|		When entering a building the screen goes black and a menu appears
+		|		\> Place to buy items
+		|		\> Base
+		|		\> Place to sell items
+		|		\> Gem handler
+		|		\> Upgrade station(s)
+		|		\> Idle resource gathering building
+		\> Forest
+		|	\> has trees of different hardness.
+		|	\> has artifact spots that can give items.
+		|	\> has forest animals (and mutated type?)
+		|		\> for leather etc.
+		\> Mines
+		|	\> has rocks of different hardness.
+		|	\> has Ore-veins of different hardness.
+		|	\> has artifact spots that can give items.
+
+	Settings:
+		\> Sound volume
+		|	\> action volume
+		|	\> music volume
+		\> Resolution
+		\> UI scale
+

@@ -5,10 +5,29 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileGame", "TileGame.csproj", "{F0E810C7-4BA7-4F7F-9939-62127181F236}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PVA", "PVA", "{DC71019D-8FE1-440E-9E3F-BBF72FD17321}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Project", "_Project", "{456E15EE-3D01-4C55-BBCA-BD28F8939292}"
 	ProjectSection(SolutionItems) = preProject
-		BrainStorm Board.txt = BrainStorm Board.txt
-		Scope.txt = Scope.txt
+		Concept.txt = Concept.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Structure", "Structure", "{8B04B37C-72AA-4B28-A677-3848B11BAAA9}"
+	ProjectSection(SolutionItems) = preProject
+		_Classes.txt = _Classes.txt
+		_FolderStructure.txt = _FolderStructure.txt
+		Animation.txt = Animation.txt
+		GameObjects.txt = GameObjects.txt
+		TextDrawer.txt = TextDrawer.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Management", "Management", "{681EBC32-97A3-4492-A43E-28D587FAA8D0}"
+	ProjectSection(SolutionItems) = preProject
+		BrainStormBoard.txt = BrainStormBoard.txt
+		Goals_And_Scope.txt = Goals_And_Scope.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Systems", "Systems", "{DD5FC2F4-778D-4DE1-83F6-9853AB9C7A66}"
+	ProjectSection(SolutionItems) = preProject
+		Player-Tile_Interaction.txt = Player-Tile_Interaction.txt
 	EndProjectSection
 EndProject
 Global
@@ -24,6 +43,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8B04B37C-72AA-4B28-A677-3848B11BAAA9} = {456E15EE-3D01-4C55-BBCA-BD28F8939292}
+		{681EBC32-97A3-4492-A43E-28D587FAA8D0} = {456E15EE-3D01-4C55-BBCA-BD28F8939292}
+		{DD5FC2F4-778D-4DE1-83F6-9853AB9C7A66} = {456E15EE-3D01-4C55-BBCA-BD28F8939292}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E1E4EE85-C51A-4F64-AE85-246E08414278}

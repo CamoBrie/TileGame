@@ -1,4 +1,4 @@
-﻿#ASEFILE
+#ASEFILE
 - Each tag is turned into an animation
 - Begin the tagname with: "DE-" to indicate it is the default animation
 - Set the R-value of the Tag-colour to 255 to indicate the animation also has a hitbox-animation
@@ -13,11 +13,3 @@ AnimationController:__
 hitboxDoc
 
 CheckForHitBox()
-
-
-
-
-
-
-
-

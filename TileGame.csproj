@@ -82,10 +82,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CodeStructure\animation_and_aseprite.txt" />
-    <Content Include="CodeStructure\currentplan.txt" />
-    <Content Include="CodeStructure\gameobjects.txt" />
-    <Content Include="CodeStructure\textdrawer.txt" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>

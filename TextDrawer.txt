@@ -1,4 +1,4 @@
-﻿__TextObject__
+__TextObject__
 
 SpriteFont font
 String text

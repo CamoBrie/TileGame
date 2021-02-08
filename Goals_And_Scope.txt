@@ -1,0 +1,11 @@
+SCOPE:
+	deadline: invullen voor 20-2-2020
+	when to quit: when we're done with the project
+	scope of development: everything
+
+GOALS:
+	learn to make a game effeciently and futureproofing it (working in a large project)
+	\> write maintainable code
+	\> manage progress of project coherently
+	\> begin with a plan
+	\> use version control

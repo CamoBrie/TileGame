@@ -1,0 +1,38 @@
+CLASSES:
+
+Data Types: 
+{
+	FormattedText() //has data related to displaying text
+}
+
+LowLevel
+{
+	Timer(time, methodgroup) //Do method after time.
+	QuadTree() //collision data structure using ICollidable.
+	InputManager() //handles all the related input things.
+	AnimationController() //Handle animations from an Ase document.
+
+
+	INTERFACES:
+		ICollidable (has necessary things for collision)
+		IDrawable (has necessary things for drawing to the screen)
+		IAnimatable (has necessary things for animation)
+
+	EVENTS:
+		CollisionEvent		fires whenever both parties collide
+		MouseDownEvent		fires whenever the mouse is down on the object
+		MouseUpEvent		fires whenever the mouse is up on the object
+}
+Medium level
+{
+	Tile
+	GameEntity
+	TextObject
+	UIObject
+}
+
+High level 
+{
+	
+
+}
