@@ -49,16 +49,15 @@ sln
 		CollisionEvent
 	/GameObjects
 		/Default
-			/Drawing
-				TextObject				: GameObject
-				SpriteObject			: GameObject
-				AnimatedObject			: GameObject
-				ParticleObject			: GameEntity
-			GameObject					: ICollide, IDraw
-			GameEntity					: GameObject
+		|	/Drawing
+		|	|	TextObject				: GameObject
+		|	|	SpriteObject			: GameObject
+		|	|	AnimatedObject			: GameObject
+		|	GameObject					: ICollide, IDraw
+		|	GameEntity					: GameObject
 		Player						: GameEntity
-	/DataObjects
-		FormattedTextObject
+		/DataObjects
+		|	FormattedTextObject
 	/GameStates
 		Menu
 		Playing
