@@ -19,9 +19,7 @@ LowLevel
 		IAnimatable (has necessary things for animation)
 
 	EVENTS:
-		CollisionEvent		fires whenever both parties collide
-		MouseDownEvent		fires whenever the mouse is down on the object
-		MouseUpEvent		fires whenever the mouse is up on the object
+		Static class Collision //Contains static methodgroups for collision like default
 }
 Medium level
 {

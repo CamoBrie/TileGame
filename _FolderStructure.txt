@@ -37,3 +37,28 @@ sln
 |
 |
 |---|> Content
+
+sln
+	Program
+	Game
+	/Utils
+		Camera
+		Inputmanager
+		Quadtree
+	/Events
+		CollisionEvent
+	/GameObjects
+		/Default
+			/Drawing
+				TextObject				: GameObject
+				SpriteObject			: GameObject
+				AnimatedObject			: GameObject
+				ParticleObject			: GameEntity
+			GameObject					: ICollide, IDraw
+			GameEntity					: GameObject
+		Player						: GameEntity
+	/DataObjects
+		FormattedTextObject
+	/GameStates
+		Menu
+		Playing
