@@ -8,6 +8,7 @@ namespace TileGame.Code.GameObjects
     {
         internal Player(Vector2 center, int width, int height, string assetName) : base(center, width, height, assetName)
         {
+            this.collides = true;
         }
 
         internal override void Update(GameTime time)

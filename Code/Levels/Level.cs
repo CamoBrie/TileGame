@@ -100,7 +100,7 @@ namespace TileGame.Levels
             //add the entities to the tree
             foreach(GameObject go in entities)
             {
-                if (TileOnScreen(go))
+                if (TileOnScreen(go) && go.hasCollision)
                 {
                     quadTree.insert(go);
                 }
@@ -109,7 +109,7 @@ namespace TileGame.Levels
             //add the collisiontiles to the tree
             foreach(CollisionObject ct in collisionTiles)
             {
-                if (TileOnScreen(ct))
+                if (TileOnScreen(ct) && ct.hasCollision)
                 {
                     quadTree.insert(ct);
                 }

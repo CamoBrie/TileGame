@@ -62,16 +62,30 @@ namespace TileGame.Code.GameObjects.Default
         /// <summary>
         /// returns true, if a gameobject has or is a collisionobject.
         /// </summary>
-        internal virtual bool doesCollision { 
-            get {
-                    foreach (GameObject go in children) { 
-                        if(go.doesCollision)
-                        {
-                            return true;
-                        }
-                    } return false; 
-                } 
+        internal virtual bool hasCollision {
+            get
+            {
+                if (collides)
+                {
+                    return true;
+                }
+                if (this.children.Count == 0)
+                {
+                    return false;
+                }
+                foreach (GameObject go in children)
+                {
+                    if (go.hasCollision)
+                    {
+                        return true;
+                    }
+
+                }
+                return false;
             }
+        }
+        protected bool collides;
+
         /// <summary>
         /// The global ID of the object.
         /// </summary>
@@ -97,24 +111,26 @@ namespace TileGame.Code.GameObjects.Default
         internal event mouseEvent OnMouseDown;
         #endregion
 
-        internal GameObject(Vector2 center, int width, int height)
+        internal GameObject(Vector2 center, int width, int height, bool collides = false)
         {
             centerPosition = center;
             this.width = width;
             this.height = height;
             ID = Game.game.GetUniqueGameObjectID();
+            this.collides = collides;
         }
 
         /// <summary>
         /// Use this constructor to create a child with the same width and height and position as the parent
         /// </summary>
         /// <param name="parent">parent</param>
-        internal GameObject(GameObject parent)
+        internal GameObject(GameObject parent, bool collides = false)
         {
             parent.AddToChildren(this);
             centerPosition = Vector2.Zero;
             width = parent.width;
             height = parent.height;
+            this.collides = collides;
             ID = Game.game.GetUniqueGameObjectID();
         }
 
