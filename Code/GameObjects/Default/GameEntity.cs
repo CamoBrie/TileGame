@@ -1,14 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TileGame.Code.GameObjects.Default.Drawing;
 
 namespace TileGame.Code.GameObjects.Default
 {
-    class GameEntity : AnimatedObject
+    internal class GameEntity : AnimatedObject
     {
         /// <summary>
         /// this float represents the base speed of the entity.
@@ -60,7 +55,7 @@ namespace TileGame.Code.GameObjects.Default
         internal override void Update(GameTime time)
         {
             base.Update(time);
-            this.MoveEntity(time);
+            MoveEntity(time);
         }
 
         /// <summary>
@@ -69,15 +64,15 @@ namespace TileGame.Code.GameObjects.Default
         /// <param name="time">The game time, handed down by the controller. </param>
         protected virtual void MoveEntity(GameTime time)
         {
-            this.acceleration *= this.baseSpeed;
-            this.velocity += this.acceleration;
-            this.velocity *= friction;
+            acceleration *= baseSpeed;
+            velocity += acceleration;
+            velocity *= friction;
 
-            this.velocity = Vector2.Clamp(velocity, -maxSpeed, maxSpeed);
+            velocity = Vector2.Clamp(velocity, -maxSpeed, maxSpeed);
 
-            this.movedPosition = velocity * this.velocityScale / (float)time.ElapsedGameTime.TotalMilliseconds;
-            this.centerPosition += velocity * this.velocityScale / (float)time.ElapsedGameTime.TotalMilliseconds;
-            this.acceleration = Vector2.Zero;
+            movedPosition = velocity * velocityScale / (float)time.ElapsedGameTime.TotalMilliseconds;
+            centerPosition += velocity * velocityScale / (float)time.ElapsedGameTime.TotalMilliseconds;
+            acceleration = Vector2.Zero;
         }
     }
 }

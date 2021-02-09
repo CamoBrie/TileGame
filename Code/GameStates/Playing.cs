@@ -9,18 +9,18 @@ using TileGame.Levels;
 
 namespace TileGame.Code.GameStates
 {
-    class GSPlaying : GameObject
+    internal class GSPlaying : GameObject
     {
         /// <summary>
         /// The instance of the current level.
         /// </summary>
-        private Level level;
+        private readonly Level level;
         /// <summary>
         /// The instance of the player.
         /// </summary>
-        private Player player;
+        private readonly Player player;
 
-        private TextObject to;
+        private readonly TextObject to;
         internal GSPlaying(Vector2 center, int width, int height) : base(center, width, height)
         {
             //testing code

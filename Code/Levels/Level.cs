@@ -8,14 +8,14 @@ using TileGame.Code.Utils;
 
 namespace TileGame.Levels
 {
-    class Level
+    internal class Level
     {
-        private Player player;
+        private readonly Player player;
 
         #region Object Lists
-        private List<GameObject> entities = new List<GameObject>();
-        private List<SpriteObject> spriteTiles = new List<SpriteObject>();
-        private List<CollisionObject> collisionTiles = new List<CollisionObject>();
+        private readonly List<GameObject> entities = new List<GameObject>();
+        private readonly List<SpriteObject> spriteTiles = new List<SpriteObject>();
+        private readonly List<CollisionObject> collisionTiles = new List<CollisionObject>();
 
         #endregion
 
@@ -27,7 +27,7 @@ namespace TileGame.Levels
         /// <summary>
         /// the quadtree for collision
         /// </summary>
-        private Quadtree quadTree;
+        private readonly Quadtree quadTree;
         
         /// <summary>
         /// creates the level object, it handles everything, from updating the collision, to drawing to the screen.
@@ -38,9 +38,9 @@ namespace TileGame.Levels
         {
             #region Initial Setup
             this.player = player;
-            this.AddEntity(this.player);
-            this.quadTree = new Quadtree(0, new Rectangle(0, 0, Game.screenSize.X, Game.screenSize.Y));
-            this.bounds = new Rectangle(-100,-100, Game.screenSize.X+100,Game.screenSize.Y+100);
+            AddEntity(this.player);
+            quadTree = new Quadtree(0, new Rectangle(0, 0, Game.screenSize.X, Game.screenSize.Y));
+            bounds = new Rectangle(-100,-100, Game.screenSize.X+100,Game.screenSize.Y+100);
             GenerateWallBounds();
             #endregion
 
@@ -73,7 +73,7 @@ namespace TileGame.Levels
         /// <param name="entity"></param>
         internal void AddEntity(GameObject entity)
         {
-            this.entities.Add(entity);
+            entities.Add(entity);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace TileGame.Levels
         internal void RemoveEntity(GameObject entity)
 
         {
-            this.entities.Remove(entity);
+            entities.Remove(entity);
         }
 
         #endregion
@@ -98,7 +98,7 @@ namespace TileGame.Levels
             quadTree.clear();
 
             //add the entities to the tree
-            foreach(GameObject go in this.entities)
+            foreach(GameObject go in entities)
             {
                 if (TileOnScreen(go))
                 {
@@ -107,7 +107,7 @@ namespace TileGame.Levels
             }
 
             //add the collisiontiles to the tree
-            foreach(CollisionObject ct in this.collisionTiles)
+            foreach(CollisionObject ct in collisionTiles)
             {
                 if (TileOnScreen(ct))
                 {
@@ -116,7 +116,7 @@ namespace TileGame.Levels
             }
 
             //fire collision events based on location
-            foreach (GameObject entity in this.entities)
+            foreach (GameObject entity in entities)
             {
                 List<GameObject> returnObjects = new List<GameObject>();
 
@@ -129,8 +129,8 @@ namespace TileGame.Levels
             #endregion
 
             #region Camera
-            Camera.Location = GetCameraLocation(player.centerPosition, this.bounds, Camera.Bounds);
-            this.VisibleScreen = Camera.VisibleArea;
+            Camera.Location = GetCameraLocation(player.centerPosition, bounds, Camera.Bounds);
+            VisibleScreen = Camera.VisibleArea;
             #endregion
         }
 

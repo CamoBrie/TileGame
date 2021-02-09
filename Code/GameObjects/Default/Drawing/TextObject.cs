@@ -1,38 +1,35 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using TileGame.Code.GameObjects.Data;
 using TileGame.Code.Utils;
 
 namespace TileGame.Code.GameObjects.Default.Drawing
 {
-    class TextObject
+    internal class TextObject
     {
         /// <summary>
         /// The font to be used.
         /// </summary>
-        SpriteFont font;
+        private readonly SpriteFont font;
+
         /// <summary>
         /// The text to be analyzed.
         /// </summary>
-        string text;
+        private readonly string text;
+
         /// <summary>
         /// The list of formatted text objects.
         /// </summary>
-        List<FormattedTextObject> formattedTexts = new List<FormattedTextObject>();
+        private readonly List<FormattedTextObject> formattedTexts = new List<FormattedTextObject>();
 
         internal TextObject(SpriteFont font, string text)
         {
             this.font = font;
             this.text = text;
 
-            this.formattedTexts = Analyze(text);
+            formattedTexts = Analyze(text);
         }
 
         /// <summary>

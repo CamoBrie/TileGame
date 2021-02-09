@@ -3,7 +3,7 @@ using static TileGame.Code.Events.CollisionEvent;
 
 namespace TileGame.Code.Interfaces
 {
-    interface ICollide
+    internal interface ICollide
     {
         Rectangle BoundingBox { get; set; }
         event collisionEvent OnIntersect;

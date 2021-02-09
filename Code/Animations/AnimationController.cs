@@ -4,34 +4,32 @@ using MonoGame.Aseprite.Documents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TileGame.Code.Animations
 {
-    class AnimationController
+    internal class AnimationController
     {
         ///<summary>
         /// The AsepriteDocument handled by this controller.
         ///</summary>
-        AsepriteDocument doc;
+        private AsepriteDocument doc;
 
         /// <summary>
         /// The document storing hitboxes for the animations. 
         /// Null if the doc has no indication of having a hitbox-doc.
         /// </summary>
-        AsepriteDocument hitBoxDoc;
+        private readonly AsepriteDocument hitBoxDoc;
 
         ///<summary>
         /// The dictionary that holds all the animations inside the doc.
         ///</summary>
-        Dictionary<string, Animation> animations = new Dictionary<string, Animation>();
+        private readonly Dictionary<string, Animation> animations = new Dictionary<string, Animation>();
 
         ///<summary>
         /// The animation played whenever there is not a current animation, or the requested animation does not exist.
         /// This defaults to the animation under the tag starting with "DE-".
         ///</summary>
-        Animation defaultAnimation;
+        private Animation defaultAnimation;
 
         ///<summary>
         /// The currently selected animation to be played.
@@ -41,19 +39,24 @@ namespace TileGame.Code.Animations
         /// <summary>
         /// The name of the document asset.
         /// </summary>
-        string assetName;
+        private readonly string assetName;
 
         /// <summary>
         /// If any tag in the doc is red, it is indicated that the animation also has another doc that shows the collision animation,
         /// returning true.
         /// </summary>
-        bool containsHitBoxAnimation
+        private bool containsHitBoxAnimation
         {
             get
             {
                 foreach (KeyValuePair<string, AsepriteTag> tag in doc.Tags)
+                {
                     if (tag.Value.Color.R == 255)
+                    {
                         return true;
+                    }
+                }
+
                 return false;
             }
         }
@@ -61,13 +64,7 @@ namespace TileGame.Code.Animations
         ///<summary>
         /// The current frame that is to be displayed on the screen.
         ///</summary>
-        internal AsepriteFrame currentFrame
-        {
-            get
-            {
-                return currentAnimation.currentFrame;
-            }
-        }
+        internal AsepriteFrame currentFrame => currentAnimation.currentFrame;
 
         /// <summary>
         /// Creates a controller that handles the animations in the AsepriteDocument.
@@ -75,14 +72,16 @@ namespace TileGame.Code.Animations
         /// <param name="doc">the AsepriteDocument that is to be handled by the controller.</param>
         internal AnimationController(string assetName)
         {
-            this.doc = Game.game.GetAseDoc(assetName);
+            doc = Game.game.GetAseDoc(assetName);
             this.assetName = assetName;
             if (doc.Tags.Count > 0)
             {
                 string defaultTag = doc.Tags.Keys.Where(key => key.StartsWith("DE-")).ToList()[0];
                 defaultAnimation = new Animation(ref doc, defaultTag);
                 if (containsHitBoxAnimation)
+                {
                     hitBoxDoc = Game.game.GetAseDoc(assetName + "_BOX");
+                }
             }
             else
             {
@@ -99,14 +98,14 @@ namespace TileGame.Code.Animations
         /// <returns>The Animation object.</returns>
         private Animation GetAnimation(string animationName)
         {
-            if (animations.TryGetValue(animationName, out var ani))
+            if (animations.TryGetValue(animationName, out Animation ani))
             {
                 Console.WriteLine($"{animationName} retrieved.");
                 return ani;
             }
             else
             {
-                if (doc.Tags.TryGetValue(animationName, out var tag))
+                if (doc.Tags.TryGetValue(animationName, out AsepriteTag tag))
                 {
                     Animation animation = new Animation(ref doc, tag.Name);
                     animations.Add(tag.Name, animation);
@@ -125,7 +124,7 @@ namespace TileGame.Code.Animations
         /// </summary>
         /// <param name="animationName">the name of the animation that needs to be set as default.</param>
         internal void SetDefaultAnimation(string animationName) {
-            this.defaultAnimation = GetAnimation(animationName);
+            defaultAnimation = GetAnimation(animationName);
         }
 
         /// <summary>
@@ -136,7 +135,7 @@ namespace TileGame.Code.Animations
         /// <param name="playOnce">the bool that determines if the animation is repeated or not.</param>
         internal void Play(string animationName, bool playOnce = false)
         {
-            this.currentAnimation = GetAnimation(animationName);
+            currentAnimation = GetAnimation(animationName);
         }
 
 

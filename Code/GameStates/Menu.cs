@@ -5,7 +5,7 @@ using TileGame.Code.GameObjects.Default.Drawing;
 
 namespace TileGame.Code.GameStates
 {
-    class GSMenu : GameObject
+    internal class GSMenu : GameObject
     {
         #region Buttons
         /// <summary>
@@ -21,10 +21,10 @@ namespace TileGame.Code.GameStates
         internal GSMenu(Vector2 center, int width, int height) : base(center, width, height)
         {
             startButton = new SpriteObject(new Vector2(Game.screenSize.X / 2, Game.screenSize.Y / 4), 200, 200, "views/menu/start_button");
-            this.children.Add(startButton);
+            children.Add(startButton);
 
             exitButton = new SpriteObject(new Vector2(Game.screenSize.X / 2, Game.screenSize.Y / 4 * 3), 200, 200, "views/menu/exit_button");
-            this.children.Add(exitButton);
+            children.Add(exitButton);
 
             startButton.OnMouseUp += StartHandler;
             exitButton.OnMouseUp += ExitHandler;

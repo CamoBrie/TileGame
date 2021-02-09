@@ -7,13 +7,13 @@ namespace TileGame.Code.Utils
 {
     internal class Quadtree
     {
-        private int MAX_OBJECTS = 20;
-        private int MAX_LEVELS = 5;
+        private readonly int MAX_OBJECTS = 20;
+        private readonly int MAX_LEVELS = 5;
 
-        private int level;
-        private List<GameObject> objects;
+        private readonly int level;
+        private readonly List<GameObject> objects;
         private Rectangle bounds;
-        private Quadtree[] nodes;
+        private readonly Quadtree[] nodes;
 
         /// <summary>
         /// creates a quadtree based on the depth of the current quad and with the current bounds.
@@ -45,10 +45,10 @@ namespace TileGame.Code.Utils
         }
         private void split()
         {
-            int subWidth = (int)(bounds.Width / 2);
-            int subHeight = (int)(bounds.Height / 2);
-            int x = (int)bounds.X;
-            int y = (int)bounds.Y;
+            int subWidth = bounds.Width / 2;
+            int subHeight = bounds.Height / 2;
+            int x = bounds.X;
+            int y = bounds.Y;
 
             nodes[0] = new Quadtree(level + 1, new Rectangle(x + subWidth, y, subWidth, subHeight));
             nodes[1] = new Quadtree(level + 1, new Rectangle(x, y, subWidth, subHeight));

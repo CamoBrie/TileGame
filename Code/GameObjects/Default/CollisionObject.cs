@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using TileGame.Code.GameObjects.Default;
 using static TileGame.Code.Events.CollisionEvent;
 using static TileGame.Code.Events.MouseEvent;
 
@@ -10,7 +9,7 @@ namespace TileGame.Code.GameObjects.Default
         /// <summary>
         /// A collisionobject does collision, but has no collisionobjects (most of the time).
         /// </summary>
-        internal override bool doesCollision { get { return false; } }
+        internal override bool doesCollision => false;
 
         /// <summary>
         /// creates a collision object using the default collision handler.
@@ -20,7 +19,7 @@ namespace TileGame.Code.GameObjects.Default
         /// <param name="height">the height of the object.</param>
         internal CollisionObject(Vector2 center, int width, int height) : base(center, width, height)
         {
-            this.OnIntersect += _default;
+            OnIntersect += _default;
         }
 
         /// <summary>
@@ -32,7 +31,7 @@ namespace TileGame.Code.GameObjects.Default
         /// <param name="collisionEvent">The custom collision handler.</param>
         internal CollisionObject(Vector2 center, int width, int height, collisionEvent collisionEvent) : base(center, width, height)
         {
-            this.OnIntersect += collisionEvent;
+            OnIntersect += collisionEvent;
         }
 
 

@@ -4,7 +4,7 @@ using TileGame.Code.GameObjects.Default;
 
 namespace TileGame.Code.Events
 {
-    static class CollisionEvent
+    internal static class CollisionEvent
     {
         /// <summary>
         /// The event that is fired on a collision event.
@@ -13,37 +13,37 @@ namespace TileGame.Code.Events
         /// <param name="collider">collider of the collision.</param>
         internal delegate void collisionEvent(GameObject sender, GameObject collider);
 
-        internal static void _default(GameObject tile, GameObject entity)
+        internal static void _default(GameObject self, GameObject other)
         {
-            if (entity is GameEntity collEntity)
+            if (other is GameEntity otherEntity)
             {
 
                 // Calculate current and minimum-non-intersecting distances between centers.
-                float distanceX = tile.centerPosition.X - entity.centerPosition.X;
-                float distanceY = tile.centerPosition.Y - entity.centerPosition.Y;
-                float minDistanceX = tile.width / 2 + entity.width / 2;
-                float minDistanceY = tile.height / 2 + entity.height / 2;
+                float distanceX = self.centerPosition.X - other.centerPosition.X;
+                float distanceY = self.centerPosition.Y - other.centerPosition.Y;
+                float minDistanceX = self.width / 2 + other.width / 2;
+                float minDistanceY = self.height / 2 + other.height / 2;
 
                 float depthX = distanceX > 0 ? minDistanceX - distanceX : -minDistanceX - distanceX;
                 float depthY = distanceY > 0 ? minDistanceY - distanceY : -minDistanceY - distanceY;
 
 
-                Rectangle tileBox = tile.BoundingBox;
+                Rectangle tileBox = self.BoundingBox;
                 if (Math.Abs(depthX) < Math.Abs(depthY))
                 {
                     // Collision on the X axis
                     if (depthX > 0)
                     {
                         // Collision on entity right
-                        entity.centerPosition = new Vector2(tileBox.Left - (entity.width / 2), entity.centerPosition.Y);
+                        other.centerPosition = new Vector2(tileBox.Left - (other.width / 2), other.centerPosition.Y);
                     }
                     else
                     {
                         // Collision on entity left
-                        entity.centerPosition = new Vector2(tileBox.Right + (entity.width / 2), entity.centerPosition.Y);
+                        other.centerPosition = new Vector2(tileBox.Right + (other.width / 2), other.centerPosition.Y);
                     }
 
-                    collEntity.velocity.X = 0;
+                    otherEntity.velocity.X = 0;
                 }
                 else if (Math.Abs(depthX) >= Math.Abs(depthY))
                 {
@@ -51,15 +51,15 @@ namespace TileGame.Code.Events
                     if (depthY > 0)
                     {
                         // Collision on entity bottom
-                        entity.centerPosition = new Vector2(entity.centerPosition.X, tileBox.Top - entity.height / 2);
+                        other.centerPosition = new Vector2(other.centerPosition.X, tileBox.Top - other.height / 2);
                     }
                     else
                     {
                         // Collision on entity top
-                        entity.centerPosition = new Vector2(entity.centerPosition.X, tileBox.Bottom + entity.height / 2);
+                        other.centerPosition = new Vector2(other.centerPosition.X, tileBox.Bottom + other.height / 2);
                     }
 
-                    collEntity.velocity.Y = 0;
+                    otherEntity.velocity.Y = 0;
                 }
             }
 

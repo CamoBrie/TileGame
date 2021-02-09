@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
 using MonoGame.Aseprite.Documents;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace TileGame.Code.Animations
 {
@@ -14,13 +9,7 @@ namespace TileGame.Code.Animations
         /// <summary>
         /// The current frame active in the animation
         /// </summary>
-        internal AsepriteFrame currentFrame
-        {
-            get
-            {
-                return frames[currentFrameIndex];
-            }
-        }
+        internal AsepriteFrame currentFrame => frames[currentFrameIndex];
 
         /// <summary>
         /// The index of the current Frame
@@ -35,28 +24,22 @@ namespace TileGame.Code.Animations
         /// <summary>
         /// An array of all the frames in this animation
         /// </summary>
-        AsepriteFrame[] frames;
+        private readonly AsepriteFrame[] frames;
 
         /// <summary>
         /// The index of the first frame of this animation in the doc's list of frames, and the last
         /// </summary>
-        int[] frameRange;
+        private readonly int[] frameRange;
 
         /// <summary>
         /// The number of frames this animation has
         /// </summary>
-        int amountOfFrames
-        {
-            get
-            {
-                return (frameRange[1] - frameRange[0]) + 1;
-            }
-        }
+        private int amountOfFrames => (frameRange[1] - frameRange[0]) + 1;
 
         /// <summary>
         /// The progress in seconds through the current frame
         /// </summary>
-        float frameProgress = 0.0f;
+        private float frameProgress = 0.0f;
 
         /// <summary>
         /// Returns true if the animation is relapsing to it's first frame
@@ -77,11 +60,13 @@ namespace TileGame.Code.Animations
             if(aseTag != null)
             {
                 //Get the framerange from the tag
-                this.frameRange = new int[] { aseTag.From, aseTag.To};
+                frameRange = new int[] { aseTag.From, aseTag.To};
                 //Get the frames from the doc in the range
                 frames = new AsepriteFrame[frameRange[1] - frameRange[0] + 1];
                 for(int i = 0; i < frames.Length; i++)
+                {
                     frames[i] = doc.Frames[frameRange[0] + i];
+                }
 
                 currentFrameIndex = 0;
             }
@@ -97,14 +82,16 @@ namespace TileGame.Code.Animations
         /// <param name="doc">The document to derive the frames from</param>
         internal Animation(ref AsepriteDocument doc)
         {
-            this.tag = doc.Texture.Name;
+            tag = doc.Texture.Name;
 
             //Get the framerange from the doc
-            this.frameRange = new int[] { 0, doc.Frames.Count-1 };
+            frameRange = new int[] { 0, doc.Frames.Count-1 };
             //Get the frames from the doc in the range
             frames = new AsepriteFrame[frameRange[1] - frameRange[0] + 1];
             for (int i = 0; i < frames.Length; i++)
+            {
                 frames[i] = doc.Frames[frameRange[0] + i];
+            }
 
             currentFrameIndex = 0;
         }

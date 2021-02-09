@@ -2,7 +2,7 @@
 
 namespace TileGame.Levels
 {
-    class LevelGrid
+    internal class LevelGrid
     {
         internal static int width, height;
 

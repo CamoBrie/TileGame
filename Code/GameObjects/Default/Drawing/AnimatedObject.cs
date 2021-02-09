@@ -4,13 +4,13 @@ using TileGame.Code.Animations;
 
 namespace TileGame.Code.GameObjects.Default.Drawing
 {
-    class AnimatedObject : GameObject
+    internal class AnimatedObject : GameObject
     {
 
         ///<summary>
         /// The animationcontroller that handles the animation of the gameEntity.
         ///</summary>
-        AnimationController animationController;
+        private readonly AnimationController animationController;
  
         
         /// <summary>
@@ -22,7 +22,7 @@ namespace TileGame.Code.GameObjects.Default.Drawing
         /// <param name="assetName">the asset name to be used.</param>
         internal AnimatedObject(Vector2 center, int width, int height, string assetName) : base(center, width, height)
         {
-            this.animationController = new AnimationController(assetName);
+            animationController = new AnimationController(assetName);
         }
 
         /// <summary>

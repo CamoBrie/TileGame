@@ -1,19 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TileGame.Code.Interfaces;
 using TileGame.Code.Utils;
 using static TileGame.Code.Events.CollisionEvent;
 using static TileGame.Code.Events.MouseEvent;
 
 namespace TileGame.Code.GameObjects.Default
 {
-    class GameObject
+    internal class GameObject
     {
         #region Base Properties
         /// <summary>
@@ -28,12 +23,15 @@ namespace TileGame.Code.GameObjects.Default
             get
             {
                 if (parent != null)
+                {
                     return centerPosition + parent.centerPosition;
+                }
                 else
+                {
                     return centerPosition;
+                }
             }
         }
-
         /// <summary>
         /// Gets the collision box of the object.
         /// </summary>
@@ -44,7 +42,6 @@ namespace TileGame.Code.GameObjects.Default
             set => boundingBox = value;
         }
         private Rectangle boundingBox;
-
         /// <summary>
         /// The integers storing the width and the height of the object.
         /// </summary>
@@ -65,7 +62,16 @@ namespace TileGame.Code.GameObjects.Default
         /// <summary>
         /// returns true, if a gameobject has or is a collisionobject.
         /// </summary>
-        internal virtual bool doesCollision { get { return collisionObjects.Count > 0; } }
+        internal virtual bool doesCollision { 
+            get {
+                    foreach (GameObject go in children) { 
+                        if(go.doesCollision)
+                        {
+                            return true;
+                        }
+                    } return false; 
+                } 
+            }
         /// <summary>
         /// The global ID of the object.
         /// </summary>
@@ -93,10 +99,10 @@ namespace TileGame.Code.GameObjects.Default
 
         internal GameObject(Vector2 center, int width, int height)
         {
-            this.centerPosition = center;
+            centerPosition = center;
             this.width = width;
             this.height = height;
-            this.ID = Game.game.GetUniqueGameObjectID();
+            ID = Game.game.GetUniqueGameObjectID();
         }
 
         /// <summary>
@@ -106,10 +112,10 @@ namespace TileGame.Code.GameObjects.Default
         internal GameObject(GameObject parent)
         {
             parent.AddToChildren(this);
-            this.centerPosition = Vector2.Zero;
-            this.width = parent.width;
-            this.height = parent.height;
-            this.ID = Game.game.GetUniqueGameObjectID();
+            centerPosition = Vector2.Zero;
+            width = parent.width;
+            height = parent.height;
+            ID = Game.game.GetUniqueGameObjectID();
         }
 
         #region General Functions
@@ -119,7 +125,7 @@ namespace TileGame.Code.GameObjects.Default
         /// <param name="time">the time object.</param>
         internal virtual void Update(GameTime time)
         {
-            foreach (GameObject child in this.children.ToArray())
+            foreach (GameObject child in children.ToArray())
             {
                 child.HandleInput();
                 child.Update(time);
@@ -131,7 +137,7 @@ namespace TileGame.Code.GameObjects.Default
         /// </summary>
         /// <param name="batch">the batch object where to draw to.</param>
         internal virtual void Draw(SpriteBatch batch) {
-            foreach(GameObject go in this.children.ToArray())
+            foreach(GameObject go in children.ToArray())
             {
                 go.Draw(batch);
             }
@@ -144,7 +150,7 @@ namespace TileGame.Code.GameObjects.Default
         /// <returns>the rectangle where to draw to.</returns>
         internal virtual Rectangle GetDrawPos()
         {
-            return new Rectangle((int)this.globalPosition.X - width / 2, (int)this.globalPosition.Y - height / 2, width, height);
+            return new Rectangle((int)globalPosition.X - width / 2, (int)globalPosition.Y - height / 2, width, height);
         }
 
         /// <summary>
@@ -162,10 +168,14 @@ namespace TileGame.Code.GameObjects.Default
         /// </summary>
         internal virtual void HandleInput() {
             if (InputManager.didTheMouseClick)
-                this.MouseDown(InputManager.MouseState, InputManager.GetClickID());
+            {
+                MouseDown(InputManager.MouseState, InputManager.GetClickID());
+            }
 
             if (InputManager.didTheMouseRelease)
-                this.MouseUp(InputManager.MouseState, InputManager.GetClickID());
+            {
+                MouseUp(InputManager.MouseState, InputManager.GetClickID());
+            }
         }
         #endregion
 
@@ -176,8 +186,10 @@ namespace TileGame.Code.GameObjects.Default
         /// <param name="other">the object where we collide with.</param>
         internal void FireCollisionEvent(GameObject other)
         {
-            if (other.ID != this.ID && this.BoundingBox.Intersects(other.BoundingBox))
-                this.OnIntersect?.Invoke(this, other);
+            if (other.ID != ID && BoundingBox.Intersects(other.BoundingBox))
+            {
+                OnIntersect?.Invoke(this, other);
+            }
         }
 
         /// <summary>
@@ -187,10 +199,10 @@ namespace TileGame.Code.GameObjects.Default
         /// <param name="clickID">the associated clickID.</param>
         protected void MouseDown(MouseState mouse, int clickID)
         {
-            if (this.BoundingBox.Contains(mouse.Position))
+            if (BoundingBox.Contains(mouse.Position))
             {
-                this.associatedClicks.Add(clickID);
-                this.OnMouseDown?.Invoke(this, mouse);
+                associatedClicks.Add(clickID);
+                OnMouseDown?.Invoke(this, mouse);
             }
         }
         /// <summary>
@@ -200,10 +212,10 @@ namespace TileGame.Code.GameObjects.Default
         /// <param name="clickID">the associated clickID.</param>
         protected void MouseUp(MouseState mouse, int clickID)
         {
-            if (this.associatedClicks.Contains(clickID))
+            if (associatedClicks.Contains(clickID))
             {
-                this.associatedClicks.Remove(clickID);
-                this.OnMouseUp?.Invoke(this, mouse);
+                associatedClicks.Remove(clickID);
+                OnMouseUp?.Invoke(this, mouse);
             }
         }
         #endregion

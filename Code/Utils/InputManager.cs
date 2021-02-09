@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Xna.Framework;
-using System;
 
 namespace TileGame.Code.Utils
 {
@@ -62,7 +61,9 @@ namespace TileGame.Code.Utils
 
             // If the mouse goes down, we generate a new click ID.
             if (didTheMouseClick)
+            {
                 clickID++;
+            }
         }
 
 

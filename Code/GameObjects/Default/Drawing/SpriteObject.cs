@@ -12,8 +12,8 @@ namespace TileGame.Code.GameObjects.Default.Drawing
 
         internal SpriteObject(Vector2 center, int width, int height, string assetName) : base(center, width, height)
         {
-            this.centerPosition = center;
-            this.texture = Game.game.GetSprite(assetName);
+            centerPosition = center;
+            texture = Game.game.GetSprite(assetName);
         }
 
         #region Drawing functions

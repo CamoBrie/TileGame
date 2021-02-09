@@ -1,14 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Aseprite.Documents;
 using System;
 using System.Collections.Generic;
-using TileGame.Levels;
-using MonoGame.Aseprite.Documents;
-using MonoGame.Aseprite.Graphics;
 using TileGame.Code.GameObjects.Default;
-using TileGame.Code.Utils;
 using TileGame.Code.GameStates;
+using TileGame.Code.Utils;
 
 namespace TileGame
 {
@@ -19,7 +17,7 @@ namespace TileGame
     {
         #region Monogame Variables
         internal static Game game;
-        private GraphicsDeviceManager _graphics;
+        private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         internal Texture2D empty_texture;
         private AsepriteDocument empty_aseDoc;
@@ -41,11 +39,11 @@ namespace TileGame
         /// <summary>
         /// The dictionary that stores all the texture files.
         /// </summary>
-        private static Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
+        private static readonly Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
         /// <summary>
         /// The dictionary that stores all the texture files.
         /// </summary>
-        private static Dictionary<string, AsepriteDocument> aseDocs = new Dictionary<string, AsepriteDocument>();
+        private static readonly Dictionary<string, AsepriteDocument> aseDocs = new Dictionary<string, AsepriteDocument>();
         #endregion
 
         internal static SpriteFont font;
@@ -131,7 +129,7 @@ namespace TileGame
         {
             GraphicsDevice.Clear(Color.Black);
 
-            SpriteBatch sb = new SpriteBatch(this.GraphicsDevice);
+            SpriteBatch sb = new SpriteBatch(GraphicsDevice);
             sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend,SamplerState.PointClamp, null, transformMatrix: Camera.TransformMatrix);
             gameState.Draw(sb);
 
@@ -167,7 +165,7 @@ namespace TileGame
             }
 
             //get texture from dict, and if it is not in it, add it to the dict.
-            if(textures.TryGetValue(assetName, out var tex))
+            if(textures.TryGetValue(assetName, out Texture2D tex))
             {
                 Console.WriteLine($"{assetName} retrieved.");
                 return tex;
@@ -177,12 +175,12 @@ namespace TileGame
                 Texture2D sprite;
                 try
                 {
-                    sprite = this.Content.Load<Texture2D>(assetName);
+                    sprite = Content.Load<Texture2D>(assetName);
                     textures.Add(assetName, sprite);
                 }
                 catch (ContentLoadException)
                 {
-                    sprite = this.Content.Load<Texture2D>("missing_texture");
+                    sprite = Content.Load<Texture2D>("missing_texture");
                 }
                 return sprite;
             } 
@@ -203,7 +201,7 @@ namespace TileGame
 
             //get texture from dict, and if it is not in it, add it to the dict.
             
-            if (aseDocs.TryGetValue(assetName, out var tex))
+            if (aseDocs.TryGetValue(assetName, out AsepriteDocument tex))
             {
                 Console.WriteLine($"{tex.Texture.Name} retrieved.");
                 return tex;
@@ -213,12 +211,12 @@ namespace TileGame
                 AsepriteDocument doc;
                 try
                 {
-                    doc = this.Content.Load<AsepriteDocument>(assetName);
+                    doc = Content.Load<AsepriteDocument>(assetName);
                     aseDocs.Add(assetName, doc);
                 }
                 catch (ContentLoadException)
                 {
-                    doc = this.Content.Load<AsepriteDocument>("missing_aseDoc");
+                    doc = Content.Load<AsepriteDocument>("missing_aseDoc");
                 }
                 return doc;
             }
@@ -235,10 +233,10 @@ namespace TileGame
             switch (stateName)
             {
                 case "menu":
-                    this.gameState = new GSMenu(screenSize.ToVector2()/2, screenSize.X, screenSize.Y);
+                    gameState = new GSMenu(screenSize.ToVector2()/2, screenSize.X, screenSize.Y);
                     break;
                 case "game":
-                    this.gameState = new GSPlaying(screenSize.ToVector2() / 2, screenSize.X, screenSize.Y);
+                    gameState = new GSPlaying(screenSize.ToVector2() / 2, screenSize.X, screenSize.Y);
                     break;
                 default:
                     //this.gameState = new ErrorController();
