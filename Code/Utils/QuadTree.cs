@@ -217,7 +217,7 @@ namespace TileGame.Code.Utils
         {
             foreach(GameObject g in objects)
             {
-                batch.Draw(Game.game.empty_texture, g.BoundingBox, Color.Yellow * 0.5f);
+                batch.Draw(Game.game.empty_texture, g.BoundingBox, Color.Red * 0.5f);
             }
         }
 #endif

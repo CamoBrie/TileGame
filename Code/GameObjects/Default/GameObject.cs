@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using TileGame.Code.Utils;
 using static TileGame.Code.Events.CollisionEvent;
@@ -16,7 +17,7 @@ namespace TileGame.Code.GameObjects.Default
         /// </summary>
         internal Vector2 centerPosition;
         /// <summary>
-        /// The position on the screen.
+        /// The position of the element combined with the parent.
         /// </summary>
         internal Vector2 globalPosition
         {
@@ -24,7 +25,7 @@ namespace TileGame.Code.GameObjects.Default
             {
                 if (parent != null)
                 {
-                    return centerPosition + parent.centerPosition;
+                    return centerPosition + parent.globalPosition;
                 }
                 else
                 {
@@ -33,36 +34,36 @@ namespace TileGame.Code.GameObjects.Default
             }
         }
         /// <summary>
-        /// Gets the collision box of the object.
-        /// </summary>
-        /// <returns>the rectangle where the object should collide.</returns>
-        public virtual Rectangle BoundingBox
-        {
-            get => GetDrawPos();
-            set => boundingBox = value;
-        }
-        private Rectangle boundingBox;
-        /// <summary>
         /// The integers storing the width and the height of the object.
         /// </summary>
         internal int width, height;
         /// <summary>
-        /// The list of all the children of this object.
+        /// The clicks associated with this object.
         /// </summary>
-        internal List<GameObject> children = new List<GameObject>();
+        protected List<int> associatedClicks = new List<int>();
+        #endregion
+
+        #region ID & Collision/Inheritance
         /// <summary>
-        /// The parent of the gameobject.
-        /// Centerposition is now relative to the parent.
+        /// The global ID of the object.
         /// </summary>
-        internal GameObject parent;
+        internal int ID;
         /// <summary>
-        /// A list of collisionobjects this gameobject has.
+        /// The global ID of the highest parent, and this ID otherwise.
         /// </summary>
-        internal List<CollisionObject> collisionObjects = new List<CollisionObject>();
-        /// <summary>
-        /// returns true, if a gameobject has or is a collisionobject.
-        /// </summary>
-        internal virtual bool hasCollision {
+        internal int parentID
+        {
+            get {
+                if (this.parent != null) {
+                    return parent.parentID;
+                } else
+                {
+                    return ID;
+                }
+            }
+        }
+        internal virtual bool hasCollision
+        {
             get
             {
                 if (collides)
@@ -87,13 +88,25 @@ namespace TileGame.Code.GameObjects.Default
         protected bool collides;
 
         /// <summary>
-        /// The global ID of the object.
+        /// Gets the collision box of the object.
         /// </summary>
-        internal int ID;
+        /// <returns>the rectangle where the object should collide.</returns>
+        public virtual Rectangle BoundingBox
+        {
+            get => GetDrawPos();
+            set => boundingBox = value;
+        }
+        private Rectangle boundingBox;
+
         /// <summary>
-        /// The clicks associated with this object.
+        /// The list of all the children of this object.
         /// </summary>
-        protected List<int> associatedClicks = new List<int>();
+        internal List<GameObject> children = new List<GameObject>();
+        /// <summary>
+        /// The parent of the gameobject.
+        /// Centerposition is now relative to the parent.
+        /// </summary>
+        internal GameObject parent;
         #endregion
 
         #region Events
@@ -202,9 +215,13 @@ namespace TileGame.Code.GameObjects.Default
         /// <param name="other">the object where we collide with.</param>
         internal void FireCollisionEvent(GameObject other)
         {
-            if (other.ID != ID && BoundingBox.Intersects(other.BoundingBox))
+            if (other.parentID != parentID)
             {
-                OnIntersect?.Invoke(this, other);
+                if (BoundingBox.Intersects(other.BoundingBox))
+                {
+                    OnIntersect?.Invoke(this, other);
+                    //Console.WriteLine($"{other.parentID}({other.ID}) : {parentID} ({ID})");
+                }
             }
         }
 

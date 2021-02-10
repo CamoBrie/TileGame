@@ -100,31 +100,19 @@ namespace TileGame.Levels
             //add the entities to the tree
             foreach(GameObject go in entities)
             {
-                if (TileOnScreen(go) && go.hasCollision)
-                {
-                    quadTree.insert(go);
-                }
+                AddToQuadTree(go);
             }
 
             //add the collisiontiles to the tree
             foreach(CollisionObject ct in collisionTiles)
             {
-                if (TileOnScreen(ct) && ct.hasCollision)
-                {
-                    quadTree.insert(ct);
-                }
+                AddToQuadTree(ct);
             }
 
             //fire collision events based on location
             foreach (GameObject entity in entities)
             {
-                List<GameObject> returnObjects = new List<GameObject>();
-
-                quadTree.retrieve(returnObjects, entity);
-                foreach (GameObject go in returnObjects)
-                {
-                    go.FireCollisionEvent(entity);
-                }
+                GetTargetsForCollision(entity);
             }
             #endregion
 
@@ -134,6 +122,49 @@ namespace TileGame.Levels
             #endregion
         }
 
+        #region Collision
+        /// <summary>
+        /// Gets the collision targets and all of its children recursively.
+        /// </summary>
+        /// <param name="entity"></param>
+        internal void GetTargetsForCollision(GameObject entity)
+        {
+            List<GameObject> returnObjects = new List<GameObject>();
+
+            quadTree.retrieve(returnObjects, entity);
+            foreach (GameObject go in returnObjects)
+            {
+                go.FireCollisionEvent(entity);
+            }
+            if (entity.children.Count != 0)
+            {
+                foreach (GameObject gameObject in entity.children.ToArray())
+                {
+                    GetTargetsForCollision(gameObject);
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Adds the gameobject and all its children to the quadtree recursively.
+        /// </summary>
+        /// <param name="go"></param>
+        internal void AddToQuadTree(GameObject go)
+        {
+            if (TileOnScreen(go) && go.hasCollision)
+            {
+                quadTree.insert(go);
+            }
+            if(go.children.Count != 0)
+            {
+                foreach (GameObject gameObject in go.children.ToArray())
+                {
+                    AddToQuadTree(gameObject);
+                }
+            }
+        }
+        #endregion
         #region Drawing
         /// <summary>
         /// the function where everything is drawn before (under) the player
@@ -193,7 +224,6 @@ namespace TileGame.Levels
         }
 
         #endregion
-
         #region Camera Utils
 
         /// <summary>

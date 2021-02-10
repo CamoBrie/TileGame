@@ -10,7 +10,7 @@ namespace TileGame.Code.GameObjects.Default.Drawing
         /// </summary>
         internal Texture2D texture;
 
-        internal SpriteObject(Vector2 center, int width, int height, string assetName) : base(center, width, height)
+        internal SpriteObject(Vector2 center, int width, int height, string assetName, bool collides = false) : base(center, width, height, collides)
         {
             centerPosition = center;
             texture = Game.game.GetSprite(assetName);
