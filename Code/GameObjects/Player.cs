@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TileGame.Code.GameObjects.Default;
+using System;
 using TileGame.Code.GameObjects.Default.Drawing;
+using TileGame.Code.Utils.Convenience;
 
 namespace TileGame.Code.GameObjects
 {
@@ -10,11 +12,6 @@ namespace TileGame.Code.GameObjects
         internal Player(Vector2 center, int width, int height, string assetName) : base(center, width, height, assetName)
         {
             this.collides = true;
-
-            //testing
-            SpriteObject t = new SpriteObject(new Vector2(-100, -100), 64, 64, "", true);
-            AddToChildren(t);
-            //
         }
 
         internal override void Update(GameTime time)

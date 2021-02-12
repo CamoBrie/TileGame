@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using TileGame.Code.Utils;
 using static TileGame.Code.Events.CollisionEvent;
 using static TileGame.Code.Events.MouseEvent;
+using TileGame.Code.Utils.Convenience;
 
 namespace TileGame.Code.GameObjects.Default
 {
@@ -205,6 +206,16 @@ namespace TileGame.Code.GameObjects.Default
             {
                 MouseUp(InputManager.MouseState, InputManager.GetClickID());
             }
+        }
+
+        /// <summary>
+        /// Set a timer and to excecute an action after a certain time.
+        /// </summary>
+        /// <param name="duration">Time to wait until performing the action</param>
+        /// <param name="method">The action to perform after that time</param>
+        protected void SetTimer(float duration, Action method)
+        {
+            _ = new Timer(this, duration, method);
         }
         #endregion
 
