@@ -2,3 +2,9 @@ Ideas:
  - Sound blending?
  - god mode? (AI controlled player character clones)
  - Generate music?
+
+ - Calendar system
+	\> Sleeping resets resource-zones
+	\> Days have a certain duration
+	\> Lose stuff if not at bed before night
+	\> Seasons? pure visual or also different loot
