@@ -7,7 +7,7 @@ Data Types:
 
 LowLevel
 {
-	Timer(time, methodgroup) //Do method after time.
+	Timer(parent, time, DestroyWhenDone = false) //Add to children, Do something on (timer).reachedEnd
 	QuadTree() //collision data structure using ICollidable.
 	InputManager() //handles all the related input things.
 	AnimationController() //Handle animations from an Ase document.
