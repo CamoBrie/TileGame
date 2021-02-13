@@ -24,12 +24,12 @@ namespace TileGame.Levels
         internal LevelTile(Point positionInGrid, int tileSize) : base(Vector2.Zero, 0, 0)
         {
             Pos = positionInGrid;
-            this.displayObject = new SpriteObject(new Vector2(Pos.X * tileSize + tileSize/2, Pos.Y * tileSize + tileSize / 2), tileSize, tileSize, "");
-            this.collides = true;
-            this.width = tileSize;
-            this.height = tileSize;
-            this.centerPosition = new Vector2(Pos.X * tileSize + tileSize / 2, Pos.Y * tileSize + tileSize / 2);
-            this.OnIntersect += _default;
+            displayObject = new SpriteObject(new Vector2(Pos.X * tileSize + tileSize/2, Pos.Y * tileSize + tileSize / 2), tileSize, tileSize, "");
+            collides = true;
+            width = tileSize;
+            height = tileSize;
+            centerPosition = new Vector2(Pos.X * tileSize + tileSize / 2, Pos.Y * tileSize + tileSize / 2);
+            OnIntersect += _default;
         }
     }
 }

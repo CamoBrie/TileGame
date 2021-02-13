@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using TileGame.Code.Utils;
+using TileGame.Code.Utils.Convenience;
 using static TileGame.Code.Events.CollisionEvent;
 using static TileGame.Code.Events.MouseEvent;
-using TileGame.Code.Utils.Convenience;
 
 namespace TileGame.Code.GameObjects.Default
 {
@@ -55,7 +55,7 @@ namespace TileGame.Code.GameObjects.Default
         internal int parentID
         {
             get {
-                if (this.parent != null) {
+                if (parent != null) {
                     return parent.parentID;
                 } else
                 {
@@ -71,7 +71,7 @@ namespace TileGame.Code.GameObjects.Default
                 {
                     return true;
                 }
-                if (this.children.Count == 0)
+                if (children.Count == 0)
                 {
                     return false;
                 }

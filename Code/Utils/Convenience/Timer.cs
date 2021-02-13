@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using TileGame.Code.GameObjects.Default;
 
 namespace TileGame.Code.Utils.Convenience
 {
-    class Timer : GameObject
+    internal class Timer : GameObject
     {
         /// <summary>
         /// The time remaining on the timer.
@@ -24,12 +20,12 @@ namespace TileGame.Code.Utils.Convenience
         /// <summary>
         /// The action to perform.
         /// </summary>
-        private Action method;
+        private readonly Action method;
 
         /// <summary>
         /// Should the timer repeat.
         /// </summary>
-        private bool repeat;
+        private readonly bool repeat;
 
         /// <summary>
         /// Returns true if the timer has reached zero.
@@ -65,7 +61,7 @@ namespace TileGame.Code.Utils.Convenience
         {
             remainingTime = duration;
             timerLength = duration;
-            this.destroyWhenDone = true;
+            destroyWhenDone = true;
             this.method = method;
             this.repeat = repeat;
         }
@@ -82,9 +78,13 @@ namespace TileGame.Code.Utils.Convenience
                 {
                     method();
                     if (repeat)
+                    {
                         remainingTime = timerLength;
+                    }
                     else
+                    {
                         parent.children.Remove(this);
+                    }
                 }
                 else
                 {

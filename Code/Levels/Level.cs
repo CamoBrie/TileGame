@@ -25,7 +25,7 @@ namespace TileGame.Levels
         #endregion
 
         #region Grid Variables
-        LevelGrid grid;
+        private readonly LevelGrid grid;
         #endregion
 
         /// <summary>

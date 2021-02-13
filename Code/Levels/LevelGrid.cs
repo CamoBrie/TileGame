@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using TileGame.Code.GameObjects.Default.Drawing;
 
 namespace TileGame.Levels
 {
@@ -20,7 +19,7 @@ namespace TileGame.Levels
         /// <summary>
         /// the grid where every tile is stored.
         /// </summary>
-        private LevelTile[,] grid;
+        private readonly LevelTile[,] grid;
 
         /// <summary>
         /// the total width of the level, in pixels.
@@ -34,7 +33,7 @@ namespace TileGame.Levels
         /// <summary>
         /// the parent level.
         /// </summary>
-        private Level parent;
+        private readonly Level parent;
 
         /// <summary>
         /// creates a level grid with the specified parameters.

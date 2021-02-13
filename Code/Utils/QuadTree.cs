@@ -219,11 +219,11 @@ namespace TileGame.Code.Utils
         /// <param name="batch">the batch where to draw to.</param>
         internal void Draw(SpriteBatch batch)
         {
-            if (this.nodes[0] != null)
+            if (nodes[0] != null)
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    this.nodes[i].Draw(batch);
+                    nodes[i].Draw(batch);
                 }
             }
 

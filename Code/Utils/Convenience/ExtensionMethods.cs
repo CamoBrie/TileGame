@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TileGame.Code.Utils.Convenience
+﻿namespace TileGame.Code.Utils.Convenience
 {
     internal static class ExtensionMethods
     {
