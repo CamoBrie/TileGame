@@ -24,13 +24,12 @@ namespace TileGame.Code.GameStates
         internal GSPlaying(Vector2 center, int width, int height) : base(center, width, height)
         {
             //testing code
-            player = new Player(new Vector2(110, 110), 100, 100, "missing_aseDoc");
+            player = new Player(new Vector2(128, 128), 64, 64, "missing_aseDoc");
             player.PlayAnimation("DE-fly", false);
             children.Add(player);
             //testing code
             level = new Level("path/to/level", ref player);
 
-            to = new TextObject(Game.game.Content.Load<SpriteFont>("test"), "\\color(Red)Welcome to our \\color(LightGreen)Game! \\r.color\\r.scale\\img(missing_texture) <- this still needs an icon.");
         }
 
         /// <summary>
@@ -55,8 +54,6 @@ namespace TileGame.Code.GameStates
             player.Draw(batch);
             //and only then draw the tiles on top of the player.
             level.Post_draw(batch);
-
-            to.Draw(batch, new Rectangle(100, 100, 1000, 300));
 
         }
 

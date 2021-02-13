@@ -213,11 +213,23 @@ namespace TileGame.Code.Utils
         }
 
 #if DEBUG
+        /// <summary>
+        /// Draws an overlay over the currently collidable objects on the screen.
+        /// </summary>
+        /// <param name="batch">the batch where to draw to.</param>
         internal void Draw(SpriteBatch batch)
         {
-            foreach(GameObject g in objects)
+            if (this.nodes[0] != null)
             {
-                batch.Draw(Game.game.empty_texture, g.BoundingBox, Color.Red * 0.5f);
+                for (int i = 0; i < 4; i++)
+                {
+                    this.nodes[i].Draw(batch);
+                }
+            }
+
+            foreach (GameObject g in objects)
+            {
+                    batch.Draw(Game.game.empty_texture, g.BoundingBox, Color.Red * 0.5f);
             }
         }
 #endif

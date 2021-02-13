@@ -10,7 +10,7 @@ namespace TileGame.Levels
 {
     internal class Level
     {
-        private readonly Player player;
+        internal readonly Player player;
 
         #region Object Lists
         private readonly List<GameObject> entities = new List<GameObject>();
@@ -22,6 +22,10 @@ namespace TileGame.Levels
         #region Camera Variables
         private Rectangle bounds;
         private Rectangle VisibleScreen;
+        #endregion
+
+        #region Grid Variables
+        LevelGrid grid;
         #endregion
 
         /// <summary>
@@ -39,19 +43,13 @@ namespace TileGame.Levels
             #region Initial Setup
             this.player = player;
             AddEntity(this.player);
-            quadTree = new Quadtree(0, new Rectangle(0, 0, Game.screenSize.X, Game.screenSize.Y));
-            bounds = new Rectangle(-100,-100, Game.screenSize.X+100,Game.screenSize.Y+100);
+
+            grid = new LevelGrid(this, 32, 32, path);
+
+            quadTree = new Quadtree(0, new Rectangle(0, 0, grid.totalWidth, grid.totalHeight));
+            bounds = new Rectangle(0, 0, grid.totalWidth,grid.totalHeight);
             GenerateWallBounds();
             #endregion
-
-            //TODO: load corresponding files for the sprites, collision etc
-            //testing code
-            spriteTiles.Add(new SpriteObject(new Vector2(400, 100), 20, 20, "views/game/coll"));
-            spriteTiles.Add(new SpriteObject(new Vector2(300, 300), 20, 20, "views/game/coll"));
-            spriteTiles.Add(new SpriteObject(new Vector2(500, 500), 20, 20, "views/game/coll"));
-            collisionTiles.Add(new CollisionObject(new Vector2(400, 100), 20, 20));
-            collisionTiles.Add(new CollisionObject(new Vector2(300, 300), 20, 20));
-            collisionTiles.Add(new CollisionObject(new Vector2(500, 500), 20, 20));
 
         }
 
@@ -93,6 +91,11 @@ namespace TileGame.Levels
         /// </summary>
         internal void Update()
         {
+            #region Camera
+            Camera.Location = GetCameraLocation(player.globalPosition, bounds, Camera.Bounds);
+            VisibleScreen = Camera.VisibleArea;
+            #endregion
+
             #region Collision
 
             quadTree.clear();
@@ -109,6 +112,12 @@ namespace TileGame.Levels
                 AddToQuadTree(ct);
             }
 
+            //add the level tiles to the tree
+            foreach (LevelTile lt in grid.GetCollisionTiles())
+            {
+                AddToQuadTree(lt);
+            }
+
             //fire collision events based on location
             foreach (GameObject entity in entities)
             {
@@ -116,10 +125,8 @@ namespace TileGame.Levels
             }
             #endregion
 
-            #region Camera
-            Camera.Location = GetCameraLocation(player.centerPosition, bounds, Camera.Bounds);
-            VisibleScreen = Camera.VisibleArea;
-            #endregion
+
+
         }
 
         #region Collision
@@ -165,12 +172,14 @@ namespace TileGame.Levels
             }
         }
         #endregion
+
         #region Drawing
         /// <summary>
         /// the function where everything is drawn before (under) the player
         /// </summary>
         internal void Pre_draw(SpriteBatch batch)
         {
+            grid.Pre_draw(batch);
             foreach (SpriteObject st in GetDrawTiles(true))
             {
                 st.Draw(batch);
@@ -182,6 +191,7 @@ namespace TileGame.Levels
         /// </summary>
         internal void Post_draw(SpriteBatch batch)
         {
+            grid.Post_draw(batch);
             foreach (SpriteObject st in GetDrawTiles(false))
             {
                 st.Draw(batch);
@@ -224,6 +234,7 @@ namespace TileGame.Levels
         }
 
         #endregion
+
         #region Camera Utils
 
         /// <summary>
