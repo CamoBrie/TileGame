@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using TileGame.Code.GameObjects;
 using TileGame.Code.GameObjects.Default;
-using TileGame.Code.GameObjects.Default.Drawing;
 using TileGame.Code.Utils;
 using TileGame.Levels;
 
@@ -28,7 +27,7 @@ namespace TileGame.Code.GameStates
             //testing code
             level = new Level("path/to/level", ref player);
 
-            this.OnMouseUp += level.HitTile;
+            OnMouseUp += level.Player_SwingInDirection;
 
         }
 

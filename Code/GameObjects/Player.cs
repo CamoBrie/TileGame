@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using TileGame.Code.GameObjects.Default;
 using TileGame.Code.GameObjects.Default.Items;
 
@@ -7,15 +6,28 @@ namespace TileGame.Code.GameObjects
 {
     internal class Player : GameEntity
     {
-
+        /// <summary>
+        /// the tool the player uses.
+        /// </summary>
         internal Tool tool;
 
+        /// <summary>
+        /// creates a player with the parameters
+        /// </summary>
+        /// <param name="center">the center of the player</param>
+        /// <param name="width">the width of the player</param>
+        /// <param name="height">the height of the player</param>
+        /// <param name="assetName">the assetname for the player</param>
         internal Player(Vector2 center, int width, int height, string assetName) : base(center, width, height, assetName)
         {
             collides = true;
-            this.tool = new Tool(this);
+            tool = new Tool(this);
         }
 
+        /// <summary>
+        /// updates the player and all of its children.
+        /// </summary>
+        /// <param name="time"></param>
         internal override void Update(GameTime time)
         {
             tool.Update(time);
@@ -30,11 +42,6 @@ namespace TileGame.Code.GameObjects
         internal void HandleInput(Vector2 intentDir)
         {
             acceleration = intentDir;
-        }
-
-        internal override void Draw(SpriteBatch batch)
-        {
-            base.Draw(batch);
         }
     }
 }

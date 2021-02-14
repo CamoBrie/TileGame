@@ -125,7 +125,13 @@ namespace TileGame.Code.GameObjects.Default
         internal event mouseEvent OnMouseDown;
         #endregion
 
-
+        /// <summary>
+        /// creates a gameobject with the parameters.
+        /// </summary>
+        /// <param name="center">center position of the object</param>
+        /// <param name="width">the width of the object</param>
+        /// <param name="height">the height of the object</param>
+        /// <param name="collides">if the object should collide or not</param>
         internal GameObject(Vector2 center, int width, int height, bool collides = false)
         {
             centerPosition = center;
@@ -202,9 +208,13 @@ namespace TileGame.Code.GameObjects.Default
             child.parent = this;
         }
 
+        /// <summary>
+        /// removes a gameobject from the list of children.
+        /// </summary>
+        /// <param name="child"></param>
         internal void RemoveFromChildren(GameObject child)
         {
-            this.children.Remove(child);
+            children.Remove(child);
         }
 
         /// <summary>

@@ -36,6 +36,10 @@ namespace TileGame.Code.GameObjects.Default
         /// </summary>
         internal Vector2 movedPosition = new Vector2(0, 0);
 
+        /// <summary>
+        /// determines if the current entity is allowed to move, this can be set by the tool,
+        /// cutscenes etc.
+        /// </summary>
         internal bool isMoving = true;
 
         /// <summary>

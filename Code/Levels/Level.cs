@@ -276,7 +276,12 @@ namespace TileGame.Levels
 
         #endregion
 
-        internal void HitTile(GameObject sender, MouseState state)
+        /// <summary>
+        /// determines what direction the player is swinging in and if the player is allowed to swing the tool.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="state"></param>
+        internal void Player_SwingInDirection(GameObject sender, MouseState state)
         {
             Vector2 playerPos = player.globalPosition;
             Point mousePos = state.Position;
