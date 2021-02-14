@@ -64,6 +64,11 @@ namespace TileGame.Code.Events
             }
 
         }
+
+        internal static void _HitTile(GameObject self, GameObject tile)
+        {
+            //TODO: here the tiles should be hit by the tool.
+        }
     }
 
 

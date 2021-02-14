@@ -15,6 +15,7 @@ namespace TileGame.Code.GameObjects.Default
         internal CollisionObject(Vector2 center, int width, int height) : base(center, width, height, true)
         {
             OnIntersect += _default;
+            collides = true;
         }
 
         /// <summary>
@@ -27,9 +28,7 @@ namespace TileGame.Code.GameObjects.Default
         internal CollisionObject(Vector2 center, int width, int height, collisionEvent collisionEvent) : base(center, width, height)
         {
             OnIntersect += collisionEvent;
+            collides = true;
         }
-
-
-        
     }
 }

@@ -37,6 +37,28 @@ namespace TileGame.Code.Utils.Convenience
         /// </summary>
         private readonly bool destroyWhenDone;
 
+        private bool finished = false;
+
+        internal Timer()
+        {
+            remainingTime = 0;
+            timerLength = 0;
+            finished = true;
+        }
+        internal Timer(float duration, bool destroyWhenDone = false)
+        {
+            remainingTime = duration;
+            timerLength = duration;
+            this.destroyWhenDone = destroyWhenDone;
+        }
+        internal Timer(float duration, Action method, bool destroyWhenDone = false)
+        {
+            remainingTime = duration;
+            timerLength = duration;
+            this.method = method;
+            this.destroyWhenDone = destroyWhenDone;
+        }
+
         /// <summary>
         /// Create a timer with a certain duration that gets updated by its parent.
         /// </summary>
@@ -72,11 +94,11 @@ namespace TileGame.Code.Utils.Convenience
         /// <param name="time"></param>
         internal override void Update(GameTime time)
         {
-            if (ReachedEnd)
+            if (ReachedEnd && !finished)
             {
+                method?.Invoke();
                 if (destroyWhenDone)
                 {
-                    method();
                     if (repeat)
                     {
                         remainingTime = timerLength;
@@ -89,10 +111,12 @@ namespace TileGame.Code.Utils.Convenience
                 else
                 {
                     remainingTime = 0.0f;
+                    finished = true;
                 } 
             }
             base.Update(time);
             remainingTime -= (float)time.ElapsedGameTime.TotalSeconds;
         }
+
     }
 }

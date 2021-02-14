@@ -19,8 +19,6 @@ namespace TileGame.Code.GameStates
         /// The instance of the player.
         /// </summary>
         private readonly Player player;
-
-        private readonly TextObject to;
         internal GSPlaying(Vector2 center, int width, int height) : base(center, width, height)
         {
             //testing code
@@ -29,6 +27,8 @@ namespace TileGame.Code.GameStates
             children.Add(player);
             //testing code
             level = new Level("path/to/level", ref player);
+
+            this.OnMouseUp += level.HitTile;
 
         }
 
@@ -62,6 +62,7 @@ namespace TileGame.Code.GameStates
         /// </summary>
         internal override void HandleInput()
         {
+            base.HandleInput();
             /// Player keys
             Vector2 intentDir = Vector2.Zero;
             if(InputManager.KeyDown(Keys.W))

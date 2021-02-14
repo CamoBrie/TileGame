@@ -125,6 +125,7 @@ namespace TileGame.Code.GameObjects.Default
         internal event mouseEvent OnMouseDown;
         #endregion
 
+
         internal GameObject(Vector2 center, int width, int height, bool collides = false)
         {
             centerPosition = center;
@@ -132,6 +133,14 @@ namespace TileGame.Code.GameObjects.Default
             this.height = height;
             ID = Game.game.GetUniqueGameObjectID();
             this.collides = collides;
+        }
+
+        /// <summary>
+        /// only set the ID.
+        /// </summary>
+        internal GameObject()
+        {
+            ID = Game.game.GetUniqueGameObjectID();
         }
 
         /// <summary>
@@ -193,6 +202,11 @@ namespace TileGame.Code.GameObjects.Default
             child.parent = this;
         }
 
+        internal void RemoveFromChildren(GameObject child)
+        {
+            this.children.Remove(child);
+        }
+
         /// <summary>
         /// Handles the input for this object.
         /// </summary>
@@ -213,7 +227,7 @@ namespace TileGame.Code.GameObjects.Default
         /// </summary>
         /// <param name="duration">Time to wait until performing the action</param>
         /// <param name="method">The action to perform after that time</param>
-        protected void SetTimer(float duration, Action method)
+        internal void SetTimer(float duration, Action method)
         {
             _ = new Timer(this, duration, method);
         }
@@ -231,7 +245,7 @@ namespace TileGame.Code.GameObjects.Default
                 if (BoundingBox.Intersects(other.BoundingBox))
                 {
                     OnIntersect?.Invoke(this, other);
-                    //Console.WriteLine($"{other.parentID}({other.ID}) : {parentID} ({ID})");
+                    other.OnIntersect?.Invoke(other, this);
                 }
             }
         }

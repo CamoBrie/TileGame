@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using TileGame.Code.GameObjects;
 using TileGame.Code.GameObjects.Default;
@@ -42,7 +44,7 @@ namespace TileGame.Levels
         {
             #region Initial Setup
             this.player = player;
-            AddEntity(this.player);
+            AddEntity(player);
 
             grid = new LevelGrid(this, 32, 32, path);
 
@@ -273,5 +275,28 @@ namespace TileGame.Levels
         }
 
         #endregion
+
+        internal void HitTile(GameObject sender, MouseState state)
+        {
+            Vector2 playerPos = player.globalPosition;
+            Point mousePos = state.Position;
+            Vector2 offset = -(playerPos - mousePos.ToVector2());
+
+            //change to cardinal direction
+            if(Math.Abs(offset.X) > Math.Abs(offset.Y))
+            {
+                offset.X = Math.Sign(offset.X);
+                offset.Y = 0;
+            } else
+            {
+                offset.X = 0;
+                offset.Y = Math.Sign(offset.Y);
+            }
+
+            if(player.tool.ready)
+            {
+                player.tool.Swing(offset);
+            }
+        }
     }
 }

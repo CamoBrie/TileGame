@@ -50,6 +50,7 @@
     <Compile Include="Code\Events\CollisionEvent.cs" />
     <Compile Include="Code\Events\MouseEvent.cs" />
     <Compile Include="Code\GameObjects\Default\Drawing\AnimatedObject.cs" />
+    <Compile Include="Code\GameObjects\Default\Items\Tool.cs" />
     <Compile Include="Code\Utils\Convenience\ExtensionMethods.cs" />
     <Compile Include="Code\Utils\Convenience\Timer.cs" />
     <Compile Include="Code\Utils\QuadTree.cs" />

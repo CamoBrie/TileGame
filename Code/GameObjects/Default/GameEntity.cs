@@ -36,6 +36,8 @@ namespace TileGame.Code.GameObjects.Default
         /// </summary>
         internal Vector2 movedPosition = new Vector2(0, 0);
 
+        internal bool isMoving = true;
+
         /// <summary>
         /// This constant makes sure that we can express "velocity" in terms of pixel per second.
         /// This conversion factor is based on the current updatespeed. So if you change the update speed, you need to change this also.
@@ -64,6 +66,11 @@ namespace TileGame.Code.GameObjects.Default
         /// <param name="time">The game time, handed down by the controller. </param>
         protected virtual void MoveEntity(GameTime time)
         {
+            if(!isMoving)
+            {
+                return;
+            }
+
             acceleration *= baseSpeed;
             velocity += acceleration;
             velocity *= friction;
