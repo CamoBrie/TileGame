@@ -38,7 +38,7 @@ namespace TileGame.Code.GameStates
         internal override void Update(GameTime time)
         {
             base.Update(time);
-            level.Update();
+            level.Update(time);
         }
 
         /// <summary>

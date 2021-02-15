@@ -91,7 +91,7 @@ namespace TileGame.Levels
         /// <summary>
         /// the function that is called to update certain things, such as the current player position.
         /// </summary>
-        internal void Update()
+        internal void Update(GameTime time)
         {
             #region Camera
             Camera.Location = GetCameraLocation(player.globalPosition, bounds, Camera.Bounds);
@@ -126,9 +126,7 @@ namespace TileGame.Levels
                 GetTargetsForCollision(entity);
             }
             #endregion
-
-
-
+            grid.Update(time);
         }
 
         #region Collision

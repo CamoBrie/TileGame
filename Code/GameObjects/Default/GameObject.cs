@@ -255,7 +255,6 @@ namespace TileGame.Code.GameObjects.Default
                 if (BoundingBox.Intersects(other.BoundingBox))
                 {
                     OnIntersect?.Invoke(this, other);
-                    other.OnIntersect?.Invoke(other, this);
                 }
             }
         }

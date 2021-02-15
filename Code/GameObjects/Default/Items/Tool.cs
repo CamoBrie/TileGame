@@ -49,13 +49,12 @@ namespace TileGame.Code.GameObjects.Default.Items
             parent.isMoving = false;
 
             cooldown = new Timer(0.5f, () => {
-                CollisionObject toolCollision = new CollisionObject(direction * 64, 10, 10, _HitTile);
-                toolCollision.SetTimer(0.5f, () => parent.RemoveFromChildren(toolCollision));
+                CollisionObject toolCollision = new CollisionObject(direction * 64, 10, 10);
                 parent.AddToChildren(toolCollision);
-
-                cooldown = new Timer(1f, () => { 
-                    parent.isMoving = true; 
-                });
+                parent.SetTimer(0.5f, () => {
+                    parent.isMoving = true;
+                    parent.RemoveFromChildren(toolCollision); 
+                     });
             });
         }
     }

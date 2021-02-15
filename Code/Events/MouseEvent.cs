@@ -7,10 +7,5 @@ namespace TileGame.Code.Events
     internal static class MouseEvent
     {
         internal delegate void mouseEvent(GameObject sender, MouseState state);
-
-        internal static void _default(GameObject sender, MouseState state)
-        {
-            Console.WriteLine("lmao noob");
-        }
     }
 }

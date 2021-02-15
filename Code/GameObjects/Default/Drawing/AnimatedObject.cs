@@ -11,6 +11,8 @@ namespace TileGame.Code.GameObjects.Default.Drawing
         /// The animationcontroller that handles the animation of the gameEntity.
         ///</summary>
         private readonly AnimationController animationController;
+
+
  
         
         /// <summary>
@@ -30,7 +32,7 @@ namespace TileGame.Code.GameObjects.Default.Drawing
         /// </summary>
         /// <param name="animationName">the name of the animation to be played.</param>
         /// <param name="playOnce">a boolean if the animation only needs to be played once.</param>
-        internal void PlayAnimation(string animationName, bool playOnce) 
+        internal void PlayAnimation(string animationName, bool playOnce = false) 
         {
             animationController.Play(animationName, playOnce);
         }

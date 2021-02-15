@@ -51,6 +51,9 @@
     <Compile Include="Code\Events\MouseEvent.cs" />
     <Compile Include="Code\GameObjects\Default\Drawing\AnimatedObject.cs" />
     <Compile Include="Code\GameObjects\Default\Items\Tool.cs" />
+    <Compile Include="Code\Levels\Tiles\ResourceTile.cs" />
+    <Compile Include="Code\Levels\Tiles\Tree.cs" />
+    <Compile Include="Code\Levels\Tiles\Trees\Oak.cs" />
     <Compile Include="Code\Utils\Convenience\ExtensionMethods.cs" />
     <Compile Include="Code\Utils\Convenience\Timer.cs" />
     <Compile Include="Code\Utils\QuadTree.cs" />
@@ -91,9 +94,7 @@
     <None Include="_project\app.manifest" />
     <None Include="_project\packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Code\Levels\Tiles\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

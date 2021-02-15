@@ -35,12 +35,12 @@ namespace TileGame.Code.Events
                     if (depthX > 0)
                     {
                         // Collision on entity right
-                        other.centerPosition = new Vector2(tileBox.Left - (other.width / 2), other.centerPosition.Y);
+                        other.centerPosition = new Vector2(tileBox.Left - (other.width / 2) - 2, other.centerPosition.Y);
                     }
                     else
                     {
                         // Collision on entity left
-                        other.centerPosition = new Vector2(tileBox.Right + (other.width / 2), other.centerPosition.Y);
+                        other.centerPosition = new Vector2(tileBox.Right + (other.width / 2) + 2, other.centerPosition.Y);
                     }
 
                     otherEntity.velocity.X = 0;
@@ -51,23 +51,18 @@ namespace TileGame.Code.Events
                     if (depthY > 0)
                     {
                         // Collision on entity bottom
-                        other.centerPosition = new Vector2(other.centerPosition.X, tileBox.Top - other.height / 2);
+                        other.centerPosition = new Vector2(other.centerPosition.X, tileBox.Top - other.height / 2 - 2);
                     }
                     else
                     {
                         // Collision on entity top
-                        other.centerPosition = new Vector2(other.centerPosition.X, tileBox.Bottom + other.height / 2);
+                        other.centerPosition = new Vector2(other.centerPosition.X, tileBox.Bottom + other.height / 2 + 2);
                     }
 
                     otherEntity.velocity.Y = 0;
                 }
             }
 
-        }
-
-        internal static void _HitTile(GameObject self, GameObject tile)
-        {
-            //TODO: here the tiles should be hit by the tool.
         }
     }
 

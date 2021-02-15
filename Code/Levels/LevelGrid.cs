@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using TileGame.Code.Levels.Tiles.Trees;
 
 namespace TileGame.Levels
 {
@@ -19,7 +20,7 @@ namespace TileGame.Levels
         /// <summary>
         /// the grid where every tile is stored.
         /// </summary>
-        private readonly LevelTile[,] grid;
+        internal LevelTile[,] grid;
 
         /// <summary>
         /// the total width of the level, in pixels.
@@ -57,9 +58,9 @@ namespace TileGame.Levels
             {
                 for (int y = 0; y < height; y++)
                 {
-                    if((x+y)%5 == 0 && x-y % 3 != 0)
+                    if (x % 3 == 0)
                     {
-                        grid[x, y] = new LevelTile(new Point(x,y), tileSize);
+                        grid[x, y] = new Oak(this, new Point(x, y), tileSize);
                     }
                 }
             }
@@ -75,6 +76,11 @@ namespace TileGame.Levels
         {
             Point x = Vector2.Clamp(centerpos / new Vector2(tileSize), new Vector2(0), new Vector2(width, height)).ToPoint();
             return x;
+        }
+
+        internal void RemoveTile(Point pos)
+        {
+            grid[pos.X, pos.Y] = null;
         }
 
         /// <summary>
@@ -168,6 +174,20 @@ namespace TileGame.Levels
             }
 
             return ret;
+        }
+
+        internal void Update(GameTime time)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (grid[x, y] != null)
+                    {
+                        grid[x, y].Update(time);
+                    }
+                }
+            }
         }
 
         #endregion

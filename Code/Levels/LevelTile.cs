@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using TileGame.Code.GameObjects.Default;
 using TileGame.Code.GameObjects.Default.Drawing;
+using TileGame.Code.Utils.Convenience;
 using static TileGame.Code.Events.CollisionEvent;
 
 namespace TileGame.Levels
@@ -10,26 +11,48 @@ namespace TileGame.Levels
         /// <summary>
         /// Position in grid
         /// </summary>
-        private Point Pos;
+        internal Point Pos;
 
         /// <summary>
         /// Animated- / spriteobject used to display the tile
         /// </summary>
-        internal readonly GameObject displayObject;
+        internal GameObject displayObject;
+
+        internal LevelGrid grid;
+
+        internal Timer destroy;
 
         /// <summary>
         /// Default colliding tile constructor
         /// </summary>
         /// <param name="positionInGrid"></param>
-        internal LevelTile(Point positionInGrid, int tileSize) : base(Vector2.Zero, 0, 0)
+        internal LevelTile(LevelGrid grid, Point positionInGrid, int tileSize) : base(Vector2.Zero, 0, 0)
         {
+            this.grid = grid;
             Pos = positionInGrid;
-            displayObject = new SpriteObject(new Vector2(Pos.X * tileSize + tileSize/2, Pos.Y * tileSize + tileSize / 2), tileSize, tileSize, "");
             collides = true;
+            OnIntersect += _default;
+            centerPosition = new Vector2(Pos.X * tileSize + tileSize / 2, Pos.Y * tileSize + tileSize / 2);
+            Initialize(tileSize);
+        }
+
+        internal virtual void Initialize(int tileSize)
+        {
+            displayObject = new SpriteObject(new Vector2(Pos.X * tileSize + tileSize / 2, Pos.Y * tileSize + tileSize / 2), tileSize, tileSize, "");
             width = tileSize;
             height = tileSize;
-            centerPosition = new Vector2(Pos.X * tileSize + tileSize / 2, Pos.Y * tileSize + tileSize / 2);
-            OnIntersect += _default;
+        }
+
+        internal override void Update(GameTime time)
+        {
+            if(displayObject is AnimatedObject ao)
+            {
+                ao.Update(time);
+            }
+            if(destroy != null)
+            {
+                destroy.Update(time);
+            }
         }
     }
 }

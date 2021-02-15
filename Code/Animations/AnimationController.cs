@@ -66,6 +66,8 @@ namespace TileGame.Code.Animations
         ///</summary>
         internal AsepriteFrame currentFrame => currentAnimation.currentFrame;
 
+        internal bool playOnce = false;
+
         /// <summary>
         /// Creates a controller that handles the animations in the AsepriteDocument.
         /// </summary>
@@ -88,7 +90,7 @@ namespace TileGame.Code.Animations
                 Console.WriteLine($"[ERROR] {assetName} has no tags.");
                 defaultAnimation = new Animation(ref doc);
             }
-
+            currentAnimation = defaultAnimation;
         }
 
         /// <summary>
@@ -136,6 +138,8 @@ namespace TileGame.Code.Animations
         internal void Play(string animationName, bool playOnce = false)
         {
             currentAnimation = GetAnimation(animationName);
+            this.playOnce = true;
+
         }
 
 
@@ -148,6 +152,11 @@ namespace TileGame.Code.Animations
         internal void Update(GameTime time)
         {
             currentAnimation.Update(time);
+            if(currentAnimation.relapsing && playOnce)
+            {
+                currentAnimation = defaultAnimation;
+                playOnce = false;
+            }
         }
 
         /// <summary>
