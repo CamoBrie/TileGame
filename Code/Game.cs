@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using TileGame.Code.GameObjects.Default;
 using TileGame.Code.GameStates;
 using TileGame.Code.Utils;
+using TileGame.Code.Data;
 
 namespace TileGame
 {
@@ -87,6 +88,7 @@ namespace TileGame
             empty_texture = new Texture2D(GraphicsDevice, 1, 1);
             empty_texture.SetData(new Color[] { new Color(255, 255, 255, 255) });
             empty_aseDoc = Content.Load<AsepriteDocument>("empty_aseDoc");
+            Settings.UIScale = 1.0f;
 
 
             //start the game after the content is loaded.

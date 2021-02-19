@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Code\Animations\Animation.cs" />
     <Compile Include="Code\Animations\AnimationController.cs" />
+    <Compile Include="Code\Data\Settings.cs" />
     <Compile Include="Code\Events\CollisionEvent.cs" />
     <Compile Include="Code\Events\MouseEvent.cs" />
     <Compile Include="Code\GameObjects\Default\Drawing\AnimatedObject.cs" />

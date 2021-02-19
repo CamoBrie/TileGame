@@ -8,6 +8,7 @@ using TileGame.Code.Utils.Convenience;
 using TileGame.Code.GameObjects.Default.Drawing;
 using static TileGame.Code.Events.CollisionEvent;
 using static TileGame.Code.Events.MouseEvent;
+using TileGame.Code.Data;
 
 namespace TileGame.Code.GameObjects.Default
 {
@@ -67,9 +68,9 @@ namespace TileGame.Code.GameObjects.Default
         /// <param name="pos"></param>
         void SetupPos(Rectangle pos)
         {
-            width = pos.Width;
-            height = pos.Height;
-            centerPosition = pos.Center.ToVector2();
+            width = (int)(pos.Width * Settings.UIScale);
+            height = (int)(pos.Height * Settings.UIScale);
+            centerPosition = pos.Center.ToVector2()*Settings.UIScale;
             switch (anchorMode)
             {
                 case Anchor.Left:

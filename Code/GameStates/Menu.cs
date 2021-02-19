@@ -21,13 +21,9 @@ namespace TileGame.Code.GameStates
 
         internal GSMenu(Vector2 center, int width, int height) : base(center, width, height)
         {
-            //startButton = new SpriteObject(new Vector2(Game.screenSize.X / 2, Game.screenSize.Y / 4), 200, 200, "views/menu/start_button");
-            //children.Add(startButton);
             UI.Add(startButton = new UISpriteObject(new Rectangle(-200,-200,400,400), "views/menu/start_button", Anchor.Center, GameState.canvas));
-            exitButton = new UISpriteObject(new Rectangle(-100, -100, 200, 200), "views/menu/exit_button", Anchor.BottomRight, startButton);
+            UI.Add(exitButton = new UISpriteObject(new Rectangle(-60, 10, 50, 50), "views/menu/exit_button", Anchor.TopRight, GameState.canvas));
 
-            //exitButton = new SpriteObject(new Vector2(Game.screenSize.X / 2, Game.screenSize.Y / 4 * 3), 200, 200, "views/menu/exit_button");
-            //children.Add(exitButton);
 
             startButton.OnMouseUp += StartHandler;
             exitButton.OnMouseUp += ExitHandler;
