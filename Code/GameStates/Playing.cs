@@ -5,10 +5,11 @@ using TileGame.Code.GameObjects;
 using TileGame.Code.GameObjects.Default;
 using TileGame.Code.Utils;
 using TileGame.Levels;
+using System.Collections.Generic;
 
 namespace TileGame.Code.GameStates
 {
-    internal class GSPlaying : GameObject
+    internal class GSPlaying : GameState
     {
         /// <summary>
         /// The instance of the current level.
@@ -18,6 +19,7 @@ namespace TileGame.Code.GameStates
         /// The instance of the player.
         /// </summary>
         private readonly Player player;
+
         internal GSPlaying(Vector2 center, int width, int height) : base(center, width, height)
         {
             //testing code
@@ -28,6 +30,7 @@ namespace TileGame.Code.GameStates
             level = new Level("path/to/level", ref player);
 
             OnMouseUp += level.Player_SwingInDirection;
+
 
         }
 
@@ -53,7 +56,6 @@ namespace TileGame.Code.GameStates
             player.Draw(batch);
             //and only then draw the tiles on top of the player.
             level.Post_draw(batch);
-
         }
 
         /// <summary>

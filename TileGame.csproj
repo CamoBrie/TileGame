@@ -51,6 +51,12 @@
     <Compile Include="Code\Events\MouseEvent.cs" />
     <Compile Include="Code\GameObjects\Default\Drawing\AnimatedObject.cs" />
     <Compile Include="Code\GameObjects\Default\Items\Tool.cs" />
+    <Compile Include="Code\GameObjects\Default\UI\UIAnimatedObject.cs" />
+    <Compile Include="Code\GameObjects\Default\UI\UIObject.cs" />
+    <Compile Include="Code\GameObjects\Default\UI\UISpriteObject.cs" />
+    <Compile Include="Code\GameObjects\Default\UI\UITextObject.cs" />
+    <Compile Include="Code\GameStates\GameState.cs" />
+    <Compile Include="Code\GameStates\Settings.cs" />
     <Compile Include="Code\Levels\Tiles\ResourceTile.cs" />
     <Compile Include="Code\Levels\Tiles\Tree.cs" />
     <Compile Include="Code\Levels\Tiles\Trees\Oak.cs" />

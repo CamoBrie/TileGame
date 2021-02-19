@@ -1,25 +1,30 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TileGame.Code.Animations;
 
-namespace TileGame.Code.GameObjects.Default.Drawing
+namespace TileGame.Code.GameObjects.Default.UI
 {
-    internal class AnimatedObject : GameObject
+    class UIAnimatedObject : UIObject
     {
 
         ///<summary>
         /// The animationcontroller that handles the animation of the object.
         ///</summary>
         private readonly AnimationController animationController;
-        
+
         /// <summary>
         /// This constructor creates an animation controller with the specified assetname
         /// </summary>
-        /// <param name="center">the center position of the object.</param>
-        /// <param name="width">the width of the object.</param>
-        /// <param name="height">the height of the object.</param>
+        /// <param name="pos">the relative drawing position and size.</param>
         /// <param name="assetName">the asset name to be used.</param>
-        internal AnimatedObject(Vector2 center, int width, int height, string assetName) : base(center, width, height)
+        /// <param name="anchorMode">the Anchor preset used.</param>
+        /// <param name="parent">the parent to anchor to</param>
+        internal UIAnimatedObject(Rectangle pos, string assetName, Anchor anchorMode, UIObject parent) : base(pos, anchorMode, parent)
         {
             animationController = new AnimationController(assetName);
         }
@@ -29,7 +34,7 @@ namespace TileGame.Code.GameObjects.Default.Drawing
         /// </summary>
         /// <param name="animationName">the name of the animation to be played.</param>
         /// <param name="playOnce">a boolean if the animation only needs to be played once.</param>
-        internal void PlayAnimation(string animationName, bool playOnce = false) 
+        internal void PlayAnimation(string animationName, bool playOnce = false)
         {
             animationController.Play(animationName, playOnce);
         }

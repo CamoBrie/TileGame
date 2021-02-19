@@ -20,7 +20,7 @@ namespace TileGame.Code.GameObjects.Default
         /// <summary>
         /// The position of the element combined with the parent.
         /// </summary>
-        internal Vector2 globalPosition
+        virtual internal Vector2 globalPosition
         {
             get
             {

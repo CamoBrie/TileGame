@@ -31,7 +31,7 @@ namespace TileGame
         /// <summary>
         /// the current gameState.
         /// </summary>
-        internal GameObject gameState;
+        internal GameState gameState;
         /// <summary>
         /// The id that is given to the next generated GameObject.
         /// </summary>
@@ -130,11 +130,13 @@ namespace TileGame
             GraphicsDevice.Clear(Color.Black);
 
             SpriteBatch sb = new SpriteBatch(GraphicsDevice);
-            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend,SamplerState.PointClamp, null, transformMatrix: Camera.TransformMatrix);
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, transformMatrix: Camera.TransformMatrix);
             gameState.Draw(sb);
-
             sb.End();
 
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
+            gameState.DrawUI(sb);
+            sb.End();
             //base.Draw(gameTime);
         }
 

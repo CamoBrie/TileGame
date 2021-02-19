@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace TileGame.Code.GameObjects.Default.Drawing
 {
@@ -24,6 +25,7 @@ namespace TileGame.Code.GameObjects.Default.Drawing
         internal override void Draw(SpriteBatch batch)
         {
             batch.Draw(texture, GetDrawPos(), Color.White);
+            base.Draw(batch);
         }
         #endregion
     }
