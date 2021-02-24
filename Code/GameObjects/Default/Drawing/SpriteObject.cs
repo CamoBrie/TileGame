@@ -14,7 +14,7 @@ namespace TileGame.Code.GameObjects.Default.Drawing
         internal SpriteObject(Vector2 center, int width, int height, string assetName, bool collides = false) : base(center, width, height, collides)
         {
             centerPosition = center;
-            texture = Game.game.GetSprite(assetName);
+            texture = Game.textures.Get(assetName);
         }
 
         #region Drawing functions

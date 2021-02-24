@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using TileGame.Code.GameObjects.Data;
 using TileGame.Code.Utils;
+using System;
 
 namespace TileGame.Code.GameObjects.Default.Drawing
 {
@@ -24,9 +25,10 @@ namespace TileGame.Code.GameObjects.Default.Drawing
         /// </summary>
         private readonly List<FormattedTextObject> formattedTexts = new List<FormattedTextObject>();
 
-        internal TextObject(SpriteFont font, string text)
+        internal TextObject(string fontName, string text)
         {
-            this.font = font;
+            this.font = Game.fonts.Get(fontName);
+            //Console.WriteLine(font.);
             this.text = text;
 
             formattedTexts = Analyze(text);
@@ -50,6 +52,7 @@ namespace TileGame.Code.GameObjects.Default.Drawing
                 {
                     Rectangle drawRect = new Rectangle((int)(destRect.X + characterSize.X * currentCharacter), destRect.Y + destRect.Height / lines * currentLine, (int)(characterSize.Y / fto.texture.Height * fto.texture.Width), (int)characterSize.Y);
                     drawRect.Location = Camera.stw(drawRect.Location.ToVector2()).ToPoint();
+                    
                     batch.Draw(fto.texture, drawRect, fto.color);
                     currentCharacter += 2;
                 } else
@@ -66,7 +69,7 @@ namespace TileGame.Code.GameObjects.Default.Drawing
                         Vector2 pos = new Vector2(destRect.X + characterSize.X * currentCharacter, destRect.Y + destRect.Height / lines * currentLine);
                         Vector2 offset = fto.scale == 1 ? Vector2.Zero : new Vector2(0, font.MeasureString(fto.text).Y - font.MeasureString(fto.text).Y * fto.scale); 
                         batch.DrawString(font, fto.text, Camera.stw(pos + offset), fto.color, 0, Vector2.Zero, fto.scale, SpriteEffects.None, 0);
-
+                        Console.WriteLine(fto.text + "  " + Camera.stw(pos + offset) + "    " + font.MeasureString(fto.text) + "    " + fto.scale + "   " + fto.color);
                         currentCharacter += (int)(fto.text.Length * fto.scale);
                     }
                 }
@@ -81,6 +84,7 @@ namespace TileGame.Code.GameObjects.Default.Drawing
         private static Color FromName(string colorName)
         {
             System.Drawing.Color systemColor = System.Drawing.Color.FromName(colorName);
+            Console.WriteLine(systemColor.R + "     " +  systemColor.G + "   " + systemColor.B + "  " + systemColor.A);
             return new Color(systemColor.R, systemColor.G, systemColor.B, systemColor.A); //Here Color is Microsoft.Xna.Framework.Graphics.Color
         }
 
@@ -111,7 +115,7 @@ namespace TileGame.Code.GameObjects.Default.Drawing
                 else if(s.StartsWith("img("))
                 {
                     string path = s.Substring(4).Split(")".ToCharArray())[0];
-                    fto.Add(new FormattedTextObject("", currentScale, currentColor, Game.game.GetSprite(path)));
+                    fto.Add(new FormattedTextObject("", currentScale, currentColor, Game.textures.Get(path)));
                     if(s.Substring(4).Split(")".ToCharArray()).Length > 1)
                     {
                         fto.Add(new FormattedTextObject(s.Substring(4).Split(")".ToCharArray(), 2)[1], currentScale, currentColor));
@@ -147,7 +151,5 @@ namespace TileGame.Code.GameObjects.Default.Drawing
             }
             return fto;
         }
-
-
     }
 }

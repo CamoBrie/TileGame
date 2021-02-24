@@ -74,7 +74,7 @@ namespace TileGame.Code.Animations
         /// <param name="doc">the AsepriteDocument that is to be handled by the controller.</param>
         internal AnimationController(string assetName)
         {
-            doc = Game.game.GetAseDoc(assetName);
+            doc = Game.aseDocs.Get(assetName);
             this.assetName = assetName;
             if (doc.Tags.Count > 0)
             {
@@ -82,7 +82,7 @@ namespace TileGame.Code.Animations
                 defaultAnimation = new Animation(ref doc, defaultTag);
                 if (containsHitBoxAnimation)
                 {
-                    hitBoxDoc = Game.game.GetAseDoc(assetName + "_BOX");
+                    hitBoxDoc = Game.aseDocs.Get(assetName + "_BOX");
                 }
             }
             else

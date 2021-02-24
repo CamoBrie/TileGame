@@ -50,6 +50,7 @@
     <Compile Include="Code\Data\Settings.cs" />
     <Compile Include="Code\Events\CollisionEvent.cs" />
     <Compile Include="Code\Events\MouseEvent.cs" />
+    <Compile Include="Code\GameObjects\Data\ContentLibrary.cs" />
     <Compile Include="Code\GameObjects\Default\Drawing\AnimatedObject.cs" />
     <Compile Include="Code\GameObjects\Default\Items\Tool.cs" />
     <Compile Include="Code\GameObjects\Default\UI\UIAnimatedObject.cs" />

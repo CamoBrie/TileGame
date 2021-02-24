@@ -27,7 +27,7 @@ namespace TileGame.Code.GameObjects.Default.UI
         /// <param name="parent">the parent to anchor to</param>
         internal UISpriteObject(Rectangle pos, string assetName, Anchor anchorMode, UIObject parent) : base(pos, anchorMode, parent)
         {
-            texture = Game.game.GetSprite(assetName);
+            texture = Game.textures.Get(assetName);
         }
 
         #region Drawing functions

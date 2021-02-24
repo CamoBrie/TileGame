@@ -8,6 +8,7 @@ using TileGame.Code.GameObjects.Default;
 using TileGame.Code.GameStates;
 using TileGame.Code.Utils;
 using TileGame.Code.Data;
+using TileGame.Code.GameObjects.Data;
 
 namespace TileGame
 {
@@ -21,7 +22,6 @@ namespace TileGame
         private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         internal Texture2D empty_texture;
-        private AsepriteDocument empty_aseDoc;
         #endregion
 
         #region Global variables
@@ -38,16 +38,19 @@ namespace TileGame
         /// </summary>
         private int id;
         /// <summary>
-        /// The dictionary that stores all the texture files.
+        /// The library that stores all the texture files.
         /// </summary>
-        private static readonly Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
+        internal static ContentLibrary<Texture2D> textures;
         /// <summary>
-        /// The dictionary that stores all the texture files.
+        /// The library that stores all the .ase files.
         /// </summary>
-        private static readonly Dictionary<string, AsepriteDocument> aseDocs = new Dictionary<string, AsepriteDocument>();
-        #endregion
+        internal static ContentLibrary<AsepriteDocument> aseDocs;
+        // <summary>
+        /// The library that stores all the .spritefont files.
+        /// </summary>
+        internal static ContentLibrary<SpriteFont> fonts;
 
-        internal static SpriteFont font;
+        #endregion
 
         public Game()
         {
@@ -85,11 +88,20 @@ namespace TileGame
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            //Create an empty texture and setup the Texture2D ContentLibrary
             empty_texture = new Texture2D(GraphicsDevice, 1, 1);
             empty_texture.SetData(new Color[] { new Color(255, 255, 255, 255) });
-            empty_aseDoc = Content.Load<AsepriteDocument>("empty_aseDoc");
-            Settings.UIScale = 1.0f;
+            textures = new ContentLibrary<Texture2D>(empty_texture, Content.Load<Texture2D>("missing_texture"));
 
+            //Setup the AsepriteDocument ContentLibrary
+            aseDocs = new ContentLibrary<AsepriteDocument>(Content.Load<AsepriteDocument>("empty_aseDoc"), Content.Load<AsepriteDocument>("missing_aseDoc"));
+
+            //Setup the AsepriteDocument ContentLibrary
+            fonts = new ContentLibrary<SpriteFont>(Content.Load<SpriteFont>("empty_font"), Content.Load<SpriteFont>("missing_font"));
+
+            //TO-DO, Load Settings
+            Settings.UIScale = 1.0f;
 
             //start the game after the content is loaded.
             ChangeGameState("menu");
@@ -129,7 +141,7 @@ namespace TileGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
 
             SpriteBatch sb = new SpriteBatch(GraphicsDevice);
             sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, transformMatrix: Camera.TransformMatrix);
@@ -155,76 +167,7 @@ namespace TileGame
             return id;
         }
 
-        /// <summary>
-        /// Gets a sprite from the dictionary of sprites.
-        /// </summary>
-        /// <param name="assetName">the name of the sprite.</param>
-        /// <returns>the texture that is retrieved.</returns>
-        internal Texture2D GetSprite(string assetName)
-        {
-            // return empty texture if an empty string
-            if (assetName.Length == 0)
-            {
-                return empty_texture;
-            }
-
-            //get texture from dict, and if it is not in it, add it to the dict.
-            if(textures.TryGetValue(assetName, out Texture2D tex))
-            {
-                Console.WriteLine($"{assetName} retrieved.");
-                return tex;
-            }
-            else
-            {
-                Texture2D sprite;
-                try
-                {
-                    sprite = Content.Load<Texture2D>(assetName);
-                    textures.Add(assetName, sprite);
-                }
-                catch (ContentLoadException)
-                {
-                    sprite = Content.Load<Texture2D>("missing_texture");
-                }
-                return sprite;
-            } 
-        }
-
-        /// <summary>
-        /// Gets an AsepriteDocument object from the dictionary of spritesheets.
-        /// </summary>
-        /// <param name="assetName">the name of the spritesheet.</param>
-        /// <returns>the object that is retrieved.</returns>
-        internal AsepriteDocument GetAseDoc(string assetName)
-        {
-            // return empty texture if an empty string
-            if (assetName.Length == 0)
-            {
-                return empty_aseDoc;
-            }
-
-            //get texture from dict, and if it is not in it, add it to the dict.
-            
-            if (aseDocs.TryGetValue(assetName, out AsepriteDocument tex))
-            {
-                Console.WriteLine($"{tex.Texture.Name} retrieved.");
-                return tex;
-            }
-            else
-            {
-                AsepriteDocument doc;
-                try
-                {
-                    doc = Content.Load<AsepriteDocument>(assetName);
-                    aseDocs.Add(assetName, doc);
-                }
-                catch (ContentLoadException)
-                {
-                    doc = Content.Load<AsepriteDocument>("missing_aseDoc");
-                }
-                return doc;
-            }
-        }
+        
 
         /// <summary>
         /// Changes the gamestate to the specified state.
