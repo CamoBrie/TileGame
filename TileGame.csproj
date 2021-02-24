@@ -53,6 +53,7 @@
     <Compile Include="Code\GameObjects\Data\ContentLibrary.cs" />
     <Compile Include="Code\GameObjects\Default\Drawing\AnimatedObject.cs" />
     <Compile Include="Code\GameObjects\Default\Items\Tool.cs" />
+    <Compile Include="Code\GameObjects\Default\UI\DropDownMenu.cs" />
     <Compile Include="Code\GameObjects\Default\UI\UIAnimatedObject.cs" />
     <Compile Include="Code\GameObjects\Default\UI\UIObject.cs" />
     <Compile Include="Code\GameObjects\Default\UI\UISpriteObject.cs" />

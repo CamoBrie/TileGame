@@ -4,6 +4,7 @@ using TileGame.Code.GameObjects.Default;
 using TileGame.Code.GameObjects.Default.UI;
 using TileGame.Code.GameObjects.Default.Drawing;
 
+
 namespace TileGame.Code.GameStates
 {
     internal class GSMenu : GameState
@@ -24,7 +25,7 @@ namespace TileGame.Code.GameStates
             UI.Add(startButton = new UISpriteObject(new Rectangle(-200,-200,400,400), "views/menu/start_button", Anchor.Left, GameState.canvas));
             UI.Add(exitButton = new UISpriteObject(new Rectangle(-60, 10, 50, 50), "views/menu/exit_button", Anchor.TopRight, GameState.canvas));
             UI.Add(new UITextObject(new Rectangle(0, 0, 300, 100), "Main Menu", Anchor.Center, GameState.canvas, "views/fonts/sans"));
-
+            UI.Add(new DropDownMenu(new Rectangle(0, 0, 400, 50), "", "views/fonts/sans", new string[]{ "1", "2", "3" }, Anchor.Center, GameState.canvas));
 
             startButton.OnMouseUp += StartHandler;
             exitButton.OnMouseUp += ExitHandler;

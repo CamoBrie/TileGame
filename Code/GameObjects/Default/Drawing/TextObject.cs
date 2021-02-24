@@ -97,7 +97,7 @@ namespace TileGame.Code.GameObjects.Default.Drawing
         {
             List<FormattedTextObject> fto = new List<FormattedTextObject>();
             string[] st = text.Split("\\".ToCharArray());
-            Color currentColor = Color.White;
+            Color currentColor = Color.Black;
             float currentScale = 1f;
             foreach(string s in st)
             {
