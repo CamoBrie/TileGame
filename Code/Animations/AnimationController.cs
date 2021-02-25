@@ -138,7 +138,7 @@ namespace TileGame.Code.Animations
         internal void Play(string animationName, bool playOnce = false)
         {
             currentAnimation = GetAnimation(animationName);
-            this.playOnce = true;
+            this.playOnce = playOnce;
 
         }
 

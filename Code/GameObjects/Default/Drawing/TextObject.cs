@@ -69,7 +69,6 @@ namespace TileGame.Code.GameObjects.Default.Drawing
                         Vector2 pos = new Vector2(destRect.X + characterSize.X * currentCharacter, destRect.Y + destRect.Height / lines * currentLine);
                         Vector2 offset = fto.scale == 1 ? Vector2.Zero : new Vector2(0, font.MeasureString(fto.text).Y - font.MeasureString(fto.text).Y * fto.scale); 
                         batch.DrawString(font, fto.text, Camera.stw(pos + offset), fto.color, 0, Vector2.Zero, fto.scale, SpriteEffects.None, 0);
-                        Console.WriteLine(fto.text + "  " + Camera.stw(pos + offset) + "    " + font.MeasureString(fto.text) + "    " + fto.scale + "   " + fto.color);
                         currentCharacter += (int)(fto.text.Length * fto.scale);
                     }
                 }
@@ -84,7 +83,6 @@ namespace TileGame.Code.GameObjects.Default.Drawing
         private static Color FromName(string colorName)
         {
             System.Drawing.Color systemColor = System.Drawing.Color.FromName(colorName);
-            Console.WriteLine(systemColor.R + "     " +  systemColor.G + "   " + systemColor.B + "  " + systemColor.A);
             return new Color(systemColor.R, systemColor.G, systemColor.B, systemColor.A); //Here Color is Microsoft.Xna.Framework.Graphics.Color
         }
 
