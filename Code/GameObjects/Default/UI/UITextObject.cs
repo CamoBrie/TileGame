@@ -26,12 +26,12 @@ namespace TileGame.Code.GameObjects.Default.UI
         /// <param name="font"></param>
         internal UITextObject(Rectangle pos, string text, Anchor anchorMode, UIObject parent, string fontName = "") : base(pos, anchorMode, parent)
         {
-            textObject = new TextObject(fontName, text);
+            textObject = new TextObject(fontName, text, GetDrawPos());
         }
 
         internal override void Draw(SpriteBatch batch)
         {
-            textObject.Draw(batch, GetDrawPos(), 1);
+            textObject.Draw(batch,1);
             base.Draw(batch);
         }
 

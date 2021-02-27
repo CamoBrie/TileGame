@@ -15,6 +15,14 @@ namespace TileGame.Code.GameObjects.Default.Drawing
         /// </summary>
         private readonly SpriteFont font;
 
+        private Color color = Color.Black;
+
+        internal textAlignment alignment;
+
+        internal float scale = 1.0f;
+
+        Rectangle drawField;
+
         /// <summary>
         /// The text to be analyzed.
         /// </summary>
@@ -23,16 +31,95 @@ namespace TileGame.Code.GameObjects.Default.Drawing
         /// <summary>
         /// The list of formatted text objects.
         /// </summary>
-        private readonly List<FormattedTextObject> formattedTexts = new List<FormattedTextObject>();
+        private readonly List<FormattedTextObject> formattedTextObjects = new List<FormattedTextObject>();
 
-        internal TextObject(string fontName, string text)
+        List<List<FormattedTextObject>> lines = new List<List<FormattedTextObject>>();
+
+        internal TextObject(string fontName, string text, Rectangle drawField, textAlignment alignment = textAlignment.Left)
         {
             this.font = Game.fonts.Get(fontName);
-            //Console.WriteLine(font.);
+            this.alignment = alignment;
             this.text = text;
-
-            formattedTexts = Analyze(text);
+            this.drawField = drawField;
+            formattedTextObjects = Analyze(text);
+            lines = GenerateLines();
+            foreach(List<FormattedTextObject> L in lines)
+            {
+                foreach(FormattedTextObject fto in L)
+                {
+                    Console.Write(fto.text);
+                }
+                Console.WriteLine();
+            }
         }
+
+        internal TextObject(string fontName, string text, Rectangle drawField, Color color, textAlignment alignment = textAlignment.Left, float scale = 1.0f)
+        {
+            this.font = Game.fonts.Get(fontName);
+            this.alignment = alignment;
+            this.color = color;
+            this.scale = scale;
+            this.text = text;
+            this.drawField = drawField;
+            formattedTextObjects = Analyze(text);
+            lines = GenerateLines();
+        }
+
+        /// <summary>
+        /// Fit all fto's in a list of lines(a list of fto's) 3
+        /// </summary>
+        /// <returns></returns>
+        List<List<FormattedTextObject>> GenerateLines()
+        {
+            //Create Lines list to return
+            List<List<FormattedTextObject>> lines = new List<List<FormattedTextObject>>();
+            //Create copy of the list of all the FTO's to move the items over to the lines
+            List<FormattedTextObject> remainingFTOs = new List<FormattedTextObject>(formattedTextObjects);
+            //While FTO's still need to be added from the remaining FTO's, add new lines and fill them
+            for(int i = 0; remainingFTOs.Count > 0; i++)
+            {
+                //Add a new Line
+                lines.Add(new List<FormattedTextObject>());
+                //Reset the current Line length
+                float currentLineLength = 0f;
+
+                //In case the FTOs length is larger then the whole line, add it and move to the next line. (The FTO doesnt fit in a line, even by itself)
+                if(remainingFTOs[0].drawSize.X > drawField.Width)
+                {
+                    //Add the FTO to the line
+                    lines[i].Add(remainingFTOs[0]);
+                    //Remove the FTO from the remaining FTOs
+                    remainingFTOs.RemoveAt(0);
+                    //continue to the next line
+                    continue;
+                }
+
+                //While FTO's still need to be added from the remaining FTO's, add fto's to the current line, unless it passes the line length
+                while (remainingFTOs.Count > 0)
+                {
+                    //Check if the next FTO can be added, considering line length. If so add the FTO, otherwise switch to the next line
+                    if((currentLineLength + remainingFTOs[0].drawSize.X < drawField.Width))
+                    {
+                        //Update the currentline length (length of all currently present FTOs in current line)
+                        currentLineLength += remainingFTOs[0].drawSize.X;
+                        //Add the FTO to the line
+                        lines[i].Add(remainingFTOs[0]);
+                        //Remove the FTO from the remaining FTOs
+                        remainingFTOs.RemoveAt(0);
+                    }
+                    else
+                    {
+                        //If the FTO can't be added, break from the FTO adding loop and continue to the next line
+                        break;
+                    }
+                }
+
+            }
+            //Return the lines
+            return lines;
+        }
+
+        
 
         /// <summary>
         /// Draws the text to the screen.
@@ -40,39 +127,40 @@ namespace TileGame.Code.GameObjects.Default.Drawing
         /// <param name="batch">the spritebatch where to draw to.</param>
         /// <param name="destRect">the rectangle in which to draw the text</param>
         /// <param name="lines">the amount of lines in the rectangle.</param>
-        internal void Draw(SpriteBatch batch, Rectangle destRect, int lines = 1)
+        internal void Draw(SpriteBatch batch, int lines = 1)
         {
-            Vector2 characterSize = font.MeasureString("a");
-            int currentLine = 0;
-            int currentCharacter = 0;
+            
 
-            foreach (FormattedTextObject fto in formattedTexts)
-            {
-                if(fto.texture != null)
-                {
-                    Rectangle drawRect = new Rectangle((int)(destRect.X + characterSize.X * currentCharacter), destRect.Y + destRect.Height / lines * currentLine, (int)(characterSize.Y / fto.texture.Height * fto.texture.Width), (int)characterSize.Y);
-                    drawRect.Location = Camera.stw(drawRect.Location.ToVector2()).ToPoint();
+            //Vector2 characterSize = font.MeasureString("a");
+            //int currentLine = 0;
+            //int currentCharacter = 0;
+
+            //foreach (FormattedTextObject fto in formattedTexts)
+            //{
+            //    if(fto.texture != null)
+            //    {
+            //        Rectangle drawRect = new Rectangle((int)(destRect.X + characterSize.X * currentCharacter), destRect.Y + destRect.Height / lines * currentLine, (int)(characterSize.Y / fto.texture.Height * fto.texture.Width), (int)characterSize.Y);
                     
-                    batch.Draw(fto.texture, drawRect, fto.color);
-                    currentCharacter += 2;
-                } else
-                {
-                    if(currentCharacter + fto.text.Length > destRect.Width / (int)characterSize.X)
-                    {
-                        currentLine++;
-                        currentCharacter = 0;
-                    } else if(currentLine >= lines)
-                    {
-                        return;
-                    } else
-                    {
-                        Vector2 pos = new Vector2(destRect.X + characterSize.X * currentCharacter, destRect.Y + destRect.Height / lines * currentLine);
-                        Vector2 offset = fto.scale == 1 ? Vector2.Zero : new Vector2(0, font.MeasureString(fto.text).Y - font.MeasureString(fto.text).Y * fto.scale); 
-                        batch.DrawString(font, fto.text, Camera.stw(pos + offset), fto.color, 0, Vector2.Zero, fto.scale, SpriteEffects.None, 0);
-                        currentCharacter += (int)(fto.text.Length * fto.scale);
-                    }
-                }
-            }
+            //        batch.Draw(fto.texture, drawRect, fto.color);
+            //        currentCharacter += 2;
+            //    } else
+            //    {
+            //        if(currentCharacter + fto.text.Length > destRect.Width / (int)characterSize.X)
+            //        {
+            //            currentLine++;
+            //            currentCharacter = 0;
+            //        } else if(currentLine >= lines)
+            //        {
+            //            return;
+            //        } else
+            //        {
+            //            Vector2 pos = new Vector2(destRect.X + characterSize.X * currentCharacter, destRect.Y + destRect.Height / lines * currentLine);
+            //            Vector2 offset = fto.scale == 1 ? Vector2.Zero : new Vector2(0, font.MeasureString(fto.text).Y - font.MeasureString(fto.text).Y * fto.scale); 
+            //            batch.DrawString(font, fto.text, pos + offset, fto.color, 0, Vector2.Zero, fto.scale, SpriteEffects.None, 0);
+            //            currentCharacter += (int)(fto.text.Length * fto.scale);
+            //        }
+            //    }
+            //}
         }
 
         /// <summary>
@@ -94,60 +182,71 @@ namespace TileGame.Code.GameObjects.Default.Drawing
         private List<FormattedTextObject> Analyze(string text)
         {
             List<FormattedTextObject> fto = new List<FormattedTextObject>();
-            string[] st = text.Split("\\".ToCharArray());
-            Color currentColor = Color.Black;
-            float currentScale = 1f;
-            foreach(string s in st)
+            string[] words = text.Split(' ');
+            Color currentColor = this.color;
+            float currentScale = this.scale;
+            SpriteFont currentFont = this.font;
+            for (int i = 0; i < words.Length; i++)
             {
-                if(s.Length == 0)
-                {
-                    continue;
-                }
+                if (i != 0)
+                    words[i] = " " + words[i];
 
-                if(s.StartsWith("color("))
+                string[] stringObjects = words[i].Split(new char[] { '\\' });
+                foreach(string s in stringObjects)
                 {
-                    string[] args = s.Substring(6).Split(")".ToCharArray());
-                    currentColor = FromName(args[0]);
-                    fto.Add(new FormattedTextObject(args[1], currentScale, currentColor));
-                } 
-                else if(s.StartsWith("img("))
-                {
-                    string path = s.Substring(4).Split(")".ToCharArray())[0];
-                    fto.Add(new FormattedTextObject("", currentScale, currentColor, Game.textures.Get(path)));
-                    if(s.Substring(4).Split(")".ToCharArray()).Length > 1)
+                    if (s.Length == 0)
                     {
-                        fto.Add(new FormattedTextObject(s.Substring(4).Split(")".ToCharArray(), 2)[1], currentScale, currentColor));
+                        continue;
                     }
-                }
-                else if (s.StartsWith("scale("))
-                {
-                    string[] args = s.Substring(6).Split(")".ToCharArray());
-                    currentScale = float.Parse(args[0], CultureInfo.InvariantCulture.NumberFormat);
-                    fto.Add(new FormattedTextObject(args[1], currentScale, currentColor));
-                }
-                else if (s.StartsWith("r.color"))
-                {
-                    currentColor = Color.White;
-                    string clean = s.Substring(7);
-                    if(clean != "")
+
+                    if (s.StartsWith("color("))
                     {
-                        fto.Add(new FormattedTextObject(clean, currentScale, currentColor));
+                        string[] args = s.Substring(6).Split(")".ToCharArray());
+                        currentColor = FromName(args[0]);
+                        fto.Add(new FormattedTextObject(args[1], currentScale, currentColor, currentFont));
                     }
-                }
-                else if (s.StartsWith("r.scale"))
-                {
-                    currentScale = 1f;
-                    string clean = s.Substring(7);
-                    if (clean != "")
+                    else if (s.StartsWith("img("))
                     {
-                        fto.Add(new FormattedTextObject(clean, currentScale, currentColor));
+                        string path = s.Substring(4).Split(")".ToCharArray())[0];
+                        fto.Add(new FormattedTextObject("", currentScale, currentColor, currentFont, Game.textures.Get(path)));
+                        if (s.Substring(4).Split(")".ToCharArray()).Length > 1)
+                        {
+                            fto.Add(new FormattedTextObject(s.Substring(4).Split(")".ToCharArray(), 2)[1], currentScale, currentColor, currentFont));
+                        }
                     }
-                } else
-                {
-                    fto.Add(new FormattedTextObject(s, currentScale, currentColor));
+                    else if (s.StartsWith("scale("))
+                    {
+                        string[] args = s.Substring(6).Split(")".ToCharArray());
+                        currentScale = float.Parse(args[0], CultureInfo.InvariantCulture.NumberFormat);
+                        fto.Add(new FormattedTextObject(args[1], currentScale, currentColor, currentFont));
+                    }
+                    else if (s.StartsWith("r.color"))
+                    {
+                        currentColor = this.color;
+                        string clean = s.Substring(7);
+                        if (clean != "")
+                        {
+                            fto.Add(new FormattedTextObject(clean, currentScale, currentColor, currentFont));
+                        }
+                    }
+                    else if (s.StartsWith("r.scale"))
+                    {
+                        currentScale = this.scale;
+                        string clean = s.Substring(7);
+                        if (clean != "")
+                        {
+                            fto.Add(new FormattedTextObject(clean, currentScale, currentColor, currentFont));
+                        }
+                    }
+                    else
+                    {
+                        fto.Add(new FormattedTextObject(s, currentScale, currentColor, currentFont));
+                    }
                 }
             }
             return fto;
         }
     }
+
+    internal enum textAlignment { Left, Center, Right}
 }
