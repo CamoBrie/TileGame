@@ -5,6 +5,7 @@ using System.Globalization;
 using TileGame.Code.GameObjects.Data;
 using TileGame.Code.Utils;
 using System;
+using TileGame.Code.Data;
 
 namespace TileGame.Code.GameObjects.Default.Drawing
 {
@@ -21,7 +22,16 @@ namespace TileGame.Code.GameObjects.Default.Drawing
 
         internal float scale = 1.0f;
 
-        Rectangle drawField;
+        Rectangle pos;
+
+        Rectangle drawField
+        {
+            get
+            {
+                return pos;
+                //return new Rectangle((int)(pos.X - (pos.Width * Settings.UIScale) / 2), (int)(pos.Y - (pos.Height * Settings.UIScale) / 2), (int)(pos.Width * Settings.UIScale), (int)(pos.Height * Settings.UIScale));
+            }
+        }
 
         internal bool ScaleToFitText;
 
@@ -60,28 +70,28 @@ namespace TileGame.Code.GameObjects.Default.Drawing
             this.font = Game.fonts.Get(fontName);
             this.alignment = alignment;
             this.text = text;
-            this.drawField = drawField;
+            this.pos = drawField;
             this.ScaleToFitText = false;
             formattedTextObjects = Analyze(text);
             lines = GenerateLines();
-            foreach(List<FormattedTextObject> L in lines)
-            {
-                foreach(FormattedTextObject fto in L)
-                {
-                    Console.Write(fto.text);
-                }
-                Console.WriteLine();
-            }
+            //foreach(List<FormattedTextObject> L in lines)
+            //{
+            //    foreach(FormattedTextObject fto in L)
+            //    {
+            //        Console.Write(fto.text);
+            //    }
+            //    Console.WriteLine();
+            //}
         }
 
-        internal TextObject(string fontName, string text, Rectangle drawField, Color color, textAlignment alignment = textAlignment.Left, float scale = 1.0f, bool scaleToFitToText = false)
+        internal TextObject(GameObject parent, string fontName, string text, Rectangle drawField, Color color, textAlignment alignment = textAlignment.Left, float scale = 1.0f, bool scaleToFitToText = false)
         {
             this.font = Game.fonts.Get(fontName);
             this.alignment = alignment;
             this.color = color;
             this.scale = scale;
             this.text = text;
-            this.drawField = drawField;
+            this.pos = drawField;
             this.ScaleToFitText = scaleToFitToText;
             formattedTextObjects = Analyze(text);
             lines = GenerateLines();
@@ -124,10 +134,7 @@ namespace TileGame.Code.GameObjects.Default.Drawing
                     {
                         //Trim if first in line (so the line doesn't start with whitespace)
                         if (lines[i].Count == 0)
-                        {
                             remainingFTOs[0].Trim();
-                            Console.WriteLine("Trimming:" + remainingFTOs[0].text);
-                        }
 
                         //Update the currentline length (length of all currently present FTOs in current line)
                         currentLineLength += remainingFTOs[0].drawSize.X;
@@ -142,7 +149,6 @@ namespace TileGame.Code.GameObjects.Default.Drawing
                         break;
                     }
                 }
-
             }
             //Return the lines
             return lines;
@@ -244,7 +250,7 @@ namespace TileGame.Code.GameObjects.Default.Drawing
                     else if (s.StartsWith("scale("))
                     {
                         string[] args = s.Substring(6).Split(")".ToCharArray());
-                        currentScale = float.Parse(args[0], CultureInfo.InvariantCulture.NumberFormat);
+                        currentScale = float.Parse(args[0], CultureInfo.InvariantCulture.NumberFormat) * this.scale;
                         fto.Add(new FormattedTextObject(args[1], currentScale, currentColor, currentFont));
                     }
                     else if (s.StartsWith("r.color"))

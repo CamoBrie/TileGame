@@ -37,10 +37,41 @@ namespace TileGame.Code.GameObjects.Default
             }
         }
 
+        internal override Rectangle GetDrawPos()
+        {
+            return new Rectangle((int)(globalPosition.X - (width * Settings.UIScale) / 2), (int)(globalPosition.Y - (height * Settings.UIScale) / 2), (int)(width * Settings.UIScale), (int)(height*Settings.UIScale));
+        }
+
         /// <summary>
         /// The Offset determined by the AnchorPreset
         /// </summary>
-        Point AnchorOffset;
+        Point AnchorOffset
+        {
+            get
+            {
+                switch (anchorMode)
+                {
+                    case Anchor.Left:
+                        return new Point(-parent.width / 2, 0);
+                    case Anchor.Right:
+                        return new Point(parent.width / 2, 0);
+                    case Anchor.Top:
+                        return new Point(0, -parent.height / 2);
+                    case Anchor.Bottom:
+                        return new Point(0, parent.height / 2);
+                    case Anchor.TopLeft:
+                        return new Point(-parent.width / 2);
+                    case Anchor.BottomRight:
+                        return new Point(parent.width / 2);
+                    case Anchor.TopRight:
+                        return new Point(parent.width / 2, -parent.height / 2);
+                    case Anchor.BottomLeft:
+                        return new Point(-parent.width / 2, parent.height / 2);
+                    default:
+                        return Point.Zero;
+                }
+            }
+        }
 
         /// <summary>
         /// Use this constructer to create a canvas UIObject.
@@ -71,35 +102,7 @@ namespace TileGame.Code.GameObjects.Default
             width = (int)(pos.Width * Settings.UIScale);
             height = (int)(pos.Height * Settings.UIScale);
             centerPosition = pos.Center.ToVector2()*Settings.UIScale;
-            switch (anchorMode)
-            {
-                case Anchor.Left:
-                    AnchorOffset = new Point(-parent.width/2, 0);
-                    break;
-                case Anchor.Right:
-                    AnchorOffset = new Point(parent.width / 2, 0);
-                    break;
-                case Anchor.Top:
-                    AnchorOffset = new Point(0, -parent.height /2);
-                    break;
-                case Anchor.Bottom:
-                    AnchorOffset = new Point(0, parent.height / 2);
-                    break;
-                case Anchor.TopLeft:
-                    AnchorOffset = new Point(-parent.width / 2);
-                    break;
-                case Anchor.BottomRight:
-                    AnchorOffset = new Point(parent.width / 2);
-                    break;
-                case Anchor.TopRight:
-                    AnchorOffset = new Point(parent.width / 2, -parent.height / 2);
-                    break;
-                case Anchor.BottomLeft:
-                    AnchorOffset = new Point(-parent.width / 2, parent.height / 2);
-                    break;
-                default:
-                    break;
-            }
+            
         }
 
     }

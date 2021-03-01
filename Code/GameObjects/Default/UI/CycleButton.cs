@@ -8,12 +8,13 @@ using Microsoft.Xna.Framework.Graphics;
 using TileGame.Code.Animations;
 using TileGame.Code.GameObjects.Default.Drawing;
 using Microsoft.Xna.Framework.Input;
+using TileGame.Code.Data;
 
 namespace TileGame.Code.GameObjects.Default.UI
 {
     class CycleButton<T> : UIAnimatedObject
     {
-        Dictionary<T, String> displayLabels;
+        internal Dictionary<T, String> displayLabels;
 
         int currentIndex;
 
@@ -56,32 +57,42 @@ namespace TileGame.Code.GameObjects.Default.UI
             if (values.Length != labels.Length)
                 Console.WriteLine("have not been Added");
 
-            this.textObject = new TextObject("views/fonts/Sans", CurrentLabel, this.GetDrawPos(), Color.Black, textAlignment.Center, 1f, false);
+            this.textObject = new TextObject("views/fonts/Sans", CurrentLabel, this.GetDrawPos(), Color.Black, textAlignment.Center, 1.0f, true);
+
             this.OnMouseDown += ButtonHold;
             this.OnMouseUp += CyclePress;
         }
 
+        internal void SetCurrentValue(T value)
+        {
+            if (values.Contains(value))
+            {
+                Console.WriteLine(currentIndex);
+                currentIndex = values.IndexOf(value);
+                Console.WriteLine("Contains the value" + currentIndex);
+                UpdateDisplayLabel();
+            }
+        }
+
+        void UpdateDisplayLabel()
+        {
+            textObject = new TextObject("views/fonts/Sans", CurrentLabel, this.GetDrawPos(), Color.Black, textAlignment.Center, 1.0f, true);
+        }
+
         private void CyclePress(GameObject sender, MouseState state)
         {
-            SetTimer(0.001f, Cycle);
-            PlayAnimation("pressed");
+            if (currentIndex == values.Count - 1)
+                currentIndex = 0;
+            else
+                currentIndex++;
+            UpdateDisplayLabel();
+            Console.WriteLine(CurrentLabel + "  " + CurrentValue);
+            PlayAnimation("DE-default");
         }
 
         private void ButtonHold(GameObject sender, MouseState state)
         {
             PlayAnimation("pressed");
-        }
-
-        
-
-        void Cycle()
-        {
-            PlayAnimation("DE-default");
-            if (currentIndex == values.Count - 1)
-                currentIndex = 0;
-            else
-                currentIndex++;
-            textObject = new TextObject("views/fonts/Sans", CurrentLabel, this.GetDrawPos(), Color.Black, textAlignment.Center, 1f, false);
         }
 
         internal override void Draw(SpriteBatch batch)

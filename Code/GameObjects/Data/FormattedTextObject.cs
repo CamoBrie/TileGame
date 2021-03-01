@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using TileGame.Code.Data;
 
 namespace TileGame.Code.GameObjects.Data
 {
@@ -8,6 +9,7 @@ namespace TileGame.Code.GameObjects.Data
         internal string text;
         internal string trimmedText => text.Trim();
         internal float scale;
+        float drawScale => scale * Settings.UIScale;
         internal Color color;
         internal Texture2D texture;
         internal SpriteFont font;
@@ -21,9 +23,7 @@ namespace TileGame.Code.GameObjects.Data
             }
         }
 
-        internal Point drawSize;
 
-        internal Point trimmedDrawSize;
 
         public FormattedTextObject(string text, float scale, Color color,SpriteFont font, Texture2D texture = null)
         {
@@ -32,45 +32,48 @@ namespace TileGame.Code.GameObjects.Data
             this.color = color;
             this.texture = texture;
             this.font = font;
-            drawSize = GetDrawSize();
-            trimmedDrawSize = GetTrimmedSize();
         }
 
-        internal Point GetDrawSize()
+        internal Point drawSize
         {
-            if(texture == null)
+            get
             {
-                return (font.MeasureString(text) * scale).ToPoint();
-            }
-            else
-            {
-                return new Point((int)(((font.MeasureString("o").Y * scale)/texture.Height) * texture.Width), (int)(font.MeasureString("o").Y * scale));
+                if (texture == null)
+                {
+                    return (font.MeasureString(text) * drawScale).ToPoint();
+                }
+                else
+                {
+                    return new Point((int)(((font.MeasureString("o").Y * drawScale) / texture.Height) * texture.Width), (int)(font.MeasureString("o").Y * drawScale));
+                }
             }
         }
 
-        internal Point GetTrimmedSize()
+        internal Point trimmedDrawSize
         {
-            if (texture == null)
+            get
             {
-                return (font.MeasureString(trimmedText) * scale).ToPoint();
+                if (texture == null)
+                {
+                    return (font.MeasureString(trimmedText) * drawScale).ToPoint();
+                }
+                else
+                {
+                    return drawSize;
+                }
             }
-            else
-            {
-                return GetDrawSize();
-            }
+            
         }
 
         internal void Trim()
         {
             this.text = this.text.Trim();
-            drawSize = GetDrawSize();
-            trimmedDrawSize = GetTrimmedSize();
         }
 
         internal void Draw(SpriteBatch batch, Vector2 drawPosition)
         {
             if (texture == null)
-                batch.DrawString(font, text, drawPosition, color, 0f, Vector2.Zero, this.scale, SpriteEffects.None, 0f);
+                batch.DrawString(font, text, drawPosition, color, 0f, Vector2.Zero, this.drawScale, SpriteEffects.None, 0f);
             else
                 batch.Draw(this.texture, new Rectangle(drawPosition.ToPoint(), drawSize), Color.White);
         }
