@@ -56,7 +56,7 @@ namespace TileGame.Code.GameObjects.Default.UI
             if (values.Length != labels.Length)
                 Console.WriteLine("have not been Added");
 
-            this.textObject = new TextObject("views/fonts/Sans", CurrentLabel, this.GetDrawPos());
+            this.textObject = new TextObject("views/fonts/Sans", CurrentLabel, this.GetDrawPos(), Color.Black, textAlignment.Center, 1f, false);
             this.OnMouseDown += ButtonHold;
             this.OnMouseUp += CyclePress;
         }
@@ -81,13 +81,13 @@ namespace TileGame.Code.GameObjects.Default.UI
                 currentIndex = 0;
             else
                 currentIndex++;
-            textObject = new TextObject("views/fonts/Sans", CurrentLabel, GetDrawPos());
+            textObject = new TextObject("views/fonts/Sans", CurrentLabel, this.GetDrawPos(), Color.Black, textAlignment.Center, 1f, false);
         }
 
         internal override void Draw(SpriteBatch batch)
         {
             base.Draw(batch);
-            textObject.Draw(batch, 1);
+            textObject.Draw(batch);
         }
 
     }

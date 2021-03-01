@@ -31,7 +31,7 @@ namespace TileGame.Code.GameObjects.Default.UI
 
         internal override void Draw(SpriteBatch batch)
         {
-            textObject.Draw(batch,1);
+            textObject.Draw(batch);
             base.Draw(batch);
         }
 

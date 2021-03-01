@@ -26,11 +26,12 @@ namespace TileGame.Code.GameStates
         {
             UI.Add(startButton = new UISpriteObject(new Rectangle(-200,-200,400,400), "views/menu/start_button", Anchor.Left, GameState.canvas));
             UI.Add(exitButton = new UISpriteObject(new Rectangle(-60, 10, 50, 50), "views/menu/exit_button", Anchor.TopRight, GameState.canvas));
-            UI.Add(new UITextObject(new Rectangle(0, 0, 300, 100), "Main Menu", Anchor.Center, GameState.canvas, "views/fonts/sans"));
-            UI.Add(new CycleButton<int>(Point.Zero, Anchor.Center, GameState.canvas, new int[]{ 1, 2, 3, 4} , new string[]{ "bks dxcbe xuc hdie bcxd uxube d bkch udkbu cuie bxcjh kcb bs hbcj yde", "2", "3" }));
+            UI.Add(new UITextObject(new Rectangle(-300, -300, 300, 0), "Main Menu", Anchor.Center, GameState.canvas, "views/fonts/sans"));
+            UI.Add(new CycleButton<float>(Point.Zero, Anchor.Center, GameState.canvas, new float[]{ 1f, 1.2f, 1.5f, 0.5f, 0.8f} , new string[]{"regular", "big", "huge", "tiny", "small"}));
 
             startButton.OnMouseUp += StartHandler;
             exitButton.OnMouseUp += ExitHandler;
+
         }
 
         /// <summary>

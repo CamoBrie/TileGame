@@ -23,6 +23,26 @@ namespace TileGame.Code.GameObjects.Default.Drawing
 
         Rectangle drawField;
 
+        internal bool ScaleToFitText;
+
+        Vector2 GetAlignmentOffSet(Point lineSize)
+        {
+            float x = 0;
+            switch (alignment)
+            {
+                case textAlignment.Right:
+                    x = drawField.Width - lineSize.X;
+                    break;
+                case textAlignment.Center:
+                    x = (drawField.Width / 2) - (lineSize.X / 2);
+                    break;
+                default:
+                    break;
+            }
+            return new Vector2(x, 0);
+        }
+
+
         /// <summary>
         /// The text to be analyzed.
         /// </summary>
@@ -41,6 +61,7 @@ namespace TileGame.Code.GameObjects.Default.Drawing
             this.alignment = alignment;
             this.text = text;
             this.drawField = drawField;
+            this.ScaleToFitText = false;
             formattedTextObjects = Analyze(text);
             lines = GenerateLines();
             foreach(List<FormattedTextObject> L in lines)
@@ -53,7 +74,7 @@ namespace TileGame.Code.GameObjects.Default.Drawing
             }
         }
 
-        internal TextObject(string fontName, string text, Rectangle drawField, Color color, textAlignment alignment = textAlignment.Left, float scale = 1.0f)
+        internal TextObject(string fontName, string text, Rectangle drawField, Color color, textAlignment alignment = textAlignment.Left, float scale = 1.0f, bool scaleToFitToText = false)
         {
             this.font = Game.fonts.Get(fontName);
             this.alignment = alignment;
@@ -61,6 +82,7 @@ namespace TileGame.Code.GameObjects.Default.Drawing
             this.scale = scale;
             this.text = text;
             this.drawField = drawField;
+            this.ScaleToFitText = scaleToFitToText;
             formattedTextObjects = Analyze(text);
             lines = GenerateLines();
         }
@@ -84,7 +106,7 @@ namespace TileGame.Code.GameObjects.Default.Drawing
                 float currentLineLength = 0f;
 
                 //In case the FTOs length is larger then the whole line, add it and move to the next line. (The FTO doesnt fit in a line, even by itself)
-                if(remainingFTOs[0].drawSize.X > drawField.Width)
+                if(remainingFTOs[0].trimmedDrawSize.X > drawField.Width)
                 {
                     //Add the FTO to the line
                     lines[i].Add(remainingFTOs[0]);
@@ -100,6 +122,13 @@ namespace TileGame.Code.GameObjects.Default.Drawing
                     //Check if the next FTO can be added, considering line length. If so add the FTO, otherwise switch to the next line
                     if((currentLineLength + remainingFTOs[0].drawSize.X < drawField.Width))
                     {
+                        //Trim if first in line (so the line doesn't start with whitespace)
+                        if (lines[i].Count == 0)
+                        {
+                            remainingFTOs[0].Trim();
+                            Console.WriteLine("Trimming:" + remainingFTOs[0].text);
+                        }
+
                         //Update the currentline length (length of all currently present FTOs in current line)
                         currentLineLength += remainingFTOs[0].drawSize.X;
                         //Add the FTO to the line
@@ -127,40 +156,26 @@ namespace TileGame.Code.GameObjects.Default.Drawing
         /// <param name="batch">the spritebatch where to draw to.</param>
         /// <param name="destRect">the rectangle in which to draw the text</param>
         /// <param name="lines">the amount of lines in the rectangle.</param>
-        internal void Draw(SpriteBatch batch, int lines = 1)
+        internal void Draw(SpriteBatch batch)
         {
-            
+            float yPos = 0f;
+            for(int y = 0; y < lines.Count; y++)
+            {
+                if (!ScaleToFitText && (yPos + GetSizeOfLine(lines[y]).Y > drawField.Height))
+                    break;
 
-            //Vector2 characterSize = font.MeasureString("a");
-            //int currentLine = 0;
-            //int currentCharacter = 0;
-
-            //foreach (FormattedTextObject fto in formattedTexts)
-            //{
-            //    if(fto.texture != null)
-            //    {
-            //        Rectangle drawRect = new Rectangle((int)(destRect.X + characterSize.X * currentCharacter), destRect.Y + destRect.Height / lines * currentLine, (int)(characterSize.Y / fto.texture.Height * fto.texture.Width), (int)characterSize.Y);
-                    
-            //        batch.Draw(fto.texture, drawRect, fto.color);
-            //        currentCharacter += 2;
-            //    } else
-            //    {
-            //        if(currentCharacter + fto.text.Length > destRect.Width / (int)characterSize.X)
-            //        {
-            //            currentLine++;
-            //            currentCharacter = 0;
-            //        } else if(currentLine >= lines)
-            //        {
-            //            return;
-            //        } else
-            //        {
-            //            Vector2 pos = new Vector2(destRect.X + characterSize.X * currentCharacter, destRect.Y + destRect.Height / lines * currentLine);
-            //            Vector2 offset = fto.scale == 1 ? Vector2.Zero : new Vector2(0, font.MeasureString(fto.text).Y - font.MeasureString(fto.text).Y * fto.scale); 
-            //            batch.DrawString(font, fto.text, pos + offset, fto.color, 0, Vector2.Zero, fto.scale, SpriteEffects.None, 0);
-            //            currentCharacter += (int)(fto.text.Length * fto.scale);
-            //        }
-            //    }
-            //}
+                float xPos = 0f;
+                for(int x = 0; x < lines[y].Count; x++)
+                {
+                    lines[y][x].Draw(batch, new Vector2(xPos + drawField.Left, yPos + drawField.Top) + GetAlignmentOffSet(GetSizeOfLine(lines[y])));
+                    xPos += lines[y][x].drawSize.X;
+                }
+                int LineHeight = 0;
+                foreach(FormattedTextObject fto in lines[y])
+                    if (fto.drawSize.Y > LineHeight)
+                        LineHeight = fto.drawSize.Y;
+                yPos += LineHeight;
+            }
         }
 
         /// <summary>
@@ -172,6 +187,18 @@ namespace TileGame.Code.GameObjects.Default.Drawing
         {
             System.Drawing.Color systemColor = System.Drawing.Color.FromName(colorName);
             return new Color(systemColor.R, systemColor.G, systemColor.B, systemColor.A); //Here Color is Microsoft.Xna.Framework.Graphics.Color
+        }
+
+        Point GetSizeOfLine(List<FormattedTextObject> line)
+        {
+            Point size = Point.Zero;
+            foreach (FormattedTextObject fto in line)
+            {
+                size.X += fto.drawSize.X;
+                if (fto.drawSize.Y > size.Y)
+                    size.Y = fto.drawSize.Y;
+            }
+            return size;
         }
 
         /// <summary>
