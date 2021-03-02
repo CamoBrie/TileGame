@@ -26,7 +26,7 @@ namespace TileGame.Code.GameObjects.Default.UI
 
         internal string CurrentLabel => displayLabels[CurrentValue];
 
-        internal CycleButton(Point pos, Anchor anchorMode, UIObject parent, T[] values, string[] labels) : base(new Rectangle(pos, new Point(128, 32)), "views/menu/button", anchorMode, parent)
+        internal CycleButton(Rectangle pos, Anchor anchorMode, UIObject parent, T[] values, string[] labels) : base(pos, "views/menu/button", anchorMode, parent)
         {
             currentIndex = 0;
             if (values.Length != labels.Length)
@@ -57,7 +57,7 @@ namespace TileGame.Code.GameObjects.Default.UI
             if (values.Length != labels.Length)
                 Console.WriteLine("have not been Added");
 
-            this.textObject = new TextObject("views/fonts/Sans", CurrentLabel, this.GetDrawPos(), Color.Black, textAlignment.Center, 1.0f, true);
+            this.textObject = new TextObject(this, "views/fonts/Sans", CurrentLabel, Color.Black, textAlignment.Center, 1f, true);
 
             this.OnMouseDown += ButtonHold;
             this.OnMouseUp += CyclePress;
@@ -76,7 +76,7 @@ namespace TileGame.Code.GameObjects.Default.UI
 
         void UpdateDisplayLabel()
         {
-            textObject = new TextObject("views/fonts/Sans", CurrentLabel, this.GetDrawPos(), Color.Black, textAlignment.Center, 1.0f, true);
+            textObject = new TextObject(this, "views/fonts/Sans", CurrentLabel, Color.Black, textAlignment.Center, 1f, true);
         }
 
         private void CyclePress(GameObject sender, MouseState state)

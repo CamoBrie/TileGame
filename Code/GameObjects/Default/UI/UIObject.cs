@@ -28,7 +28,7 @@ namespace TileGame.Code.GameObjects.Default
             {
                 if (parent != null)
                 {
-                    return centerPosition + parent.globalPosition + AnchorOffset.ToVector2();
+                    return centerPosition * Settings.UIScale + parent.globalPosition + AnchorOffset.ToVector2();
                 }
                 else
                 {
@@ -60,9 +60,9 @@ namespace TileGame.Code.GameObjects.Default
                     case Anchor.Bottom:
                         return new Point(0, parent.height / 2);
                     case Anchor.TopLeft:
-                        return new Point(-parent.width / 2);
+                        return new Point(-parent.width / 2, -parent.height / 2);
                     case Anchor.BottomRight:
-                        return new Point(parent.width / 2);
+                        return new Point(parent.width / 2, parent.height / 2);
                     case Anchor.TopRight:
                         return new Point(parent.width / 2, -parent.height / 2);
                     case Anchor.BottomLeft:

@@ -29,8 +29,8 @@ namespace TileGame.Code.GameStates
         {
             UI.Add(startButton = new UISpriteObject(new Rectangle(-200,-200,400,400), "views/menu/start_button", Anchor.Left, GameState.canvas));
             UI.Add(exitButton = new UISpriteObject(new Rectangle(-60, 10, 50, 50), "views/menu/exit_button", Anchor.TopRight, GameState.canvas));
-            UI.Add(new UITextObject(new Rectangle(-300, -300, 300, 0), "Main Menu", Anchor.Center, GameState.canvas, "views/fonts/sans"));
-            UI.Add(UIScaleButton = new CycleButton<float>(Point.Zero, Anchor.Center, GameState.canvas, new float[]{0.5f, 0.8f, 1f, 1.2f, 1.5f} , new string[] { "tiny", "small", "regular", "big", "huge"}));
+            UI.Add(new UITextObject(new Rectangle(0,0,300,100), Anchor.TopLeft, GameState.canvas, "SETTINGS", Color.Black, "views/fonts/sans", textAlignment.Left, 1.0f, false));
+            UI.Add(UIScaleButton = new CycleButton<float>(new Rectangle(-64, -16, 128, 32), Anchor.Center, GameState.canvas, new float[]{0.6f, 0.8f, 1f, 1.5f, 1.8f} , new string[] { "tiny", "small", "regular", "big", "huge"}));
             UIScaleButton.SetCurrentValue(Settings.UIScale);
 
             startButton.OnMouseUp += StartHandler;

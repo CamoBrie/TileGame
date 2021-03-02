@@ -9,7 +9,7 @@ using TileGame.Code.Data;
 
 namespace TileGame.Code.GameObjects.Default.Drawing
 {
-    internal class TextObject
+    internal class TextObject : GameObject
     {
         /// <summary>
         /// The font to be used.
@@ -22,18 +22,17 @@ namespace TileGame.Code.GameObjects.Default.Drawing
 
         internal float scale = 1.0f;
 
-        Rectangle pos;
+        internal bool cropText;
 
-        Rectangle drawField
+        bool isUI;
+
+        internal override Rectangle GetDrawPos()
         {
-            get
-            {
-                return pos;
-                //return new Rectangle((int)(pos.X - (pos.Width * Settings.UIScale) / 2), (int)(pos.Y - (pos.Height * Settings.UIScale) / 2), (int)(pos.Width * Settings.UIScale), (int)(pos.Height * Settings.UIScale));
-            }
+            if (!isUI)
+                return base.GetDrawPos();
+            else
+                return (parent as UIObject).GetDrawPos();
         }
-
-        internal bool ScaleToFitText;
 
         Vector2 GetAlignmentOffSet(Point lineSize)
         {
@@ -41,10 +40,10 @@ namespace TileGame.Code.GameObjects.Default.Drawing
             switch (alignment)
             {
                 case textAlignment.Right:
-                    x = drawField.Width - lineSize.X;
+                    x = GetDrawPos().Width - lineSize.X;
                     break;
                 case textAlignment.Center:
-                    x = (drawField.Width / 2) - (lineSize.X / 2);
+                    x = (GetDrawPos().Width / 2) - (lineSize.X / 2);
                     break;
                 default:
                     break;
@@ -65,36 +64,18 @@ namespace TileGame.Code.GameObjects.Default.Drawing
 
         List<List<FormattedTextObject>> lines = new List<List<FormattedTextObject>>();
 
-        internal TextObject(string fontName, string text, Rectangle drawField, textAlignment alignment = textAlignment.Left)
-        {
-            this.font = Game.fonts.Get(fontName);
-            this.alignment = alignment;
-            this.text = text;
-            this.pos = drawField;
-            this.ScaleToFitText = false;
-            formattedTextObjects = Analyze(text);
-            lines = GenerateLines();
-            //foreach(List<FormattedTextObject> L in lines)
-            //{
-            //    foreach(FormattedTextObject fto in L)
-            //    {
-            //        Console.Write(fto.text);
-            //    }
-            //    Console.WriteLine();
-            //}
-        }
-
-        internal TextObject(GameObject parent, string fontName, string text, Rectangle drawField, Color color, textAlignment alignment = textAlignment.Left, float scale = 1.0f, bool scaleToFitToText = false)
+        internal TextObject(GameObject parent, string fontName, string text, Color color, textAlignment alignment = textAlignment.Left, float scale = 1.0f, bool cropText = true) : base(parent)
         {
             this.font = Game.fonts.Get(fontName);
             this.alignment = alignment;
             this.color = color;
             this.scale = scale;
             this.text = text;
-            this.pos = drawField;
-            this.ScaleToFitText = scaleToFitToText;
+            this.cropText = cropText;
             formattedTextObjects = Analyze(text);
             lines = GenerateLines();
+            isUI = parent as UIObject != null;
+
         }
 
         /// <summary>
@@ -116,7 +97,7 @@ namespace TileGame.Code.GameObjects.Default.Drawing
                 float currentLineLength = 0f;
 
                 //In case the FTOs length is larger then the whole line, add it and move to the next line. (The FTO doesnt fit in a line, even by itself)
-                if(remainingFTOs[0].trimmedDrawSize.X > drawField.Width)
+                if(remainingFTOs[0].trimmedDrawSize.X > GetDrawPos().Width)
                 {
                     //Add the FTO to the line
                     lines[i].Add(remainingFTOs[0]);
@@ -130,7 +111,7 @@ namespace TileGame.Code.GameObjects.Default.Drawing
                 while (remainingFTOs.Count > 0)
                 {
                     //Check if the next FTO can be added, considering line length. If so add the FTO, otherwise switch to the next line
-                    if((currentLineLength + remainingFTOs[0].drawSize.X < drawField.Width))
+                    if((currentLineLength + remainingFTOs[0].drawSize.X < GetDrawPos().Width))
                     {
                         //Trim if first in line (so the line doesn't start with whitespace)
                         if (lines[i].Count == 0)
@@ -167,13 +148,13 @@ namespace TileGame.Code.GameObjects.Default.Drawing
             float yPos = 0f;
             for(int y = 0; y < lines.Count; y++)
             {
-                if (!ScaleToFitText && (yPos + GetSizeOfLine(lines[y]).Y > drawField.Height))
+                if (cropText && (yPos + GetSizeOfLine(lines[y]).Y > GetDrawPos().Height))
                     break;
 
                 float xPos = 0f;
                 for(int x = 0; x < lines[y].Count; x++)
                 {
-                    lines[y][x].Draw(batch, new Vector2(xPos + drawField.Left, yPos + drawField.Top) + GetAlignmentOffSet(GetSizeOfLine(lines[y])));
+                    lines[y][x].Draw(batch, new Vector2(xPos + GetDrawPos().Left, yPos + GetDrawPos().Top) + GetAlignmentOffSet(GetSizeOfLine(lines[y])));
                     xPos += lines[y][x].drawSize.X;
                 }
                 int LineHeight = 0;

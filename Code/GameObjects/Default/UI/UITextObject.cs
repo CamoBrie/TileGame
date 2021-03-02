@@ -24,9 +24,9 @@ namespace TileGame.Code.GameObjects.Default.UI
         /// <param name="anchorMode"></param>
         /// <param name="parent"></param>
         /// <param name="font"></param>
-        internal UITextObject(Rectangle pos, string text, Anchor anchorMode, UIObject parent, string fontName = "") : base(pos, anchorMode, parent)
+        internal UITextObject(Rectangle pos, Anchor anchorMode, UIObject parent, string text, Color textColor, string fontName = "", textAlignment alignment = textAlignment.Left, float textScale = 1.0f, bool cropText = true) : base(pos, anchorMode, parent)
         {
-            textObject = new TextObject(fontName, text, GetDrawPos());
+            textObject = new TextObject(this, fontName, text, textColor, alignment, textScale, cropText);
         }
 
         internal override void Draw(SpriteBatch batch)
