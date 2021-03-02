@@ -35,21 +35,12 @@ namespace TileGame.Code.GameStates
 
             startButton.OnMouseUp += StartHandler;
             exitButton.OnMouseUp += ExitHandler;
-            UIScaleButton.OnMouseDown += UIScaleHandler;
         }
 
         internal override void Update(GameTime time)
         {
             Settings.UIScale = UIScaleButton.CurrentValue;
-            Console.WriteLine(UIScaleButton.CurrentValue + "    " + UIScaleButton.CurrentLabel);
-            Console.WriteLine(Settings.UIScale);
             base.Update(time);
-        }
-
-        private void UIScaleHandler(GameObject sender, MouseState mouse)
-        {
-            //Settings.UIScale = UIScaleButton.CurrentValue;
-            //Console.WriteLine("UIScale: " + Settings.UIScale);
         }
 
         /// <summary>

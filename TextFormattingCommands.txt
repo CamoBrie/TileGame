@@ -1,0 +1,18 @@
+__CHANGING THE COLOUR__
+\\color(monogame.COLOR)
+	\> Sets the colour of the text behind this command to the chosen colour, until it is changed again
+\\r.color
+	\> Reverts the colour to the default colour of the TextObject
+
+__INSERTING AN IMAGE__
+\\img(path_to_file)
+	\> Inserts a texture2D as a character into the text. the character is scaled to the height fits inside the line
+
+__CHANGING THE SCALE__
+\\scale(float)
+	\> Sets the scael of the text and images behind this command to the chosen scale, until it is changed again
+	\> NOTE: do not write the value with an f! (1.0f -> 1.0)!!
+\r.scale
+	\> Reverts the scale to the default scale of the TextObject
+
+__CHANGING THE FONT__		YET TO BE IMPLEMENTED, DO NOT USE

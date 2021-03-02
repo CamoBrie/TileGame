@@ -16,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Structure", "Structure", "{
 		_FolderStructure.txt = _FolderStructure.txt
 		Animation.txt = Animation.txt
 		GameObjects.txt = GameObjects.txt
-		TextDrawer.txt = TextDrawer.txt
+		TextFormattingCommands.txt = TextFormattingCommands.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Management", "Management", "{681EBC32-97A3-4492-A43E-28D587FAA8D0}"
