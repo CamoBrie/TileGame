@@ -1,13 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using TileGame.Code.Utils;
-using TileGame.Code.Utils.Convenience;
-using TileGame.Code.GameObjects.Default.Drawing;
-using static TileGame.Code.Events.CollisionEvent;
-using static TileGame.Code.Events.MouseEvent;
 using TileGame.Code.Data;
 
 namespace TileGame.Code.GameObjects.Default
@@ -20,7 +11,7 @@ namespace TileGame.Code.GameObjects.Default
         protected Anchor anchorMode;
 
         /// <summary>
-        /// Override the globalPosition to apply the anchorOffset.
+        /// Override the globalPosition to apply the anchorOffset and UIScale.
         /// </summary>
         internal override Vector2 globalPosition
         {
@@ -37,6 +28,10 @@ namespace TileGame.Code.GameObjects.Default
             }
         }
 
+        /// <summary>
+        /// Apply the UIScale to the Drawposition
+        /// </summary>
+        /// <returns></returns>
         internal override Rectangle GetDrawPos()
         {
             return new Rectangle((int)(globalPosition.X - (width * Settings.UIScale) / 2), (int)(globalPosition.Y - (height * Settings.UIScale) / 2), (int)(width * Settings.UIScale), (int)(height*Settings.UIScale));

@@ -14,26 +14,26 @@ namespace TileGame.Code.GameObjects.Default.UI
 {
     class UITextObject : UIObject
     {
-        TextObject textObject;
+        /// <summary>
+        /// The TextObject used to display the text
+        /// </summary>
+        protected TextObject textObject;
 
         /// <summary>
-        /// TO-DO: Load font from name and have a default font, for when no font name is passed
+        /// Create a UIObject with text
         /// </summary>
-        /// <param name="pos"></param>
-        /// <param name="text"></param>
-        /// <param name="anchorMode"></param>
-        /// <param name="parent"></param>
-        /// <param name="font"></param>
+        /// <param name="pos">the relative position and size.</param>
+        /// <param name="anchorMode">the Anchor preset used.</param>
+        /// <param name="parent">the parent to anchor to</param>
+        /// <param name="text">The text to display (See TextObject doc for TextObject formatting Commands)</param>
+        /// <param name="textColor">The colour of the text</param>
+        /// <param name="fontName">The path to the font for the text</param>
+        /// <param name="alignment">The TextAlingment (Left, right, or center)</param>
+        /// <param name="textScale">The Scale of the text</param>
+        /// <param name="cropText">Whether to crop the displayed text to fit in this Object when drawing</param>
         internal UITextObject(Rectangle pos, Anchor anchorMode, UIObject parent, string text, Color textColor, string fontName = "", textAlignment alignment = textAlignment.Left, float textScale = 1.0f, bool cropText = true) : base(pos, anchorMode, parent)
         {
             textObject = new TextObject(this, fontName, text, textColor, alignment, textScale, cropText);
         }
-
-        internal override void Draw(SpriteBatch batch)
-        {
-            textObject.Draw(batch);
-            base.Draw(batch);
-        }
-
     }
 }

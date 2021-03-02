@@ -3,29 +3,40 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Globalization;
 using TileGame.Code.GameObjects.Data;
-using TileGame.Code.Utils;
-using System;
-using TileGame.Code.Data;
 
 namespace TileGame.Code.GameObjects.Default.Drawing
 {
     internal class TextObject : GameObject
     {
         /// <summary>
-        /// The font to be used.
+        /// The (default)font to be used.
         /// </summary>
         private readonly SpriteFont font;
-
+        /// <summary>
+        /// The (default)color
+        /// </summary>
         private Color color = Color.Black;
-
+        /// <summary>
+        /// The way to align the text in the drawfield (left, right, or center)
+        /// </summary>
         internal textAlignment alignment;
-
+        /// <summary>
+        /// The (default)scale
+        /// </summary>
         internal float scale = 1.0f;
-
+        /// <summary>
+        /// Whether to crop text that would flow Outside the drawfield
+        /// </summary>
         internal bool cropText;
+        /// <summary>
+        /// Whether the parent is a UIObject, relevent for IE Applying UIScale
+        /// </summary>
+        private readonly bool isUI;
 
-        bool isUI;
-
+        /// <summary>
+        /// Get the drawPos, depending on whether the parent is a UIOBject
+        /// </summary>
+        /// <returns></returns>
         internal override Rectangle GetDrawPos()
         {
             if (!isUI)
@@ -34,6 +45,11 @@ namespace TileGame.Code.GameObjects.Default.Drawing
                 return (parent as UIObject).GetDrawPos();
         }
 
+        /// <summary>
+        /// Get the Offset for a line, depending on the alignment
+        /// </summary>
+        /// <param name="lineSize">The Size of the line</param>
+        /// <returns></returns>
         Vector2 GetAlignmentOffSet(Point lineSize)
         {
             float x = 0;
@@ -51,31 +67,52 @@ namespace TileGame.Code.GameObjects.Default.Drawing
             return new Vector2(x, 0);
         }
 
-
-        /// <summary>
-        /// The text to be analyzed.
-        /// </summary>
-        private readonly string text;
-
         /// <summary>
         /// The list of formatted text objects.
         /// </summary>
-        private readonly List<FormattedTextObject> formattedTextObjects = new List<FormattedTextObject>();
+        private List<FormattedTextObject> formattedTextObjects = new List<FormattedTextObject>();
 
+        /// <summary>
+        /// A List of the Lines (Lists of ftos)
+        /// </summary>
         List<List<FormattedTextObject>> lines = new List<List<FormattedTextObject>>();
 
+        /// <summary>
+        /// Create a textobject, that formats and displays the text. See doc for Formatting commands.
+        /// </summary>
+        /// <param name="parent">The gameObject to attach the text to</param>
+        /// <param name="fontName">the name of the font (can be altered with Formatting Commands)</param>
+        /// <param name="text">The text incl. formatting commands to display</param>
+        /// <param name="color">The color of the text (can be altered with Formatting Commands)</param>
+        /// <param name="alignment">The textAlignment (Left, Right, Center)</param>
+        /// <param name="scale">The Size of the text (can be altered with Formatting Commands)</param>
+        /// <param name="cropText">Whether to crop the text to only show text that fits inside the drawfield</param>
         internal TextObject(GameObject parent, string fontName, string text, Color color, textAlignment alignment = textAlignment.Left, float scale = 1.0f, bool cropText = true) : base(parent)
         {
             this.font = Game.fonts.Get(fontName);
             this.alignment = alignment;
             this.color = color;
             this.scale = scale;
-            this.text = text;
             this.cropText = cropText;
+            isUI = parent as UIObject != null;
+            apply(text);
+        }
+        /// <summary>
+        /// Convert the text to ftos and lines
+        /// </summary>
+        /// <param name="text"></param>
+        void apply(string text)
+        {
             formattedTextObjects = Analyze(text);
             lines = GenerateLines();
-            isUI = parent as UIObject != null;
-
+        }
+        /// <summary>
+        /// Change the text
+        /// </summary>
+        /// <param name="text"></param>
+        internal void ChangeTo(string text)
+        {
+            apply(text);
         }
 
         /// <summary>
@@ -141,9 +178,7 @@ namespace TileGame.Code.GameObjects.Default.Drawing
         /// Draws the text to the screen.
         /// </summary>
         /// <param name="batch">the spritebatch where to draw to.</param>
-        /// <param name="destRect">the rectangle in which to draw the text</param>
-        /// <param name="lines">the amount of lines in the rectangle.</param>
-        internal void Draw(SpriteBatch batch)
+        internal override void Draw(SpriteBatch batch)
         {
             float yPos = 0f;
             for(int y = 0; y < lines.Count; y++)
@@ -176,6 +211,11 @@ namespace TileGame.Code.GameObjects.Default.Drawing
             return new Color(systemColor.R, systemColor.G, systemColor.B, systemColor.A); //Here Color is Microsoft.Xna.Framework.Graphics.Color
         }
 
+        /// <summary>
+        /// Measure the size of a line in pixels
+        /// </summary>
+        /// <param name="line">The line to measure</param>
+        /// <returns>the size of the line in pixels</returns>
         Point GetSizeOfLine(List<FormattedTextObject> line)
         {
             Point size = Point.Zero;
