@@ -14,13 +14,14 @@ namespace TileGame.Code.GameStates
 {
     class GameState : GameObject
     {
-        protected List<UIObject> UI = new List<UIObject>();
+        protected List<UIObject> UI;
 
         internal static UIObject canvas;
 
 
         internal GameState(Vector2 center, int width, int height) : base(center, width, height)
         {
+            UI = new List<UIObject>();
             canvas = new UIObject();
         }
 

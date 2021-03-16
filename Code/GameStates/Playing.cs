@@ -24,7 +24,6 @@ namespace TileGame.Code.GameStates
         {
             //testing code
             player = new Player(new Vector2(128, 128), 64, 64, "missing_aseDoc");
-            player.PlayAnimation("DE-fly", false);
             children.Add(player);
             //testing code
             level = new Level("path/to/level", ref player);
@@ -81,6 +80,10 @@ namespace TileGame.Code.GameStates
             if (InputManager.KeyDown(Keys.D))
             {
                 intentDir.X++;
+            }
+            if (InputManager.KeyDown(Keys.Escape))
+            {
+                Game.game.ChangeGameState("menu");
             }
             player.HandleInput(intentDir);
         }

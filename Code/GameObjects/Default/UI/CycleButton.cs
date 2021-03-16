@@ -33,6 +33,10 @@ namespace TileGame.Code.GameObjects.Default.UI
         /// The current label as determined by the current value
         /// </summary>
         internal string CurrentLabel => displayLabels[CurrentValue];
+        /// <summary>
+        /// The buttons that make the cyclebutton cycle when pressed
+        /// </summary>
+        internal UIButton leftButton, rightButton;
 
         /// <summary>
         /// Create a button that cycles through a bunch of labeled values when pressed
@@ -42,7 +46,7 @@ namespace TileGame.Code.GameObjects.Default.UI
         /// <param name="parent">the parent to anchor to</param>
         /// <param name="values">A list of values of any type</param>
         /// <param name="labels">A list of labels you wish to be displayed with the values</param>
-        internal CycleButton(Rectangle pos, Anchor anchorMode, UIObject parent, T[] values, string[] labels) : base(pos, "views/menu/button", anchorMode, parent)
+        internal CycleButton(Rectangle pos, Anchor anchorMode, UIObject parent, T[] values, string[] labels) : base(pos, "views/menu/wood_button_4", anchorMode, parent)
         {
             currentIndex = 0;
             if (values.Length != labels.Length)
@@ -73,10 +77,41 @@ namespace TileGame.Code.GameObjects.Default.UI
             if (values.Length != labels.Length)
                 Console.WriteLine("have not been Added");
 
-            this.label = new TextObject(this, "views/fonts/Sans", CurrentLabel, Color.Black, textAlignment.Center, 1f, true);
+            this.label = new TextObject(this, "views/fonts/Sans", CurrentLabel, Color.White, textAlignment.Center, 1f, true);
 
-            this.OnMouseDown += ButtonHold;
-            this.OnMouseUp += CyclePress;
+            leftButton = new UIButton(new Rectangle(-height, 0, height, height), "views/menu/wood_button_left", "", Anchor.TopLeft, this);
+            rightButton = new UIButton(new Rectangle(0, 0, height, height), "views/menu/wood_button_right", "", Anchor.TopRight, this);
+
+            leftButton.OnMouseUp += LeftButton_OnMouseUp;
+            rightButton.OnMouseUp += RightButton_OnMouseUp;
+        }
+
+        /// <summary>
+        /// Increment the index and update the labels when the right button is pressed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="state"></param>
+        private void RightButton_OnMouseUp(GameObject sender, MouseState state)
+        {
+            if (currentIndex == values.Count - 1)
+                currentIndex = 0;
+            else
+                currentIndex++;
+            this.label.ChangeTo(CurrentLabel);
+        }
+
+        /// <summary>
+        /// Decrease the index and update the labels when the left button is pressed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="state"></param>
+        private void LeftButton_OnMouseUp(GameObject sender, MouseState state)
+        {
+            if (currentIndex == 0)
+                currentIndex = values.Count - 1;
+            else
+                currentIndex--;
+            this.label.ChangeTo(CurrentLabel);
         }
 
         /// <summary>
@@ -94,32 +129,6 @@ namespace TileGame.Code.GameObjects.Default.UI
             {
                 Console.WriteLine("(CycleButton:) Value not found");
             }
-        }
-
-        /// <summary>
-        /// Play an animation and cycle when the button is pressed
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="state"></param>
-        private void CyclePress(GameObject sender, MouseState state)
-        {
-            if (currentIndex == values.Count - 1)
-                currentIndex = 0;
-            else
-                currentIndex++;
-            this.label.ChangeTo(CurrentLabel);
-            Console.WriteLine(CurrentLabel + "  " + CurrentValue);
-            PlayAnimation("DE-default");
-        }
-
-        /// <summary>
-        /// Play an animation when the button is held down
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="state"></param>
-        private void ButtonHold(GameObject sender, MouseState state)
-        {
-            PlayAnimation("pressed");
         }
     }
 }

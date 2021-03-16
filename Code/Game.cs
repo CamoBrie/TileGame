@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Aseprite.Documents;
 using System;
-using System.Collections.Generic;
-using TileGame.Code.GameObjects.Default;
+using Microsoft.Xna.Framework.Media;
 using TileGame.Code.GameStates;
 using TileGame.Code.Utils;
 using TileGame.Code.Data;
@@ -28,7 +28,14 @@ namespace TileGame
         /// <summary>
         /// The current size of the screen.
         /// </summary>
-        internal static Point screenSize = new Point(1000, 800);
+        internal static Point screenSize
+        {
+            get
+            {
+                return new Point(game.GraphicsDevice.Viewport.Width, game.GraphicsDevice.Viewport.Height);
+            }
+        }
+
         /// <summary>
         /// the current gameState.
         /// </summary>
@@ -77,6 +84,8 @@ namespace TileGame
 
             Camera.Reset();
 
+
+
             base.Initialize();
         }
 
@@ -102,6 +111,8 @@ namespace TileGame
 
             //TO-DO, Load Settings
             Settings.UIScale = 1.0f;
+            Settings.Resolution = new Point(1000, 600);
+            ApplySettings();
 
             //start the game after the content is loaded.
             ChangeGameState("menu");
@@ -143,14 +154,14 @@ namespace TileGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            SpriteBatch sb = new SpriteBatch(GraphicsDevice);
-            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, transformMatrix: Camera.TransformMatrix);
-            gameState.Draw(sb);
-            sb.End();
+            //SpriteBatch sb = new SpriteBatch(GraphicsDevice);
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, transformMatrix: Camera.TransformMatrix);
+            gameState.Draw(_spriteBatch);
+            _spriteBatch.End();
 
-            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
-            gameState.DrawUI(sb);
-            sb.End();
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
+            gameState.DrawUI(_spriteBatch);
+            _spriteBatch.End();
             //base.Draw(gameTime);
         }
 
@@ -167,7 +178,16 @@ namespace TileGame
             return id;
         }
 
-        
+        internal void ApplySettings()
+        {
+            SoundEffect.MasterVolume = Settings.EffectVolume * Settings.MasterVolume;
+            MediaPlayer.Volume = Settings.MusicVolume * Settings.MasterVolume;
+            _graphics.PreferredBackBufferWidth = Settings.Resolution.X;
+            _graphics.PreferredBackBufferHeight = Settings.Resolution.Y;
+            _graphics.IsFullScreen = Settings.FullScreen;
+            _graphics.ApplyChanges();
+            Console.WriteLine("UIScale: " + Settings.UIScale);
+        }
 
         /// <summary>
         /// Changes the gamestate to the specified state.
@@ -177,13 +197,16 @@ namespace TileGame
         {
             Content.Unload();
             textures.Clear();
+            aseDocs.Clear();
+            fonts.Clear();
+
             switch (stateName)
             {
                 case "menu":
                     gameState = new GSMenu(screenSize.ToVector2()/2, screenSize.X, screenSize.Y);
                     break;
                 case "game":
-                    gameState = new GSPlaying(screenSize.ToVector2() / 2, screenSize.X, screenSize.Y);
+                    gameState = new GSPlaying(screenSize.ToVector2()/2, screenSize.X, screenSize.Y);
                     break;
                 default:
                     //this.gameState = new ErrorController();

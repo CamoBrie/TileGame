@@ -75,6 +75,7 @@ namespace TileGame.Code.Animations
         internal AnimationController(string assetName)
         {
             doc = Game.aseDocs.Get(assetName);
+
             this.assetName = assetName;
             if (doc.Tags.Count > 0)
             {
@@ -137,9 +138,14 @@ namespace TileGame.Code.Animations
         /// <param name="playOnce">the bool that determines if the animation is repeated or not.</param>
         internal void Play(string animationName, bool playOnce = false)
         {
+            if (animationName == "default")
+            {
+                currentAnimation = defaultAnimation;
+                this.playOnce = playOnce;
+                return;
+            }
             currentAnimation = GetAnimation(animationName);
             this.playOnce = playOnce;
-
         }
 
 

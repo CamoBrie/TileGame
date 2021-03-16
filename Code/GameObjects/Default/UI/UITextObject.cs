@@ -35,5 +35,10 @@ namespace TileGame.Code.GameObjects.Default.UI
         {
             textObject = new TextObject(this, fontName, text, textColor, alignment, textScale, cropText);
         }
+
+        internal UITextObject(UIObject parent, string text, Color textColor, string fontName = "", textAlignment alignment = textAlignment.Left, float textScale = 1.0f, bool cropText = true) : base(new Rectangle(0,0, parent.width, parent.height), Anchor.TopLeft, parent)
+        {
+            textObject = new TextObject(this, fontName, text, textColor, alignment, textScale, cropText);
+        }
     }
 }

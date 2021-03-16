@@ -15,7 +15,7 @@ namespace TileGame.Code.GameObjects.Default.UI
         ///<summary>
         /// The animationcontroller that handles the animation of the object.
         ///</summary>
-        private readonly AnimationController animationController;
+        internal readonly AnimationController animationController;
 
         /// <summary>
         /// This constructor creates an animation controller with the specified assetname

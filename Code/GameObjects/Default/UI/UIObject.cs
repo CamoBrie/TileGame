@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using TileGame.Code.Data;
+using System;
 
 namespace TileGame.Code.GameObjects.Default
 {
@@ -17,14 +18,19 @@ namespace TileGame.Code.GameObjects.Default
         {
             get
             {
-                if (parent != null)
+                if(parent == null)
+                {
+                    return centerPosition;
+                } 
+                else if (parent.parent == null)
                 {
                     return centerPosition * Settings.UIScale + parent.globalPosition + AnchorOffset.ToVector2();
                 }
                 else
                 {
-                    return centerPosition;
+                    return centerPosition * Settings.UIScale + parent.globalPosition + AnchorOffset.ToVector2() * Settings.UIScale;
                 }
+                
             }
         }
 
@@ -85,21 +91,10 @@ namespace TileGame.Code.GameObjects.Default
         internal UIObject(Rectangle pos, Anchor anchorMode, UIObject parent) : base(parent)
         {
             this.anchorMode = anchorMode;
-            SetupPos(pos);
+            width = pos.Width;
+            height = pos.Height;
+            centerPosition = pos.Center.ToVector2();
         }
-
-        /// <summary>
-        /// Setup the basic GameObject properties and get the anchoroffset from the preset.
-        /// </summary>
-        /// <param name="pos"></param>
-        void SetupPos(Rectangle pos)
-        {
-            width = (int)(pos.Width * Settings.UIScale);
-            height = (int)(pos.Height * Settings.UIScale);
-            centerPosition = pos.Center.ToVector2()*Settings.UIScale;
-            
-        }
-
     }
 
     internal enum Anchor

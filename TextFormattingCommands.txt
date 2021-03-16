@@ -8,6 +8,8 @@ __INSERTING AN IMAGE__
 \\img(path_to_file)
 	\> Inserts a texture2D as a character into the text. the character is scaled to the height fits inside the line
 
+__INSERTING AN ANIMATED ICON__	-------------------------------------------------------------------------------------------------  YET TO BE IMPLEMENTED, DO NOT USE
+
 __CHANGING THE SCALE__
 \\scale(float)
 	\> Sets the scael of the text and images behind this command to the chosen scale, until it is changed again
@@ -15,4 +17,4 @@ __CHANGING THE SCALE__
 \r.scale
 	\> Reverts the scale to the default scale of the TextObject
 
-__CHANGING THE FONT__		YET TO BE IMPLEMENTED, DO NOT USE
+__CHANGING THE FONT__	--------------------------------------------------------------------------------------------------------- YET TO BE IMPLEMENTED, DO NOT USE
