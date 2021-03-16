@@ -186,6 +186,7 @@ namespace TileGame
             _graphics.PreferredBackBufferHeight = Settings.Resolution.Y;
             _graphics.IsFullScreen = Settings.FullScreen;
             _graphics.ApplyChanges();
+            Camera.Reset();
             Console.WriteLine("UIScale: " + Settings.UIScale);
         }
 

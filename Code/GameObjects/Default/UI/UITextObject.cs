@@ -17,7 +17,7 @@ namespace TileGame.Code.GameObjects.Default.UI
         /// <summary>
         /// The TextObject used to display the text
         /// </summary>
-        protected TextObject textObject;
+        internal TextObject textObject;
 
         /// <summary>
         /// Create a UIObject with text

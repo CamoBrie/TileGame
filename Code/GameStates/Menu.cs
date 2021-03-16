@@ -47,7 +47,7 @@ namespace TileGame.Code.GameStates
         CycleButton<Point> resolutionButton;
         #endregion 
 
-        static string font = "views/fonts/sans";
+        internal static string font = "views/fonts/sans";
 
         internal GSMenu(Vector2 center, int width, int height) : base(center, width, height)
         {
@@ -108,8 +108,8 @@ namespace TileGame.Code.GameStates
         /// <param name="mouse">the current state of the mouse.</param>
         private void StartHandler(GameObject sender, MouseState mouse)
         {
-            Game.game.ChangeGameState("game");
             Game.game.ApplySettings();
+            Game.game.ChangeGameState("game");
         }
         /// <summary>
         /// the handler for clicking on the exit button.

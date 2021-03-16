@@ -37,7 +37,8 @@ namespace TileGame.Code.GameObjects.Default.UI
         /// <param name="batch">The batch to draw to.</param>
         internal override void Draw(SpriteBatch batch)
         {
-            batch.Draw(texture, GetDrawPos(), Color.White);
+            if (active)
+                batch.Draw(texture, GetDrawPos(), Color.White);
             base.Draw(batch);
         }
         #endregion

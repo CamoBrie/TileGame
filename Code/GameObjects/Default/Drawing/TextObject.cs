@@ -180,23 +180,26 @@ namespace TileGame.Code.GameObjects.Default.Drawing
         /// <param name="batch">the spritebatch where to draw to.</param>
         internal override void Draw(SpriteBatch batch)
         {
-            float yPos = 0f;
-            for(int y = 0; y < lines.Count; y++)
+            if (active)
             {
-                if (cropText && (yPos + GetSizeOfLine(lines[y]).Y > GetDrawPos().Height))
-                    break;
-
-                float xPos = 0f;
-                for(int x = 0; x < lines[y].Count; x++)
+                float yPos = 0f;
+                for (int y = 0; y < lines.Count; y++)
                 {
-                    lines[y][x].Draw(batch, new Vector2(xPos + GetDrawPos().Left, yPos + GetDrawPos().Top) + GetAlignmentOffSet(GetSizeOfLine(lines[y])));
-                    xPos += lines[y][x].drawSize.X;
+                    if (cropText && (yPos + GetSizeOfLine(lines[y]).Y > GetDrawPos().Height))
+                        break;
+
+                    float xPos = 0f;
+                    for (int x = 0; x < lines[y].Count; x++)
+                    {
+                        lines[y][x].Draw(batch, new Vector2(xPos + GetDrawPos().Left, yPos + GetDrawPos().Top) + GetAlignmentOffSet(GetSizeOfLine(lines[y])));
+                        xPos += lines[y][x].drawSize.X;
+                    }
+                    int LineHeight = 0;
+                    foreach (FormattedTextObject fto in lines[y])
+                        if (fto.drawSize.Y > LineHeight)
+                            LineHeight = fto.drawSize.Y;
+                    yPos += LineHeight;
                 }
-                int LineHeight = 0;
-                foreach(FormattedTextObject fto in lines[y])
-                    if (fto.drawSize.Y > LineHeight)
-                        LineHeight = fto.drawSize.Y;
-                yPos += LineHeight;
             }
         }
 

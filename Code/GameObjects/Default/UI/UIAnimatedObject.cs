@@ -45,7 +45,8 @@ namespace TileGame.Code.GameObjects.Default.UI
         /// <param name="time">the time object.</param>
         internal override void Update(GameTime time)
         {
-            animationController.Update(time);
+            if (active)
+                animationController.Update(time);
             base.Update(time);
         }
 
@@ -55,7 +56,8 @@ namespace TileGame.Code.GameObjects.Default.UI
         /// <param name="time">the time object.</param>
         internal override void Draw(SpriteBatch batch)
         {
-            animationController.Draw(batch, GetDrawPos());
+            if (active)
+                animationController.Draw(batch, GetDrawPos());
             base.Draw(batch);
         }
     }

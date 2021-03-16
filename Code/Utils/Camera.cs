@@ -38,7 +38,7 @@ namespace TileGame.Code.Utils
             Zoom = 1;
             Location = new Vector2(Game.screenSize.X/2,Game.screenSize.Y/2);
             Rotation = 0;
-            Bounds = new Rectangle(0, 0, Game.screenSize.X, Game.screenSize.Y);
+            Bounds = new Rectangle(0, 0, (int)(Game.screenSize.X), (int)(Game.screenSize.Y));
         }
 
         /// <summary>

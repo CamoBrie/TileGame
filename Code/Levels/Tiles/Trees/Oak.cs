@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,17 @@ namespace TileGame.Code.Levels.Tiles.Trees
 {
     class Oak : Tree
     {
-        internal Oak(LevelGrid grid, Point positionInGrid, int tileSize) : base(grid, positionInGrid, tileSize)
+        internal Oak(LevelGrid grid, Point positionInGrid, int tileSize) : base(grid, positionInGrid, tileSize, "views/game/trees/Oak_test")
         {
-            Initialize(tileSize, "views/game/trees/Oak");
+            Initialize(tileSize);
             this.hardness = 1;
             this.resourcesLeft = 3;
+            resourceMultiplier = 1;
+        }
+
+        internal override void Draw(SpriteBatch batch)
+        {
+            base.Draw(batch);
         }
     }
 }

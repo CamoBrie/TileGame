@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using TileGame.Code.GameObjects.Default;
 using TileGame.Code.GameObjects.Default.Items;
+using TileGame.Code.Systems.Inventory;
 
 namespace TileGame.Code.GameObjects
 {
@@ -10,6 +11,8 @@ namespace TileGame.Code.GameObjects
         /// the tool the player uses.
         /// </summary>
         internal Tool tool;
+
+        internal static Inventory inventory;
 
         /// <summary>
         /// creates a player with the parameters
@@ -22,6 +25,7 @@ namespace TileGame.Code.GameObjects
         {
             collides = true;
             tool = new Tool(this);
+            inventory = new Inventory();
         }
 
         /// <summary>

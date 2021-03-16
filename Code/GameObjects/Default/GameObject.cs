@@ -88,16 +88,18 @@ namespace TileGame.Code.GameObjects.Default
         }
         protected bool collides;
 
+        internal List<int> collisionedIds = new List<int>();
+
+        internal bool active = true;
+
         /// <summary>
         /// Gets the collision box of the object.
         /// </summary>
         /// <returns>the rectangle where the object should collide.</returns>
-        public virtual Rectangle BoundingBox
+        internal virtual Rectangle GetBoundingBox()
         {
-            get => GetDrawPos();
-            set => boundingBox = value;
+            return GetDrawPos();
         }
-        private Rectangle boundingBox;
 
         /// <summary>
         /// The list of all the children of this object.
@@ -170,22 +172,28 @@ namespace TileGame.Code.GameObjects.Default
         /// <param name="time">the time object.</param>
         internal virtual void Update(GameTime time)
         {
-            foreach (GameObject child in children.ToArray())
-            {
-                child.HandleInput();
-                child.Update(time);
-            }
+            if(active)
+                foreach (GameObject child in children.ToArray())
+                {
+                    child.HandleInput();
+                    child.Update(time);
+                }
         }
 
         /// <summary>
         /// Draws the children of this object.
         /// </summary>
         /// <param name="batch">the batch object where to draw to.</param>
-        internal virtual void Draw(SpriteBatch batch) {
-            foreach(GameObject go in children.ToArray())
-            {
-                go.Draw(batch);
-            }
+        internal virtual void Draw(SpriteBatch batch) 
+        {
+            if(active)
+                foreach(GameObject go in children.ToArray())
+                {
+                    go.Draw(batch);
+                }
+#if DEBUG
+            batch.Draw(Game.game.empty_texture, GetDrawPos(), Color.Purple * 0.5f);
+#endif
         }
 
 
@@ -221,14 +229,17 @@ namespace TileGame.Code.GameObjects.Default
         /// Handles the input for this object.
         /// </summary>
         internal virtual void HandleInput() {
-            if (InputManager.didTheMouseClick)
+            if (active)
             {
-                MouseDown(InputManager.MouseState, InputManager.GetClickID());
-            }
+                if (InputManager.didTheMouseClick)
+                {
+                    MouseDown(InputManager.MouseState, InputManager.GetClickID());
+                }
 
-            if (InputManager.didTheMouseRelease)
-            {
-                MouseUp(InputManager.MouseState, InputManager.GetClickID());
+                if (InputManager.didTheMouseRelease)
+                {
+                    MouseUp(InputManager.MouseState, InputManager.GetClickID());
+                }
             }
         }
 
@@ -250,11 +261,12 @@ namespace TileGame.Code.GameObjects.Default
         /// <param name="other">the object where we collide with.</param>
         internal void FireCollisionEvent(GameObject other)
         {
-            if (other.parentID != parentID)
+            if (other.parentID != parentID && !collisionedIds.Contains(other.ID))
             {
-                if (BoundingBox.Intersects(other.BoundingBox))
+                if (GetBoundingBox().Intersects(other.GetBoundingBox()))
                 {
                     OnIntersect?.Invoke(this, other);
+                    collisionedIds.Add(other.ID);
                 }
             }
         }
@@ -266,7 +278,7 @@ namespace TileGame.Code.GameObjects.Default
         /// <param name="clickID">the associated clickID.</param>
         protected void MouseDown(MouseState mouse, int clickID)
         {
-            if (BoundingBox.Contains(mouse.Position))
+            if (GetBoundingBox().Contains(mouse.Position))
             {
                 associatedClicks.Add(clickID);
                 OnMouseDown?.Invoke(this, mouse);

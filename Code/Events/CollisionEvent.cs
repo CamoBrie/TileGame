@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using TileGame.Code.GameObjects;
 using TileGame.Code.GameObjects.Default;
 
 namespace TileGame.Code.Events
@@ -28,8 +29,8 @@ namespace TileGame.Code.Events
                 float depthY = distanceY > 0 ? minDistanceY - distanceY : -minDistanceY - distanceY;
 
 
-                Rectangle tileBox = self.BoundingBox;
-                if (Math.Abs(depthX) < Math.Abs(depthY))
+                Rectangle tileBox = self.GetBoundingBox();
+                if (Math.Abs((int)depthY) > Math.Abs((int)depthX))
                 {
                     // Collision on the X axis
                     if (depthX > 0)
@@ -43,9 +44,13 @@ namespace TileGame.Code.Events
                         other.centerPosition = new Vector2(tileBox.Right + (other.width / 2) + 2, other.centerPosition.Y);
                     }
 
+#if DEBUG
+                    if (otherEntity is Player player)
+                        Console.WriteLine(self.centerPosition + "  X        Player depth: " + depthX + "," + depthY + "   Vel: " + player.velocity);
+#endif
                     otherEntity.velocity.X = 0;
                 }
-                else if (Math.Abs(depthX) >= Math.Abs(depthY))
+                else if (Math.Abs((int)depthX) > Math.Abs((int)depthY))
                 {
                     // Collision on the Y axis
                     if (depthY > 0)
@@ -58,7 +63,10 @@ namespace TileGame.Code.Events
                         // Collision on entity top
                         other.centerPosition = new Vector2(other.centerPosition.X, tileBox.Bottom + other.height / 2 + 2);
                     }
-
+#if DEBUG
+                    if (otherEntity is Player player)
+                        Console.WriteLine(self.centerPosition + "  Y        Player distance: " + depthX + "," + depthY + "   Vel:    " + player.velocity);
+#endif
                     otherEntity.velocity.Y = 0;
                 }
             }

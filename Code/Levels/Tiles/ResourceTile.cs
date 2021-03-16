@@ -13,37 +13,43 @@ using TileGame.Levels;
 
 namespace TileGame.Code.Levels.Tiles
 {
-    class ResourceTile : LevelTile
+    class ResourceTile : AnimatedLevelTile
     {
         internal int resourcesLeft;
         internal int hardness;
+        internal int resourceMultiplier = 1;
+        bool falling = false;
 
-        internal AnimatedObject display => (AnimatedObject)displayObject;
-
-        internal ResourceTile(LevelGrid grid, Point positionInGrid, int tileSize) : base(grid, positionInGrid, tileSize)
+        internal ResourceTile(LevelGrid grid, Point positionInGrid, int tileSize, string assetName) : base(grid, positionInGrid, tileSize, assetName)
         {
             OnIntersect += HitTile;
         }
 
         internal void HitTile(GameObject self, GameObject other)
         {
-            if(other?.parent is Player) 
+            if(other?.parent is Player && !falling) 
             {
                 resourcesLeft--;
-                
+                giveResource();
 
                 if (resourcesLeft <= 0)
                 {
-                    display.PlayAnimation("Fall");
+                    PlayAnimation("Fall");
                     destroy = new Timer(this, 0.6f, () => grid.RemoveTile(Pos));
+                    falling = true;
                 }
                 else
                 {
-                    display.PlayAnimation("Hit", true);
+                    PlayAnimation("Hit", true);
                 }
 
                 other.parent.RemoveFromChildren(other);
             }
+        }
+
+        protected virtual void giveResource()
+        {
+
         }
     }
 }

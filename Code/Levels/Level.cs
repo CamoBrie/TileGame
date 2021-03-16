@@ -143,6 +143,10 @@ namespace TileGame.Levels
             {
                 go.FireCollisionEvent(entity);
             }
+            foreach (GameObject go in returnObjects)
+            {
+                go.collisionedIds.Clear();
+            }
             if (entity.children.Count != 0)
             {
                 foreach (GameObject gameObject in entity.children.ToArray())
@@ -248,7 +252,8 @@ namespace TileGame.Levels
         {
             Vector2 min = new Vector2(levelBounds.X + cameraBounds.Width/2, levelBounds.Y + cameraBounds.Height/2);
             Vector2 max = new Vector2(levelBounds.Right - cameraBounds.Width/2, levelBounds.Bottom - cameraBounds.Height/2);
-            return Vector2.Clamp(playerPosition, min, max);
+            Console.WriteLine("Camera:  " + min + "   "+ Camera.Bounds.Width);
+            return Vector2.Clamp(playerPosition, min/Camera.Zoom, max);
         }
 
         /// <summary>
@@ -258,7 +263,7 @@ namespace TileGame.Levels
         /// <returns></returns>
         private bool TileOnScreen(SpriteObject st)
         {
-            return VisibleScreen.Intersects(st.BoundingBox);
+            return VisibleScreen.Intersects(st.GetBoundingBox()) && st.active;
         }
         /// <summary>
         /// Determines if the tile is on the screen at the moment, so it needs to be added to the collision list.
@@ -267,7 +272,7 @@ namespace TileGame.Levels
         /// <returns>if it needs to be added.</returns>
         private bool TileOnScreen(GameObject st)
         {
-            Rectangle bb = st.BoundingBox;
+            Rectangle bb = st.GetBoundingBox();
             bb.Inflate(1, 1);
             return VisibleScreen.Intersects(bb);
         }
@@ -281,7 +286,7 @@ namespace TileGame.Levels
         /// <param name="state"></param>
         internal void Player_SwingInDirection(GameObject sender, MouseState state)
         {
-            Vector2 playerPos = player.globalPosition;
+            Vector2 playerPos = Camera.wts(player.globalPosition);
             Point mousePos = state.Position;
             Vector2 offset = -(playerPos - mousePos.ToVector2());
 

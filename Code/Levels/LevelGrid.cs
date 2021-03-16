@@ -123,7 +123,7 @@ namespace TileGame.Levels
         {
             foreach(LevelTile lt in GetDrawTiles(true))
             {
-                lt.displayObject.Draw(batch);
+                lt.Draw(batch);
             }
         }
         /// <summary>
@@ -134,7 +134,7 @@ namespace TileGame.Levels
         {
             foreach (LevelTile lt in GetDrawTiles(false))
             {
-                lt.displayObject.Draw(batch);
+                lt.Draw(batch);
             }
         }
 
@@ -153,7 +153,7 @@ namespace TileGame.Levels
                 {
                     for (int y = 0; y < playerPos.Y; y++)
                     {
-                        if (grid[x, y]?.displayObject != null)
+                        if (grid[x, y] != null)
                         {
                             ret.Add(grid[x, y]);
                         }
@@ -165,7 +165,7 @@ namespace TileGame.Levels
                 {
                     for (int y = playerPos.Y; y < height; y++)
                     {
-                        if (grid[x, y]?.displayObject != null)
+                        if (grid[x, y] != null)
                         {
                             ret.Add(grid[x, y]);
                         }

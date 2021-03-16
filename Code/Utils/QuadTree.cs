@@ -33,7 +33,6 @@ namespace TileGame.Code.Utils
         internal void clear()
         {
             objects.Clear();
-
             for (int i = 0; i < nodes.Length; i++)
             {
                 if (nodes[i] != null)
@@ -62,12 +61,12 @@ namespace TileGame.Code.Utils
             double horizontalMidpoint = bounds.Y + (bounds.Height / 2);
 
             // Object can completely fit within the top quadrants
-            bool topQuadrant = (go.BoundingBox.Y < horizontalMidpoint && go.BoundingBox.Y + go.BoundingBox.Height < horizontalMidpoint);
+            bool topQuadrant = (go.GetBoundingBox().Y < horizontalMidpoint && go.GetBoundingBox().Y + go.GetBoundingBox().Height < horizontalMidpoint);
             // Object can completely fit within the bottom quadrants
-            bool bottomQuadrant = (go.BoundingBox.Y > horizontalMidpoint);
+            bool bottomQuadrant = (go.GetBoundingBox().Y > horizontalMidpoint);
 
             // Object can completely fit within the left quadrants
-            if (go.BoundingBox.X < verticalMidpoint && go.BoundingBox.X + go.BoundingBox.Width < verticalMidpoint)
+            if (go.GetBoundingBox().X < verticalMidpoint && go.GetBoundingBox().X + go.GetBoundingBox().Width < verticalMidpoint)
             {
                 if (topQuadrant)
                 {
@@ -79,7 +78,7 @@ namespace TileGame.Code.Utils
                 }
             }
             // Object can completely fit within the right quadrants
-            else if (go.BoundingBox.X > verticalMidpoint)
+            else if (go.GetBoundingBox().X > verticalMidpoint)
             {
                 if (topQuadrant)
                 {
@@ -97,7 +96,7 @@ namespace TileGame.Code.Utils
         //code that returns the index of the quadrants where the gameobject is located
         private List<int> getDoubleIndex(GameObject go)
         {
-            Rectangle bb = go.BoundingBox;
+            Rectangle bb = go.GetBoundingBox();
             //set midpoints of quad
             double verticalMidpoint = bounds.X + (bounds.Width / 2);
             double horizontalMidpoint = bounds.Y + (bounds.Height / 2);
@@ -229,7 +228,7 @@ namespace TileGame.Code.Utils
 
             foreach (GameObject g in objects)
             {
-                    batch.Draw(Game.game.empty_texture, g.BoundingBox, Color.Red * 0.5f);
+                    batch.Draw(Game.game.empty_texture, g.GetBoundingBox(), Color.Red * 0.5f);
             }
         }
 #endif

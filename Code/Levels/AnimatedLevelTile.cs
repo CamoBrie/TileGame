@@ -1,25 +1,27 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TileGame.Code.Animations;
+using TileGame.Code.GameObjects.Default;
+using TileGame.Code.GameObjects.Default.Drawing;
+using TileGame.Code.Levels;
+using TileGame.Code.Levels.Tiles;
+using TileGame.Code.Utils.Convenience;
+using static TileGame.Code.Events.CollisionEvent;
 
-namespace TileGame.Code.GameObjects.Default.Drawing
+namespace TileGame.Levels
 {
-    internal class AnimatedObject : GameObject
+    internal class AnimatedLevelTile : LevelTile
     {
-
         ///<summary>
         /// The animationcontroller that handles the animation of the object.
         ///</summary>
-        private readonly AnimationController animationController;
-        
+        internal readonly AnimationController animationController;
+
         /// <summary>
-        /// This constructor creates an animation controller with the specified assetname
+        /// Default colliding tile constructor
         /// </summary>
-        /// <param name="center">the center position of the object.</param>
-        /// <param name="width">the width of the object.</param>
-        /// <param name="height">the height of the object.</param>
-        /// <param name="assetName">the asset name to be used.</param>
-        internal AnimatedObject(Vector2 center, int width, int height, string assetName) : base(center, width, height)
+        /// <param name="positionInGrid"></param>
+        internal AnimatedLevelTile(LevelGrid grid, Point positionInGrid, int tileSize, string assetName) : base(grid, positionInGrid, tileSize)
         {
             animationController = new AnimationController(assetName);
         }
@@ -29,7 +31,7 @@ namespace TileGame.Code.GameObjects.Default.Drawing
         /// </summary>
         /// <param name="animationName">the name of the animation to be played.</param>
         /// <param name="playOnce">a boolean if the animation only needs to be played once.</param>
-        internal void PlayAnimation(string animationName, bool playOnce = false) 
+        internal void PlayAnimation(string animationName, bool playOnce = false)
         {
             animationController.Play(animationName, playOnce);
         }
@@ -40,7 +42,7 @@ namespace TileGame.Code.GameObjects.Default.Drawing
         /// <param name="time">the time object.</param>
         internal override void Update(GameTime time)
         {
-            if(active)
+            if (active)
                 animationController.Update(time);
             base.Update(time);
         }

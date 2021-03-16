@@ -2,10 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using TileGame.Code.GameObjects;
-using TileGame.Code.GameObjects.Default;
 using TileGame.Code.Utils;
 using TileGame.Levels;
-using System.Collections.Generic;
+using TileGame.Code.GameObjects.Default.UI;
+using System;
 
 namespace TileGame.Code.GameStates
 {
@@ -20,6 +20,8 @@ namespace TileGame.Code.GameStates
         /// </summary>
         private readonly Player player;
 
+        private InventoryScreen inventoryScreen;
+
         internal GSPlaying(Vector2 center, int width, int height) : base(center, width, height)
         {
             //testing code
@@ -27,6 +29,8 @@ namespace TileGame.Code.GameStates
             children.Add(player);
             //testing code
             level = new Level("path/to/level", ref player);
+
+            UI.Add(inventoryScreen = new InventoryScreen());
 
             OnMouseUp += level.Player_SwingInDirection;
 
@@ -41,6 +45,7 @@ namespace TileGame.Code.GameStates
         {
             base.Update(time);
             level.Update(time);
+            //Console.WriteLine(Player.inventory.wood);
         }
 
         /// <summary>
@@ -80,6 +85,13 @@ namespace TileGame.Code.GameStates
             if (InputManager.KeyDown(Keys.D))
             {
                 intentDir.X++;
+            }
+            if (InputManager.KeyPressed(Keys.E))
+            {
+                if (inventoryScreen.active)
+                    inventoryScreen.active = false;
+                else
+                    inventoryScreen.Open();
             }
             if (InputManager.KeyDown(Keys.Escape))
             {
