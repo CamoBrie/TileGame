@@ -26,30 +26,6 @@
 /processorParam:TextureFormat=Color
 /build:missing_texture.png
 
-#begin views/menu/exit_button.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:views/menu/exit_button.png
-
-#begin views/menu/start_button.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:views/menu/start_button.png
-
 #begin views/game/player.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -98,42 +74,6 @@
 /processorParam:InnerPadding=0
 /build:missing_aseDoc.ase
 
-#begin bat.ase
-/importer:AsepriteDocumentImporter
-/processor:AsepriteDocumentProcessor
-/processorParam:SheetType=Packed
-/processorParam:MergeDuplicateFrames=True
-/processorParam:IgnoreEmptyFrames=True
-/processorParam:OnlyVisibleLayers=True
-/processorParam:BorderPadding=0
-/processorParam:Spacing=0
-/processorParam:InnerPadding=0
-/build:bat.ase
-
-#begin spin.ase
-/importer:AsepriteDocumentImporter
-/processor:AsepriteDocumentProcessor
-/processorParam:SheetType=Packed
-/processorParam:MergeDuplicateFrames=True
-/processorParam:IgnoreEmptyFrames=True
-/processorParam:OnlyVisibleLayers=True
-/processorParam:BorderPadding=0
-/processorParam:Spacing=0
-/processorParam:InnerPadding=0
-/build:spin.ase
-
-#begin spin_BOX.ase
-/importer:AsepriteDocumentImporter
-/processor:AsepriteDocumentProcessor
-/processorParam:SheetType=Packed
-/processorParam:MergeDuplicateFrames=True
-/processorParam:IgnoreEmptyFrames=True
-/processorParam:OnlyVisibleLayers=True
-/processorParam:BorderPadding=0
-/processorParam:Spacing=0
-/processorParam:InnerPadding=0
-/build:spin_BOX.ase
-
 #begin views/game/trees/Oak.aseprite
 /importer:AsepriteDocumentImporter
 /processor:AsepriteDocumentProcessor
@@ -166,42 +106,6 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:views/fonts/sans.spritefont
-
-#begin views/menu/button_4-1.ase
-/importer:AsepriteDocumentImporter
-/processor:AsepriteDocumentProcessor
-/processorParam:SheetType=Packed
-/processorParam:MergeDuplicateFrames=True
-/processorParam:IgnoreEmptyFrames=True
-/processorParam:OnlyVisibleLayers=True
-/processorParam:BorderPadding=0
-/processorParam:Spacing=0
-/processorParam:InnerPadding=0
-/build:views/menu/button_4-1.ase
-
-#begin views/menu/button_2-1.ase
-/importer:AsepriteDocumentImporter
-/processor:AsepriteDocumentProcessor
-/processorParam:SheetType=Packed
-/processorParam:MergeDuplicateFrames=True
-/processorParam:IgnoreEmptyFrames=True
-/processorParam:OnlyVisibleLayers=True
-/processorParam:BorderPadding=0
-/processorParam:Spacing=0
-/processorParam:InnerPadding=0
-/build:views/menu/button_2-1.ase
-
-#begin views/menu/button_1-1.ase
-/importer:AsepriteDocumentImporter
-/processor:AsepriteDocumentProcessor
-/processorParam:SheetType=Packed
-/processorParam:MergeDuplicateFrames=True
-/processorParam:IgnoreEmptyFrames=True
-/processorParam:OnlyVisibleLayers=True
-/processorParam:BorderPadding=0
-/processorParam:Spacing=0
-/processorParam:InnerPadding=0
-/build:views/menu/button_1-1.ase
 
 #begin views/menu/left_arrow_button.aseprite
 /importer:AsepriteDocumentImporter
@@ -274,18 +178,6 @@
 /processorParam:Spacing=0
 /processorParam:InnerPadding=0
 /build:views/menu/wood_button_4.aseprite
-
-#begin views/menu/left_arrow.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:views/menu/left_arrow.png
 
 #begin views/menu/wood_button_right.aseprite
 /importer:AsepriteDocumentImporter
